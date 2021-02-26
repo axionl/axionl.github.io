@@ -1,0 +1,64 @@
+.friends-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .friends-list {
+        margin: 10px;
+        padding: 20px;
+        width: auto;
+        height: auto;
+        min-width: 260px;
+        max-width: 1000px;
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        display: flex;
+        flex-direction: row;
+        padding: 30px;
+
+        .friend-avatar {
+            .friend-avatar-img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: fill;
+            }
+
+            margin: auto 0px;
+        }
+
+        .friend-info {
+            float: right;
+            margin-left: 20px;
+
+            .friend-name {
+                font-size: 2.0rem;
+                font-weight: 500;
+            }
+
+            .friend-desc {
+                max-width: 21.5vw;
+                word-wrap: break-word;
+
+                @media screen and (max-width:$on-desktop) {
+                    max-width: 100%;
+                }
+
+                @media screen and (min-width:$on-desktop-large) {
+                    max-width: 385px;
+                }
+            }
+
+            @media screen and (max-width: $on-phone) {
+                width: 100vw;
+            }
+        }
+
+        &:hover {
+            box-shadow: var(--shadow-l2);
+            transition: box-shadow 0.5s;
+            -webkit-transition: box-shadow 0.5s;
+        }
+    }
+}

@@ -1,0 +1,298 @@
+baseurl: "https://axionl.me"
+languageCode: en-us
+theme: hugo-theme-stack
+paginate: 7
+title: 初等記憶體
+
+# Change it to your Disqus shortname before using
+disqusShortname: axionl
+
+# Theme i18n support
+# Available values: en, fr, id, ja, ko, pt-br, zh-cn
+DefaultContentLanguage: zh-cn
+
+permalinks:
+  post: "/p/:slug/"
+  page: "/:slug/"
+
+params:
+  mainSections:
+    - post
+  featuredImageField: image
+  rssFullContent: true
+  favicon: "/img/favicon.ico"
+
+  footer:
+    since: 2020
+    customText: Ariel AxionL's Blog
+
+  dateFormat:
+    published: "Jan 02, 2006"
+    lastUpdated: "Jan 02, 2006 15:04 MST"
+
+  sidebar:
+    emoji: "\U0001F431"
+    subtitle: 「 一個你知道的地方，和一個沒有酒的故事 ｜ 言文 」
+    avatar:
+      local: true
+      src: img/avatar.jpg
+    twitter:
+      username: arielaxionl
+    github:
+      username: axionl
+    email:
+      email: i@axionl.me
+    telegram:
+      username: arielaxionl
+    rss:
+      enabled: true
+    gpg:
+      url: "https://github.com/axionl.gpg"
+
+  article:
+    math: true
+    license:
+      enabled: true
+      default: Licensed under CC BY-NC-SA 4.0
+
+  comments:
+    enabled: true
+    provider: disqus
+    utterances:
+      repo: ""
+      issueTerm: pathname
+      label: ""
+      theme: preferred-color-scheme
+
+  widgets:
+    enabled:
+      - search
+      - archives
+      - tag-cloud
+    archives:
+      limit: 10
+      path: archives
+    tagCloud:
+      limit: 25
+
+  friends:
+    friend:
+      - name: Richard Yu
+        url: "https://blog.ysc3839.com"
+        avatar: "https://blog.ysc3839.com/img/avatar.png"
+        desc: 逆向开发
+      - name: Balthild
+        url: "https://qaq.cat"
+        avatar: "https://avatars0.githubusercontent.com/u/2662758"
+        desc: 全栈（物理学）
+      - name: Ares-X
+        url: "https://ares-x.com"
+        avatar: "https://ares-x.com/favicon.png"
+        desc: 安全人士
+      - name: Kiri
+        url: "https://kirikira.moe"
+        avatar: "https://avatars1.githubusercontent.com/u/32393884"
+        desc: 可爱的（猛男）前端开发者
+      - name: Shana
+        url: "https://void-shana.moe"
+        avatar: "https://avatars3.githubusercontent.com/u/6134883"
+        desc: 哦夏娜，加拿大海归。上次鸽了，下次一定
+      - name: Imlonghao
+        url: "https://imlonghao.com"
+        avatar: "https://avatars2.githubusercontent.com/u/4951333"
+        desc: 实名上网三十年
+      - name: PeterCxy
+        url: "https://en.typeblog.net"
+        avatar: "https://eu-central-1.wasabisys.com/peter-misc/akarin_avatar.png"
+        desc: |2-
+          或許鼓勵的話，已經變得麻木。但失落的心，總不能一直孤獨。
+          就像一句老臺詞，儘管方式不同，但，每個人都有追求愛與被愛的權利。
+      - name: Lilydjwg
+        url: "https://blog.lilydjwg.me"
+        avatar: "https://avatars1.githubusercontent.com/u/440661"
+        desc: |2-
+          永日向人妍，百合忘忧草。生活中的麻烦比比皆是，好在还有猫。
+      - name: Bruceutut
+        url: "https://brucezhang1993.github.io"
+        avatar: "https://avatars3.githubusercontent.com/u/6873988"
+        desc: 布鲁麻辣兔斯基
+      - name: NoirGif
+        url: "https://www.nir.moe"
+        avatar: "https://avatars2.githubusercontent.com/u/23432548"
+        desc: 黑动图老师
+      - name: Xuanwo
+        url: "https://xuanwo.io"
+        avatar: "https://avatars0.githubusercontent.com/u/5351546"
+        desc: 漩涡 go！
+      - name: Rasphino
+        url: "https://blog.rasphino.cn"
+        avatar: "https://avatars2.githubusercontent.com/u/12711106"
+        desc: 极客与生活相织
+      - name: Farseerfc
+        url: "https://farseerfc.me"
+        avatar: "https://avatars2.githubusercontent.com/u/861563"
+        desc: |2-
+          枕上十年事，江南二老憂，都到心頭 ——不知怎麼，在你說家事的時候，
+          突然想起的一句，徐再思的《水仙子·夜雨》，此曲本意思鄉，
+          我這算是強把舊詞賦新愁了。 “道雖邇，不行不至”，步履虽艰，
+          好在时光且长。又想起一本老书，何立伟的《咖啡色的城市》，散文随笔，
+          文辞很美，愿你也能早日拥有文中花园似的住宅，怀念那些花和日子。
+      - name: Yoitsu
+        url: "https://blog.yoitsu.moe"
+        avatar: "https://avatars0.githubusercontent.com/u/26817553"
+        desc: 爱吃苹果的萌狼
+      - name: FiveYellowMice
+        url: "https://fiveyellowmice.com"
+        avatar: "https://avatars2.githubusercontent.com/u/9077203"
+        desc: |2-
+          心有所願，海納百川
+          第一次看到這個 ID 有種人如其名的感覺，再加上本來就不算大的年紀，
+          更有種小小個，很可愛的感覺。雖然遠在異國他鄉，雖然覺得自己內心封閉，
+          孤立無援，但仍在用小小的眼睛打量着這個世界，從中小心翼翼地汲取屬於自己的能量。
+          或許你不曾覺得自己有能夠改變什麼的力量，或許大家又都只是素不相識的網友，但每個帳號的背後其實都有顆心，
+          是冷的、暖的或者是正在變化的，都只有試探過才知道。
+      - name: Nicholascw
+        url: "https://www.nicho1as.wang"
+        avatar: "https://avatars3.githubusercontent.com/u/7414442"
+        desc: 海外开车老司机
+      - name: Visnz
+        url: "https://guediao.top"
+        avatar: "https://avatars0.githubusercontent.com/u/26197210"
+        desc: 影视巨桶
+      - name: NickCao
+        url: "https://nichi.co"
+        avatar: "https://avatars2.githubusercontent.com/u/15247171"
+        desc: 云上妮可草
+      - name: Quininer
+        url: "https://quininer.github.io"
+        avatar: "https://avatars1.githubusercontent.com/u/6286761"
+        desc: 螃蟹达人奎老师
+      - name: Metal A-wing
+        url: "https://a-wing.top"
+        avatar: "https://avatars3.githubusercontent.com/u/18189138"
+        desc: 不会游泳的翻译家不是好 Rubyer，简称阿荣老师
+      - name: The Salted Fish
+        url: "https://v2bv.net"
+        avatar: "https://avatars1.githubusercontent.com/u/16459559"
+        desc: 写作咸鱼，读作巨佬
+      - name: Jeff Bai
+        url: "https://mingcongbai.wtf"
+        avatar: "https://avatars0.githubusercontent.com/u/5006263"
+        desc: 果冻打包工
+      - name: Alynx Zhou
+        url: "https://sh.alynx.moe"
+        avatar: "https://avatars3.githubusercontent.com/u/8444615"
+        desc: 蜥蜴周老师
+      - name: Peven Phoon
+        url: "https://blog.peven.me"
+        avatar: "https://avatars2.githubusercontent.com/u/23262111"
+        desc: 你也是 Archer
+      - name: ShadowRZ
+        url: "https://shadowrz.github.io"
+        avatar: "https://avatars2.githubusercontent.com/u/23130178"
+        desc: 偶尔出没的双叶
+      - name: Zjuyk
+        url: "https://zjuyk.gitlab.io"
+        avatar: "https://avatars2.githubusercontent.com/u/76436317"
+        desc: 玄机洞天
+      - name: Sukka
+        url: "https://blog.skk.moe"
+        avatar: "https://avatars1.githubusercontent.com/u/40715044"
+        desc: 毛茸茸大尾巴
+      - name: CN47MP
+        url: "https://blog.cn47mp.moe"
+        avatar: "https://avatars1.githubusercontent.com/u/22848914"
+        desc: 477 老可爱～
+      - name: WinnerWinter
+        url: "https://blog.winnerwinter.com"
+        avatar: "https://secure.gravatar.com/avatar/050ebc56bffa022b65b9f38513930ffb"
+        desc: 据说是学弟？
+      - name: Rocket1184
+        url: "https://rocka.me"
+        avatar: "https://avatars.githubusercontent.com/u/38492459"
+        desc: 火箭老师
+  opengraph:
+    twitter:
+      # Your Twitter username
+      site: ArielAxionL
+
+      # Available values: summary, summary_large_image
+      card: summary_large_image
+
+  defaultImage:
+    opengraph:
+      enabled: true
+      local: true
+      src: img/default.jpg
+
+  colorScheme:
+    # Display toggle
+    toggle: true
+
+    # Available values: auto, light, dark
+    default: auto
+
+  imageProcessing:
+    cover:
+      enabled: true
+    content:
+      enabled: true
+  banner:
+    info: 三生有幸，四季如春 | 言文
+    wallhaven:
+      enabled: true
+      username: axionl
+      collection_id: 447518
+    local:
+      enabled: false
+      url: "https://wallhaven.cc/w/8o7lmo"
+      src: "https://w.wallhaven.cc/full/8o/wallhaven-8o7lmo.jpg"
+
+menu:
+  main:
+    - identifier: home
+      name: 主页
+      url: /
+      weight: -100
+      pre: home
+    - identifier: friends
+      name: 友链
+      url: friends
+      weight: -90
+      pre: friends
+    - identifier: about
+      name: 关于
+      url: about
+      weight: -80
+      pre: user
+    - identifier: archives
+      name: 归档
+      url: archives
+      weight: -70
+      pre: archives
+    - identifier: search
+      name: 搜索
+      url: search
+      weight: -60
+      pre: search
+
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200
+
+markup:
+  highlight:
+    lineNoStart: 0
+    lineNos: true
+    lineNumbersInTable: true
+    noClasses: true
+    tabWidth: 4
+  goldmark:
+    renderer:
+      unsafe: true

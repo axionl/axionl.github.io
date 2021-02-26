@@ -1,0 +1,66 @@
+.banner-container {
+    height: 25vw;
+    width: auto;
+    box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+
+    .banner-info {
+        z-index: 9999;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 2%;
+        margin-right: 2%;
+        text-align: center;
+        font-family: var(--article-font-family);
+
+        svg {
+            width: 22px;
+            height: auto;
+
+            &:hover {
+                stroke: gainsboro;
+                transition: width 0.5s;
+                -webkit-transition: width 0.5s;
+            }
+        }
+
+        .banner-info-text {
+            color: white;
+            border-radius: 6px;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            padding: 10px;
+            margin-right: 36px;
+        }
+
+        &:hover ~ .banner-img {
+            scale: 1.01;
+            filter: blur(3px);
+            transition: filter 0.5s, scale 1s;
+        }
+
+        @media screen and (max-width: $on-phone) {
+            visibility: collapse !important;
+        }
+    }
+
+    .banner-img {
+        z-index: -1;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: none;
+        scale: none;
+        transition: filter 0.5s, scale 1s;
+
+        @media screen and (max-width: $on-phone) {
+            visibility: collapse;
+        }
+    }
+
+    @media screen and (max-width: $on-desktop) {
+        box-shadow: none;
+    }
+}
