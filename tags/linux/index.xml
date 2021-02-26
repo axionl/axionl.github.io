@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 初等記憶體</title><link>https://axionl.me/tags/linux/</link><description>Recent content in Linux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
+.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1 以恢复读取该文件中环境变量的行为，并非长久之计。 参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
+介绍 配置文件目录如下：
+~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment 其写法如下：
+环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH apps.conf
+由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
+~/.config/fish/conf.d/env_init.fish
+0 1 2 if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end show environments</description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>前言 项目地址：twpayne/chezmoi
+早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。
+【譯】使用 GNU stow 管理你的點文件
+相比之下，其有如下缺点促使我切换到 Chezmoi:
+需要手动创建目录结构，而不是根据现有配置文件来生成 需要手动建立版本管理，本身不提供备份和恢复等功能 2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 dot- 前缀 隐私数据加密 安装 https://www.chezmoi.io/docs/install/
+多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。
+0 $ curl -sfL https://git.io/chezmoi | sh 快速上手 初始化 0 $ chezmoi init --apply 这会在 ~/.local/share/chezmoi 中创建一个目录权限为 700 的 git 仓库，用于保存配置文件。
+$ chezmoi source-path 可以列出其路径 $ chezmoi cd 可以直接进入到该目录 --apply 参数意为仓库创建后自动添加配置文件，默认为不创建 $ chezmoi init &amp;lt;git_repo&amp;gt; 可在新设备上初始化上传的配置仓库 若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。</description></item></channel></rss>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>QEMU/KVM on 初等記憶體</title><link>https://axionl.me/tags/qemu/kvm/</link><description>Recent content in QEMU/KVM on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://axionl.me/tags/qemu/kvm/index.xml" rel="self" type="application/rss+xml"/><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
+本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近
+QEMU/KVM 虚拟机配置 ArchLinux Wiki: KVM | QEMU | Libvirt
+0. 检测硬件是否支持 KVM 一般情况下需要进入到 BIOS 对应页面打开虚拟化支持，常见对应设置项如下：
+AMD: SVM Support Intel: Intel Virtual Technology 开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：
+0 1 $ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
+0 1 2 3 4 5 6 7 8 9 10 11 12 $ zgrep CONFIG_KVM /proc/config.</description></item></channel></rss>

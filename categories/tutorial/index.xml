@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tutorial on 初等記憶體</title><link>https://axionl.me/categories/tutorial/</link><description>Recent content in Tutorial on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/tutorial/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
+.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1 以恢复读取该文件中环境变量的行为，并非长久之计。 参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
+介绍 配置文件目录如下：
+~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment 其写法如下：
+环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH apps.conf
+由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
+~/.config/fish/conf.d/env_init.fish
+0 1 2 if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end show environments</description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>前言 项目地址：twpayne/chezmoi
+早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。
+【譯】使用 GNU stow 管理你的點文件
+相比之下，其有如下缺点促使我切换到 Chezmoi:
+需要手动创建目录结构，而不是根据现有配置文件来生成 需要手动建立版本管理，本身不提供备份和恢复等功能 2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 dot- 前缀 隐私数据加密 安装 https://www.chezmoi.io/docs/install/
+多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。
+0 $ curl -sfL https://git.io/chezmoi | sh 快速上手 初始化 0 $ chezmoi init --apply 这会在 ~/.local/share/chezmoi 中创建一个目录权限为 700 的 git 仓库，用于保存配置文件。
+$ chezmoi source-path 可以列出其路径 $ chezmoi cd 可以直接进入到该目录 --apply 参数意为仓库创建后自动添加配置文件，默认为不创建 $ chezmoi init &amp;lt;git_repo&amp;gt; 可在新设备上初始化上传的配置仓库 若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。</description></item><item><title>[归档] SmartDNS 一个智能分流的 DNS 服务</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sat, 02 Jan 2021 09:41:20 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</guid><description>介绍 项目地址
+DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
+SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
+配置 默认配置文件
+推荐项目：dnsmasq-china-list
+作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。
+生成对应的配置文件操作如下，具体参考，可见其生成形式为 nameserver /&amp;lt;域名&amp;gt;/&amp;lt;组名&amp;gt;，后面的组名就是对应我们后来需要的匹配规则而制定的。
+0 1 $ cd dnsmasq-china-list $ make smartdns SERVER=china 默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 # （可选）引入额外的规则列表，用绝对路径 conf-file /etc/smartdns/accelerated-domains.</description></item><item><title>[新手篇] 如何写一个简单的上膛机器人</title><link>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</link><pubDate>Thu, 31 Dec 2020 17:26:38 +0800</pubDate><guid>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</guid><description>介绍 一个检测关键词并自动回复表情包的 Telegram 机器人。
+开发 注册一个机器人 访问 Telegram 的官方注册机器人 @BotFather 。
+使用 /newbot 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以_bot结尾)，注册成功后会将机器人的 TOKEN 返回给你，而这个 TOKEN 用于告知服务器这个机器人就是（大明湖畔那个夏雨荷）对应注册的机器人。
+botfather
+0 1 2 3 ... Use this token to access the HTTP API: `&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;` Keep your token secure and store it safely, ... 安装 Python 环境 官方网站: https://www.python.org/downloads
+对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 Python 即可（2021 年了应该都默认 Python3?</description></item></channel></rss>
