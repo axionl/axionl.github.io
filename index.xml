@@ -588,7 +588,7 @@ token = &amp;#34;&lt;span style="color:#75715e">{{&lt;/span> &lt;span style="col
 &lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
-&lt;img src="./attributes.png" alt="KeepassXC Entry Attributes" />&lt;/p>
+&lt;img src="https://axionl.me/attributes.png" alt="KeepassXC Entry Attributes" />&lt;/p>
 &lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
 &lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
