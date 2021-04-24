@@ -1,7 +1,7 @@
 ---
 title: "Linux 用户环境变量设置"
 date: 2021-02-23T20:35:26+08:00
-image: https://w.wallhaven.cc/full/vm/wallhaven-vmyg6l.jpg
+image: wallhaven-vmyg6l.jpg
 draft: false
 categories:
   - Tutorial

@@ -1,7 +1,7 @@
 ---
 title: "[归档] 用 Chezmoi 管理配置文件"
 date: 2021-01-29T10:04:51+08:00
-image: https://w.wallhaven.cc/full/j8/wallhaven-j85o5q.jpg
+image: wallhaven-j85o5q.jpg
 categories:
   - Tutorial
   - Linux

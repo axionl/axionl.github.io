@@ -1,7 +1,7 @@
 ---
 title: "[归档] Hello, My Firefox"
 date: 2021-01-27T16:24:43+08:00
-image: https://w.wallhaven.cc/full/eo/wallhaven-eo5jko.png
+image: wallhaven-eo5jko.png
 draft: false
 categories:
   - Customize
