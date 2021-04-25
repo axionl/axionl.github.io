@@ -35,7 +35,7 @@ params:
     subtitle: 「 一個你知道的地方，和一個沒有酒的故事 ｜ 言文 」
     avatar:
       local: true
-      src: img/avatar.jpg
+      src: "/img/avatar.jpg"
     twitter:
       username: arielaxionl
     github:
@@ -242,7 +242,7 @@ params:
     local:
       enabled: true
       url: "https://wallhaven.cc/w/pk27vj"
-      src: "img/default.jpg"
+      src: "/img/default.jpg"
 
 menu:
   main:
