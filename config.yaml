@@ -211,6 +211,11 @@ params:
         url: "https://rocka.me"
         avatar: "https://avatars.githubusercontent.com/u/38492459"
         desc: 火箭老师
+      - name: EXEC
+        url: "https://evex.one"
+        avatar: "https://avatars.githubusercontent.com/u/46400566"
+        desc: m (猛) n (男)
+
   opengraph:
     twitter:
       # Your Twitter username
