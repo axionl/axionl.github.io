@@ -1,9 +1,15 @@
 .banner-container {
-    height: 25vw;
+    visibility: collapse;
+    height: 32px;
     width: auto;
-    box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.7);
-    position: relative;
-    overflow: hidden;
+
+    @include respond(sm) {
+        height: 35vw;
+        position: relative;
+        overflow: hidden;
+        box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.3);
+        visibility: visible;
+    }
 
     .banner-info {
         z-index: 9999;
@@ -39,10 +45,6 @@
             filter: blur(3px);
             transition: filter 0.5s, scale 1s;
         }
-
-        @media screen and (max-width: $on-phone) {
-            visibility: collapse !important;
-        }
     }
 
     .banner-img {
@@ -54,13 +56,5 @@
         filter: none;
         scale: none;
         transition: filter 0.5s, scale 1s;
-
-        @media screen and (max-width: $on-phone) {
-            visibility: collapse;
-        }
-    }
-
-    @media screen and (max-width: $on-desktop) {
-        box-shadow: none;
     }
 }

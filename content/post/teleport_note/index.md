@@ -4,9 +4,9 @@ date: 2020-12-06T23:04:45+08:00
 image: banner.jpg
 categories:
     - Linux
-    - Cluster Deploy
+    - Tutorial
 tags:
-    - Technology
+    - Cluster Manage
 draft: false
 ---
 

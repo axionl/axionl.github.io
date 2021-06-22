@@ -37,7 +37,7 @@ params:
       local: true
       src: "/img/avatar.jpg"
     twitter:
-      username: arielaxionl
+        username: arielaxionl
     github:
       username: axionl
     email:
@@ -51,6 +51,7 @@ params:
 
   article:
     math: true
+    toc: true
     license:
       enabled: true
       default: Licensed under CC BY-NC-SA 4.0
@@ -58,20 +59,49 @@ params:
   comments:
     enabled: true
     provider: disqus
+
     utterances:
-      repo: ""
-      issueTerm: pathname
-      label: ""
-      theme: preferred-color-scheme
+        repo:
+        issueTerm: pathname
+        label:
+
+    remark42:
+        host:
+        site:
+        locale:
+
+    vssue:
+        platform:
+        owner:
+        repo:
+        clientId:
+        clientSecret:
+
+    # Waline client configuration see: https://waline.js.org/en/reference/client.html
+    waline:
+        serverURL:
+        lang:
+        visitor:
+        avatar:
+        emoji:
+            - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
+        requiredMeta:
+            - name
+            - email
+            - url
+        placeholder:
+        locale:
+            admin: Admin
 
   widgets:
     enabled:
       - search
       - archives
       - tag-cloud
+
     archives:
       limit: 10
-      path: archives
+
     tagCloud:
       limit: 25
 
@@ -103,15 +133,14 @@ params:
         desc: 实名上网三十年
       - name: PeterCxy
         url: "https://en.typeblog.net"
-        avatar: "https://eu-central-1.wasabisys.com/peter-misc/akarin_avatar.png"
-        desc: |2-
+        avatar: "https://avatars.githubusercontent.com/u/4532423"
+        desc: |2+
           或許鼓勵的話，已經變得麻木。但失落的心，總不能一直孤獨。
           就像一句老臺詞，儘管方式不同，但，每個人都有追求愛與被愛的權利。
       - name: Lilydjwg
         url: "https://blog.lilydjwg.me"
         avatar: "https://avatars1.githubusercontent.com/u/440661"
-        desc: |2-
-          永日向人妍，百合忘忧草。生活中的麻烦比比皆是，好在还有猫。
+        desc: 永日向人妍，百合忘忧草。生活中的麻烦比比皆是，好在还有猫。
       - name: Bruceutut
         url: "https://brucezhang1993.github.io"
         avatar: "https://avatars3.githubusercontent.com/u/6873988"
@@ -235,7 +264,7 @@ params:
     toggle: true
 
     # Available values: auto, light, dark
-    default: auto
+    default: dark
 
   imageProcessing:
     cover:
@@ -246,9 +275,12 @@ params:
     info: 三生有幸，四季如春 | 言文
     local:
       enabled: true
-      url: "https://wallhaven.cc/w/pk27vj"
+      url: "https://twitter.com/tuoer_sg/status/1398570160609320963"
       src: "/img/default.jpg"
 
+### Custom menu
+### See https://docs.stack.jimmycai.com/configuration/custom-menu
+### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
   main:
     - identifier: home
@@ -284,16 +316,14 @@ related:
   indices:
     - name: tags
       weight: 100
+
     - name: categories
       weight: 200
 
 markup:
+  tableOfContents:
+    endLevel: 4
+    ordered: true
+    startLevel: 2
   highlight:
-    lineNoStart: 0
-    lineNos: true
-    lineNumbersInTable: true
-    noClasses: true
-    tabWidth: 4
-  goldmark:
-    renderer:
-      unsafe: true
+    noClasses: false

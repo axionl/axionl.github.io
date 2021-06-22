@@ -3,7 +3,7 @@ title: "在 QEMU/KVM 虚拟机上安装 NixOS 发行版"
 date: 2021-01-07T22:57:51+08:00
 image: preview.png
 categories:
-    - Virtualization
+    - Tutorial
     - Linux
 tags:
     - NixOS

@@ -18,19 +18,24 @@
         padding: 30px;
 
         .friend-avatar {
+            margin: auto 0px;
+
             .friend-avatar-img {
                 width: 80px;
                 height: 80px;
                 border-radius: 50%;
                 object-fit: fill;
             }
-
-            margin: auto 0px;
         }
 
         .friend-info {
             float: right;
             margin-left: 20px;
+            width: 100vw;
+
+            @include respond(xl) {
+                width: 24vw
+            }
 
             .friend-name {
                 font-size: 2.0rem;
@@ -38,20 +43,8 @@
             }
 
             .friend-desc {
-                max-width: 21.5vw;
+                max-width: 100%;
                 word-wrap: break-word;
-
-                @media screen and (max-width:$on-desktop) {
-                    max-width: 100%;
-                }
-
-                @media screen and (min-width:$on-desktop-large) {
-                    max-width: 385px;
-                }
-            }
-
-            @media screen and (max-width: $on-phone) {
-                width: 100vw;
             }
         }
 

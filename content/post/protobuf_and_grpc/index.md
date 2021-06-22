@@ -4,7 +4,6 @@ date: 2021-01-03T23:46:51+08:00
 image: banner.jpg
 categories:
     - Develop
-    - BasicKnowledge
 tags:
     - RPC
 draft: false
