@@ -3,5 +3,5 @@
 QEMU/KVM 虚拟机配置 ArchLinux Wiki: KVM | QEMU | Libvirt
 0. 检测硬件是否支持 KVM 一般情况下需要进入到 BIOS 对应页面打开虚拟化支持，常见对应设置项如下：
 AMD: SVM Support Intel: Intel Virtual Technology 开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：
-0 1 $ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
-0 1 2 3 4 5 6 7 8 9 10 11 12 $ zgrep CONFIG_KVM /proc/config.</description></item></channel></rss>
+$ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
+$ zgrep CONFIG_KVM /proc/config.gz CONFIG_KVM_GUEST=y CONFIG_KVM_MMIO=y CONFIG_KVM_ASYNC_PF=y CONFIG_KVM_VFIO=y CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y CONFIG_KVM_COMPAT=y CONFIG_KVM_XFER_TO_GUEST_WORK=y CONFIG_KVM=m CONFIG_KVM_INTEL=m CONFIG_KVM_AMD=m # 可以看到有该模块 CONFIG_KVM_AMD_SEV=y CONFIG_KVM_MMU_AUDIT=y 查看这些内核模块是否已自动加载：</description></item></channel></rss>

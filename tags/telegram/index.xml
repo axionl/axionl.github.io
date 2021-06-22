@@ -2,5 +2,6 @@
 开发 注册一个机器人 访问 Telegram 的官方注册机器人 @BotFather 。
 使用 /newbot 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以_bot结尾)，注册成功后会将机器人的 TOKEN 返回给你，而这个 TOKEN 用于告知服务器这个机器人就是（大明湖畔那个夏雨荷）对应注册的机器人。
 botfather
-0 1 2 3 ... Use this token to access the HTTP API: `&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;` Keep your token secure and store it safely, ... 安装 Python 环境 官方网站: https://www.python.org/downloads
-对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 Python 即可（2021 年了应该都默认 Python3?</description></item></channel></rss>
+... Use this token to access the HTTP API: `&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;` Keep your token secure and store it safely, ... 安装 Python 环境 官方网站: https://www.python.org/downloads
+对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 Python 即可（2021 年了应该都默认 Python3?)
+Windows 则 Python 官方提供了安装器，记得把 Python 加到环境变量 (PATH) 的框给勾选上。</description></item></channel></rss>

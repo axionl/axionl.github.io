@@ -5,4 +5,4 @@ gRPC Protocol Buffers 通俗易懂的说明 introduction
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
 流程示意图
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang 或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
-公共协议 0 1 2 3 4 5 6 7 8 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 import ( .</description></item></channel></rss>
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端 import ( .</description></item></channel></rss>
