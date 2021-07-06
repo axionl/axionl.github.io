@@ -254,6 +254,10 @@ params:
         url: "https://liolok.com/"
         avatar: "https://avatars.githubusercontent.com/u/34574198"
         desc: "皓奇不是黑狗是黑猫"
+      - name: ViFly
+        url: "https://viflythink.com/"
+        avatar: "https://viflythink.com/img/avatar.png"
+        desc: "Vim 不好吗？（逃"
 
   opengraph:
     twitter:
