@@ -37,7 +37,7 @@ params:
       local: true
       src: "/img/avatar.jpg"
     twitter:
-        username: arielaxionl
+      username: arielaxionl
     github:
       username: axionl
     email:
@@ -61,37 +61,37 @@ params:
     provider: disqus
 
     utterances:
-        repo:
-        issueTerm: pathname
-        label:
+      repo:
+      issueTerm: pathname
+      label:
 
     remark42:
-        host:
-        site:
-        locale:
+      host:
+      site:
+      locale:
 
     vssue:
-        platform:
-        owner:
-        repo:
-        clientId:
-        clientSecret:
+      platform:
+      owner:
+      repo:
+      clientId:
+      clientSecret:
 
     # Waline client configuration see: https://waline.js.org/en/reference/client.html
     waline:
-        serverURL:
-        lang:
-        visitor:
-        avatar:
-        emoji:
-            - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
-        requiredMeta:
-            - name
-            - email
-            - url
-        placeholder:
-        locale:
-            admin: Admin
+      serverURL:
+      lang:
+      visitor:
+      avatar:
+      emoji:
+        - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
+      requiredMeta:
+        - name
+        - email
+        - url
+      placeholder:
+      locale:
+        admin: Admin
 
   widgets:
     enabled:
@@ -244,6 +244,16 @@ params:
         url: "https://evex.one"
         avatar: "https://avatars.githubusercontent.com/u/46400566"
         desc: m (猛) n (男)
+      - name: Sinofine
+        url: "https://sinofine.me/"
+        avatar: "https://avatars.githubusercontent.com/u/47494321"
+      - name: QuarticCat
+        url: "https://blog.quarticcat.com/"
+        avatar: "https://avatars.githubusercontent.com/u/70888415"
+      - name: Liolok
+        url: "https://liolok.com/"
+        avatar: "https://avatars.githubusercontent.com/u/34574198"
+        desc: "皓奇不是黑狗是黑猫"
 
   opengraph:
     twitter:
