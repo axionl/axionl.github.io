@@ -258,7 +258,11 @@ params:
         url: "https://viflythink.com/"
         avatar: "https://viflythink.com/img/avatar.png"
         desc: "不是 Vim 用户"
-
+      - name: CSSLayer
+        url: "https://www.csslayer.info/"
+        avatar: "https://avatars.githubusercontent.com/u/259684"
+        desc: "老 K，fcitx* 系列开发者"
+        
   opengraph:
     twitter:
       # Your Twitter username
