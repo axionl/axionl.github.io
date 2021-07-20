@@ -175,7 +175,82 @@ alt="column_layout">
 &lt;/a>
 &lt;figcaption>column_layout&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;p>对比原本想像中的布局要求，可以说是基本实现了(&lt;del>打个九折不过分吧&lt;/del>)。&lt;/p></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
+&lt;p>对比原本想像中的布局要求，可以说是基本实现了(&lt;del>打个九折不过分吧&lt;/del>)。&lt;/p>
+&lt;h3 id="样式">样式&lt;/h3>
+&lt;p>基本的元素提供了默认的样式和属性，回顾想象图目前还缺少：&lt;/p>
+&lt;ul>
+&lt;li>按钮&lt;/li>
+&lt;li>背景图&lt;/li>
+&lt;/ul>
+&lt;p>以一个基本的矩形为例，有如下常用属性（&lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtquick-rectangle.html" target="_blank" rel="noopener"
+>QtQuick-Rectangle&lt;/a>）&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">width:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;span class="k">height:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;span class="k">radius:&lt;/span> &lt;span class="mi">8&lt;/span> &lt;span class="c1">// 圆角半径
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 颜色
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">border.width:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 边框宽度
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">border.color:&lt;/span> &lt;span class="s2">&amp;#34;whitesmoke&amp;#34;&lt;/span> &lt;span class="c1">// 边框颜色
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>带阴影的矩形可以这样实现：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtGraphicalEffects&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="c1">// 包含 DropShadow 效果
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="k">layer.enabled:&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;span class="k">layer.effect:&lt;/span> &lt;span class="nx">DropShadow&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">horizontalOffset:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 横向偏移
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">verticalOffset:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 纵向偏移
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">radius:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 阴影半径
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">samples:&lt;/span> &lt;span class="mi">17&lt;/span> &lt;span class="c1">// 采样率（越高效果越好，性能消耗也增大）
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#10000000&amp;#34;&lt;/span> &lt;span class="c1">// ARGB（透明度，红，绿，蓝）
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>为矩形添加渐变色：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="k">rotation:&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1">// 渐变角度
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">gradient:&lt;/span> &lt;span class="nx">Gradient&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">GradientStop&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">position:&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span> &lt;span class="c1">// 起始颜色
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="c1">// 可以添加多段
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">GradientStop&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">position:&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#c5000000&amp;#34;&lt;/span> &lt;span class="c1">// 结束颜色
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>添加图片：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: background&lt;/span>
+&lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Image&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">background&lt;/span> &lt;span class="c1">// 填充背景矩形
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">source:&lt;/span> &lt;span class="s2">&amp;#34;qrc:/background.png&amp;#34;&lt;/span> &lt;span class="c1">// 图片资源
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">fillMode:&lt;/span> &lt;span class="nx">Image&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">PreserveAspectCrop&lt;/span> &lt;span class="c1">// 填充方式
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">z:&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="c1">// 由于需要将渐变色作为滤镜效果，所以图片的层级下调
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：&lt;/p>
+&lt;p>&lt;figure style="flex-grow: 120; flex-basis: 289px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png" data-size="770x639">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_2.png 1024w"
+width="770"
+height="639"
+loading="lazy"
+alt="no_z_index">
+&lt;/a>
+&lt;figcaption>no_z_index&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;h2 id="事件和交互">事件和交互&lt;/h2></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
 &lt;p>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 &lt;a class="link" href="https://github.com/rust-lang/mdBook" target="_blank" rel="noopener"
 >mdbook&lt;/a> 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。&lt;/p>
 &lt;/blockquote>
