@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Apr 2021 17:32:39 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Jul 2021 10:58:40 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2.png" alt="Featured image of post [OhMyQt 系列] 01_HelloWorld" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
+>axionl/OhMyQt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>项目在 Windows 11 和 ArchLinux 下进行测试&lt;/li>
+&lt;li>Qt 版本: 5.15.2&lt;/li>
+&lt;/ul>
+&lt;p>其余具体环境安装和配置稍后会在第 0 节内容中放出&lt;/p></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
 &lt;p>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 &lt;a class="link" href="https://github.com/rust-lang/mdBook" target="_blank" rel="noopener"
 >mdbook&lt;/a> 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。&lt;/p>
 &lt;/blockquote>
