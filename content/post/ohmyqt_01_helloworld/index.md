@@ -233,6 +233,7 @@ Rectangle {
 ```
 
 为矩形添加渐变色：
+
 ```qml
 Rectangle {
     // ...
@@ -254,7 +255,9 @@ Rectangle {
 }
 ```
 
-添加图片：
+`qml.qrc` 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：
+
+![qml.qrc](qml_qrc.png)
 
 ```qml
 Rectangle {
@@ -276,3 +279,57 @@ Rectangle {
 ![no_z_index](no_z_index.png)
 
 ## 事件和交互
+
+虽然 `QtQuick.Controls` 中提供了 `Button` 控件，但是我们仍然可以先为自己创立一个简单的按钮。
+
+```qml
+Rectangle {
+    id: button
+    implicitHeight: 48
+    implicitWidth: 156
+    radius: implicitHeight / 2
+    border.color: "white"   // 边框颜色
+    color: "#ef7e9ceb"      // 背景颜色
+
+    Text {
+        anchors.verticalCenter: parent.verticalCenter  // 居中对齐
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        text: "初等記憶體"  // 文字内容
+        color: "white"      // 文字颜色
+    }
+
+    // 覆盖全按键的鼠标动作区域
+    MouseArea {
+        anchors.fill: parent
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        hoverEnabled: true  // 允许响应鼠标停留
+
+        onEntered: {
+            parent.color = Qt.lighter(button.color, 0.8)  // 进入颜色变深
+            parent.opacity = 1.0 // 不透明
+        }
+
+        onExited: {
+            parent.color =  Qt.lighter(button.color, 0.9) // 退出颜色变浅
+            parent.opacity = 0.7
+        }
+
+        onClicked: {
+            parent.color =  Qt.lighter(button.color, 1.1) // 点击颜色变亮
+        }
+    }
+}
+```
+
+这里有一个常见用法可以将需要设置的属性用 `property` 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 `state` 可以提供若干个对象默认状态进行切换，这部分后面会见到。
+
+```qml
+Rectangle {
+    // ...
+    property string buttonColor: "#ef7e9ceb"
+    property string buttonText
+
+    color: buttonColor  // 引用属性值
+}
+```
