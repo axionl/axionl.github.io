@@ -4,10 +4,9 @@
     width: auto;
 
     @include respond(sm) {
-        height: 35vw;
+        height: 36vw;
         position: relative;
         overflow: hidden;
-        box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.3);
         visibility: visible;
     }
 
@@ -49,12 +48,10 @@
 
     .banner-img {
         z-index: -1;
-        position: relative;
+        position: fixed;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: none;
-        scale: none;
         transition: filter 0.5s, scale 1s;
     }
 }
