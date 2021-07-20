@@ -189,3 +189,90 @@ Window {
 ![column_layout](column_layout.png)
 
 对比原本想像中的布局要求，可以说是基本实现了(~~打个九折不过分吧~~)。
+
+### 样式
+
+基本的元素提供了默认的样式和属性，回顾想象图目前还缺少：
+
+- 按钮
+- 背景图
+
+以一个基本的矩形为例，有如下常用属性（[QtQuick-Rectangle](https://doc.qt.io/qt-5/qml-qtquick-rectangle.html)）
+
+```qml
+import QtQuick.Controls 2.12
+
+Rectangle {
+    width: 16
+    height: 16
+    radius: 8                  // 圆角半径
+    color: "white"             // 颜色
+    border.width: 1            // 边框宽度
+    border.color: "whitesmoke" // 边框颜色
+}
+```
+
+带阴影的矩形可以这样实现：
+
+```qml
+import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0 // 包含 DropShadow 效果
+
+Rectangle {
+    // ...
+
+    layer.enabled: true
+    layer.effect: DropShadow {
+        horizontalOffset: 1 // 横向偏移
+        verticalOffset: 1   // 纵向偏移
+        radius: 16          // 阴影半径
+        samples: 17         // 采样率（越高效果越好，性能消耗也增大）
+        color: "#10000000"  // ARGB（透明度，红，绿，蓝）
+    }
+}
+```
+
+为矩形添加渐变色：
+```qml
+Rectangle {
+    // ...
+
+    rotation: 0                 // 渐变角度
+    gradient: Gradient {
+        GradientStop {
+            position: 0
+            color: "#ef7e9ceb"  // 起始颜色
+        }
+        
+        // 可以添加多段
+        
+        GradientStop {
+            position: 1
+            color: "#c5000000"  // 结束颜色
+        }
+    }
+}
+```
+
+添加图片：
+
+```qml
+Rectangle {
+    id: background
+
+    // ...
+
+    Image {
+        anchors.fill: background           // 填充背景矩形
+        source: "qrc:/background.png"      // 图片资源
+        fillMode: Image.PreserveAspectCrop // 填充方式
+        z:-1  // 由于需要将渐变色作为滤镜效果，所以图片的层级下调
+    }
+}
+```
+
+如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：
+
+![no_z_index](no_z_index.png)
+
+## 事件和交互
