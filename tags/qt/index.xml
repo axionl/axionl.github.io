@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Qt on 初等記憶體</title><link>https://axionl.me/tags/qt/</link><description>Recent content in Qt on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Jul 2021 10:58:40 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/qt/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>前言 项目地址: axionl/OhMyQt
-项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 其余具体环境安装和配置稍后会在第 0 节内容中放出</description></item></channel></rss>
+项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。
+从看见到设计 我们需要一个简单的展示页面作为上手的第一个项目：
+一个醒目的标题 一段用于描述的文字 还有一个好看的背景 假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。
+preview
+布局 我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：
+内容整体居中 标题和描述上下排布 内容之间最好有一定的间距 layout
+如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
+// 基本元素如下 Window { // 窗口一个大盒子 Box { // 里面套个小盒子 Title {} // 盒子里面有标题 Description {} // 标题下面有描述 } } 进一步加上居中对齐和间距：</description></item></channel></rss>

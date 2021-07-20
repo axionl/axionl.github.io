@@ -7,7 +7,175 @@
 &lt;li>项目在 Windows 11 和 ArchLinux 下进行测试&lt;/li>
 &lt;li>Qt 版本: 5.15.2&lt;/li>
 &lt;/ul>
-&lt;p>其余具体环境安装和配置稍后会在第 0 节内容中放出&lt;/p></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
+&lt;p>本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。&lt;/p>
+&lt;h2 id="从看见到设计">从看见到设计&lt;/h2>
+&lt;p>我们需要一个简单的展示页面作为上手的第一个项目：&lt;/p>
+&lt;ul>
+&lt;li>一个醒目的标题&lt;/li>
+&lt;li>一段用于描述的文字&lt;/li>
+&lt;li>还有一个好看的背景&lt;/li>
+&lt;/ul>
+&lt;p>假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。&lt;/p>
+&lt;p>&lt;figure style="flex-grow: 177; flex-basis: 426px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png" data-size="1920x1080">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_2.png 1024w"
+width="1920"
+height="1080"
+loading="lazy"
+alt="preview">
+&lt;/a>
+&lt;figcaption>preview&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;h3 id="布局">布局&lt;/h3>
+&lt;p>我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：&lt;/p>
+&lt;ul>
+&lt;li>内容整体居中&lt;/li>
+&lt;li>标题和描述上下排布&lt;/li>
+&lt;li>内容之间最好有一定的间距&lt;/li>
+&lt;/ul>
+&lt;p>&lt;figure style="flex-grow: 132; flex-basis: 319px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png" data-size="730x549">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_2.png 1024w"
+width="730"
+height="549"
+loading="lazy"
+alt="layout">
+&lt;/a>
+&lt;figcaption>layout&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;p>如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（&lt;strong>注意不是直接能用的代码&lt;/strong>）：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="c1">// 基本元素如下
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 窗口一个大盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 里面套个小盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Title&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 盒子里面有标题
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Description&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 标题下面有描述
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>进一步加上居中对齐和间距：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span> &lt;span class="c1">// 居中对齐大盒子
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Title&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="nx">Description&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到，这里引用了一个 &lt;code>parent&lt;/code> 的概念，实际上指代上一层父级元素，套娃套在里面的才是娃，文字和描述的父级元素是小盒子，小盒子的父级元素是大窗口。再补上元素的属性和间距：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span> &lt;span class="c1">// 窗口宽度
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span> &lt;span class="c1">// 窗口高度
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span> &lt;span class="c1">// 宽度 360 单位（多数情况下理解为像素）
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span> &lt;span class="c1">// 高度 128 单位
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Title&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span> &lt;span class="c1">// 标题一定要大
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">visible:&lt;/span> &lt;span class="kc">false&lt;/span> &lt;span class="c1">// 一个看不见的盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 用于拉开标题和描述的间距
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="nx">Description&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 精致的描述用小字
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这些具体元素我们以后会写到如何实现，现在需要用 &lt;code>QtQuick.Controls&lt;/code> 提供的一些默认元素替代：&lt;/p>
+&lt;ul>
+&lt;li>Box-&amp;gt;Rectangle&lt;/li>
+&lt;li>Title / Description -&amp;gt; Text&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span>
+&lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span>
+&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span>
+&lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: title&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
+&lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;transparent&amp;#34;&lt;/span>
+&lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: description&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;我吞下玻璃会伤身体&amp;#34;&lt;/span>
+&lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>实现之后的效果可能长成了这个样子，对了，但没全对。因为我们这个 &lt;code>Rectangle&lt;/code> 不太智能，是个“硬盒”，元素之间会挤在一起，而不是自动拉开保持社交距离。&lt;/p>
+&lt;p>&lt;figure style="flex-grow: 203; flex-basis: 487px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png" data-size="506x249">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_2.png 1024w"
+width="506"
+height="249"
+loading="lazy"
+alt="awesome_qml">
+&lt;/a>
+&lt;figcaption>awesome_qml&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Layouts&lt;/span> &lt;span class="mf">1.12&lt;/span>
+&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span>
+&lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span>
+&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span>
+&lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;span class="nx">ColumnLayout&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 一个上下布局的模板
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">parent&lt;/span> &lt;span class="c1">// 沾满小盒子的空间
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">spacing:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 原先看不见的盒子用默认提供的间距属性实现
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: title&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
+&lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: description&lt;/span>
+&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;我吞下玻璃会伤身体&amp;#34;&lt;/span>
+&lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以把 &lt;code>ColumnLayout&lt;/code> 当作一个更加智能的盒子，它能够把挤在一起的元素上下依次排开。而与之相对的 &lt;code>RowLayout&lt;/code> 则是将元素左右排开。&lt;/p>
+&lt;p>&lt;figure style="flex-grow: 166; flex-basis: 400px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png" data-size="490x294">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_2.png 1024w"
+width="490"
+height="294"
+loading="lazy"
+alt="column_layout">
+&lt;/a>
+&lt;figcaption>column_layout&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;p>对比原本想像中的布局要求，可以说是基本实现了(&lt;del>打个九折不过分吧&lt;/del>)。&lt;/p></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
 &lt;p>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 &lt;a class="link" href="https://github.com/rust-lang/mdBook" target="_blank" rel="noopener"
 >mdbook&lt;/a> 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。&lt;/p>
 &lt;/blockquote>
