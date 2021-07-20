@@ -227,7 +227,17 @@ alt="column_layout">
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>添加图片：&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>qml.qrc&lt;/code> 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：&lt;/p>
+&lt;p>&lt;figure style="flex-grow: 198; flex-basis: 476px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png" data-size="729x367">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_2.png 1024w"
+width="729"
+height="367"
+loading="lazy"
+alt="qml.qrc">
+&lt;/a>
+&lt;figcaption>qml.qrc&lt;/figcaption>
+&lt;/figure>&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">id: background&lt;/span>
 &lt;span class="c1">// ...
@@ -250,7 +260,49 @@ alt="no_z_index">
 &lt;/a>
 &lt;figcaption>no_z_index&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;h2 id="事件和交互">事件和交互&lt;/h2></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
+&lt;h2 id="事件和交互">事件和交互&lt;/h2>
+&lt;p>虽然 &lt;code>QtQuick.Controls&lt;/code> 中提供了 &lt;code>Button&lt;/code> 控件，但是我们仍然可以先为自己创立一个简单的按钮。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kd">id: button&lt;/span>
+&lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">156&lt;/span>
+&lt;span class="k">radius:&lt;/span> &lt;span class="nx">implicitHeight&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="mi">2&lt;/span>
+&lt;span class="k">border.color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 边框颜色
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span> &lt;span class="c1">// 背景颜色
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.verticalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">verticalCenter&lt;/span> &lt;span class="c1">// 居中对齐
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;初等記憶體&amp;#34;&lt;/span> &lt;span class="c1">// 文字内容
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 文字颜色
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="c1">// 覆盖全按键的鼠标动作区域
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">MouseArea&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span>
+&lt;span class="k">hoverEnabled:&lt;/span> &lt;span class="kc">true&lt;/span> &lt;span class="c1">// 允许响应鼠标停留
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="k">onEntered:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">0.8&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 进入颜色变深
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">opacity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="c1">// 不透明
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="k">onExited:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">0.9&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 退出颜色变浅
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">opacity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.7&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">1.1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 点击颜色变亮
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里有一个常见用法可以将需要设置的属性用 &lt;code>property&lt;/code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 &lt;code>state&lt;/code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1">// ...
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">buttonColor:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="nx">buttonText&lt;/span>
+&lt;span class="k">color:&lt;/span> &lt;span class="nx">buttonColor&lt;/span> &lt;span class="c1">// 引用属性值
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
 &lt;p>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 &lt;a class="link" href="https://github.com/rust-lang/mdBook" target="_blank" rel="noopener"
 >mdbook&lt;/a> 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。&lt;/p>
 &lt;/blockquote>
