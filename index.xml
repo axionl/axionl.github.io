@@ -151,13 +151,13 @@ alt="awesome_qml">
 &lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">id: title&lt;/span>
-&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
-&lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
+&lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span> &lt;span class="c1">// 换成 Layout 下的居中对齐模式
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
 &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">48&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">id: description&lt;/span>
-&lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span>
 &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;我吞下玻璃会伤身体&amp;#34;&lt;/span>
 &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span>
 &lt;span class="p">}&lt;/span>

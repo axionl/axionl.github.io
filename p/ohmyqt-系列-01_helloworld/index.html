@@ -123,14 +123,14 @@ extended"><div id=article-toolbar><a href=https://axionl.me class=back-home><svg
 </span><span class=c1></span>
             <span class=nx>Text</span> <span class=p>{</span>
                 <span class=kd>id: title</span>
-                <span class=k>anchors.horizontalCenter:</span> <span class=nx>parent</span><span class=p>.</span><span class=nx>horizontalCenter</span>
-                <span class=k>text:</span> <span class=s2>&#34;这是一个大标题&#34;</span>
+                <span class=k>Layout.alignment:</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignHCenter</span> <span class=o>|</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignVCenter</span> <span class=c1>// 换成 Layout 下的居中对齐模式
+</span><span class=c1></span>                <span class=k>text:</span> <span class=s2>&#34;这是一个大标题&#34;</span>
                 <span class=k>font.pixelSize:</span> <span class=mi>48</span>
             <span class=p>}</span>
 
             <span class=nx>Text</span> <span class=p>{</span>
                 <span class=kd>id: description</span>
-                <span class=k>anchors.horizontalCenter:</span> <span class=nx>parent</span><span class=p>.</span><span class=nx>horizontalCenter</span>
+                <span class=k>Layout.alignment:</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignHCenter</span> <span class=o>|</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignVCenter</span>
                 <span class=k>text:</span> <span class=s2>&#34;我吞下玻璃会伤身体&#34;</span>
                 <span class=k>font.pixelSize:</span> <span class=mi>24</span>
             <span class=p>}</span>
