@@ -168,14 +168,14 @@ Window {
 
             Text {
                 id: title
-                anchors.horizontalCenter: parent.horizontalCenter
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter // 换成 Layout 下的居中对齐模式
                 text: "这是一个大标题"
                 font.pixelSize: 48
             }
 
             Text {
                 id: description
-                anchors.horizontalCenter: parent.horizontalCenter
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 text: "我吞下玻璃会伤身体"
                 font.pixelSize: 24
             }
