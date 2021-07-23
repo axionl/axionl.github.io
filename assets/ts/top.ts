@@ -1,7 +1,9 @@
 class TopClick {
     constructor() {
-        let btn = document.getElementById("to-top-button");
-        btn.addEventListener("click", (e: Event) => this.go());
+        const btn = document.getElementById("to-top-button");
+        if (btn) {
+            btn.addEventListener("click", (e: Event) => this.go());
+        }
     }
 
     private go() {
