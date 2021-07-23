@@ -18,7 +18,7 @@
 &lt;p>假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 177; flex-basis: 426px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png" data-size="1920x1080">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_3.png 1024w"
 width="1920"
 height="1080"
 loading="lazy"
@@ -35,7 +35,7 @@ alt="preview">
 &lt;/ul>
 &lt;p>&lt;figure style="flex-grow: 132; flex-basis: 319px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png" data-size="730x549">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_3.png 1024w"
 width="730"
 height="549"
 loading="lazy"
@@ -44,7 +44,7 @@ alt="layout">
 &lt;figcaption>layout&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（&lt;strong>注意不是直接能用的代码&lt;/strong>）：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="c1">// 基本元素如下
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="c1">// 基本元素如下
 &lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 窗口一个大盒子
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 里面套个小盒子
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Title&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 盒子里面有标题
@@ -52,7 +52,7 @@ alt="layout">
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>进一步加上居中对齐和间距：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span> &lt;span class="c1">// 居中对齐大盒子
 &lt;/span>&lt;span class="c1">&lt;/span>
@@ -65,7 +65,7 @@ alt="layout">
 &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到，这里引用了一个 &lt;code>parent&lt;/code> 的概念，实际上指代上一层父级元素，套娃套在里面的才是娃，文字和描述的父级元素是小盒子，小盒子的父级元素是大窗口。再补上元素的属性和间距：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span> &lt;span class="c1">// 窗口宽度
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span> &lt;span class="c1">// 窗口高度
 &lt;/span>&lt;span class="c1">&lt;/span>
@@ -93,7 +93,7 @@ alt="layout">
 &lt;li>Box-&amp;gt;Rectangle&lt;/li>
 &lt;li>Title / Description -&amp;gt; Text&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
@@ -125,7 +125,7 @@ alt="layout">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>实现之后的效果可能长成了这个样子，对了，但没全对。因为我们这个 &lt;code>Rectangle&lt;/code> 不太智能，是个“硬盒”，元素之间会挤在一起，而不是自动拉开保持社交距离。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 203; flex-basis: 487px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png" data-size="506x249">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_3.png 1024w"
 width="506"
 height="249"
 loading="lazy"
@@ -133,7 +133,7 @@ alt="awesome_qml">
 &lt;/a>
 &lt;figcaption>awesome_qml&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Layouts&lt;/span> &lt;span class="mf">1.12&lt;/span>
@@ -167,7 +167,7 @@ alt="awesome_qml">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>可以把 &lt;code>ColumnLayout&lt;/code> 当作一个更加智能的盒子，它能够把挤在一起的元素上下依次排开。而与之相对的 &lt;code>RowLayout&lt;/code> 则是将元素左右排开。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 166; flex-basis: 400px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png" data-size="490x294">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_3.png 1024w"
 width="490"
 height="294"
 loading="lazy"
@@ -184,7 +184,7 @@ alt="column_layout">
 &lt;/ul>
 &lt;p>以一个基本的矩形为例，有如下常用属性（&lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtquick-rectangle.html" target="_blank" rel="noopener"
 >QtQuick-Rectangle&lt;/a>）&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="k">width:&lt;/span> &lt;span class="mi">16&lt;/span>
 &lt;span class="k">height:&lt;/span> &lt;span class="mi">16&lt;/span>
@@ -194,7 +194,7 @@ alt="column_layout">
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">border.color:&lt;/span> &lt;span class="s2">&amp;#34;whitesmoke&amp;#34;&lt;/span> &lt;span class="c1">// 边框颜色
 &lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>带阴影的矩形可以这样实现：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
 &lt;span class="kr">import&lt;/span> &lt;span class="nx">QtGraphicalEffects&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="c1">// 包含 DropShadow 效果
 &lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
@@ -210,7 +210,7 @@ alt="column_layout">
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>为矩形添加渐变色：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="c1">// ...
 &lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="k">rotation:&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1">// 渐变角度
@@ -230,7 +230,7 @@ alt="column_layout">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>qml.qrc&lt;/code> 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 198; flex-basis: 476px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png" data-size="729x367">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_3.png 1024w"
 width="729"
 height="367"
 loading="lazy"
@@ -238,7 +238,7 @@ alt="qml.qrc">
 &lt;/a>
 &lt;figcaption>qml.qrc&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">id: background&lt;/span>
 &lt;span class="c1">// ...
 &lt;/span>&lt;span class="c1">&lt;/span>
@@ -252,7 +252,7 @@ alt="qml.qrc">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 120; flex-basis: 289px">
 &lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png" data-size="770x639">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png"
-srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_2.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_3.png 1024w"
 width="770"
 height="639"
 loading="lazy"
@@ -262,7 +262,7 @@ alt="no_z_index">
 &lt;/figure>&lt;/p>
 &lt;h2 id="事件和交互">事件和交互&lt;/h2>
 &lt;p>虽然 &lt;code>QtQuick.Controls&lt;/code> 中提供了 &lt;code>Button&lt;/code> 控件，但是我们仍然可以先为自己创立一个简单的按钮。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="kd">id: button&lt;/span>
 &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">48&lt;/span>
 &lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">156&lt;/span>
@@ -296,7 +296,7 @@ alt="no_z_index">
 &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>这里有一个常见用法可以将需要设置的属性用 &lt;code>property&lt;/code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 &lt;code>state&lt;/code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="c1">// ...
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">buttonColor:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
 &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="nx">buttonText&lt;/span>
@@ -336,7 +336,7 @@ alt="no_z_index">
 &lt;/ul>
 &lt;p>&lt;figure style="flex-grow: 152; flex-basis: 366px">
 &lt;a href="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png" data-size="1100x721">&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png"
-srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_2.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_3.png 1024w"
 width="1100"
 height="721"
 loading="lazy"
@@ -346,12 +346,12 @@ alt="apps.conf">
 &lt;/figure>&lt;/p>
 &lt;p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。&lt;/p>
 &lt;p>&lt;code>~/.config/fish/conf.d/env_init.fish&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="k">if&lt;/span> &lt;span class="k">not&lt;/span> &lt;span class="nb">contains&lt;/span> &lt;span class="nv">$USER&lt;/span> &lt;span class="nv">$PATH&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="k">if&lt;/span> &lt;span class="k">not&lt;/span> &lt;span class="nb">contains&lt;/span> &lt;span class="nv">$USER&lt;/span> &lt;span class="nv">$PATH&lt;/span>
 &lt;span class="nf">export&lt;/span> &lt;span class="o">(&lt;/span>/usr/lib/systemd/user&lt;span class="na">-environment-generators&lt;/span>/&lt;span class="m">30&lt;/span>&lt;span class="na">-systemd-environment-d-generator&lt;/span>&lt;span class="o">)&lt;/span>
 &lt;span class="k">end&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 152; flex-basis: 366px">
 &lt;a href="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png" data-size="1100x721">&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png"
-srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_2.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_3.png 1024w"
 width="1100"
 height="721"
 loading="lazy"
@@ -367,9 +367,9 @@ alt="show environments">
 &lt;p>在 Plasma 5.21 和 Systemd 246 以及后续更新版本中，可以使用 systemd 来启动和管理 KDE 服务。&lt;/p>
 &lt;p>其中一个好处在于：其环境变量可直接继承自 &lt;code>environment.d&lt;/code> 而无需再手动设置 &lt;code>systemd-environment-d-generator&lt;/code> 生成的环境变量。&lt;/p>
 &lt;p>启用后重启生效。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>kwriteconfig5 &lt;span class="na">--file&lt;/span> startkderc &lt;span class="na">--group&lt;/span> General &lt;span class="na">--key&lt;/span> systemdBoot true
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>kwriteconfig5 &lt;span class="na">--file&lt;/span> startkderc &lt;span class="na">--group&lt;/span> General &lt;span class="na">--key&lt;/span> systemdBoot true
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set&lt;span class="na">-property&lt;/span> app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set&lt;span class="na">-property&lt;/span> app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
 &lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> &lt;span class="nb">status &lt;/span>app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope
 ● app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope &lt;span class="na">- Telegram&lt;/span> Desktop
 &lt;span class="nf">Loaded&lt;/span>: loaded &lt;span class="o">(&lt;/span>/usr/share/applications/telegramdesktop.desktop&lt;span class="p">;&lt;/span> &lt;span class="nf">transient&lt;/span>&lt;span class="o">)&lt;/span>
@@ -401,13 +401,14 @@ alt="show environments">
 &lt;/ul>
 &lt;h2 id="安装">安装&lt;/h2>
 &lt;blockquote>
-&lt;p>&lt;a href="https://www.chezmoi.io/docs/install/">https://www.chezmoi.io/docs/install/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/install/" target="_blank" rel="noopener"
+>https://www.chezmoi.io/docs/install/&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>curl &lt;span class="na">-sfL&lt;/span> https://git.io/chezmoi &lt;span class="o">|&lt;/span> &lt;span class="nf">sh&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>curl &lt;span class="na">-sfL&lt;/span> https://git.io/chezmoi &lt;span class="o">|&lt;/span> &lt;span class="nf">sh&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="快速上手">快速上手&lt;/h2>
 &lt;h3 id="初始化">初始化&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi init &lt;span class="na">--apply&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi init &lt;span class="na">--apply&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>这会在 &lt;code>~/.local/share/chezmoi&lt;/code> 中创建一个目录权限为 &lt;code>700&lt;/code> 的 git 仓库，用于保存配置文件。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>$ chezmoi source-path&lt;/code> 可以列出其路径&lt;/li>
@@ -416,19 +417,19 @@ alt="show environments">
 &lt;li>&lt;code>$ chezmoi init &amp;lt;git_repo&amp;gt;&lt;/code> 可在新设备上初始化上传的配置仓库&lt;/li>
 &lt;/ul>
 &lt;p>若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi completion &lt;span class="nb">fish&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> ~/.config/&lt;span class="nb">fish&lt;/span>/completions/chezmoi.&lt;span class="nb">fish&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi completion &lt;span class="nb">fish&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> ~/.config/&lt;span class="nb">fish&lt;/span>/completions/chezmoi.&lt;span class="nb">fish&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>&lt;code>-o &amp;lt;filename&amp;gt;&lt;/code> 输出到文件，默认为标准输出&lt;/li>
 &lt;/ul>
 &lt;h3 id="添加文件或目录">添加文件或目录&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add .nanorc &lt;span class="c"># 添加文件
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add .nanorc &lt;span class="c"># 添加文件
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-x&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span>/ &lt;span class="c"># 添加文件夹
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-xa&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span> &lt;span class="c"># 递归添加文件夹和子目录下的全部内容
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-T&lt;/span> .xprofile &lt;span class="c"># 添加临时内容
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add .tmux.conf &lt;span class="na">--follow&lt;/span> &lt;span class="c"># 添加软链接对应的原始内容，而不是软链接符号
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi managed &lt;span class="c"># 列出所管理的内容路径
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="编辑和应用">编辑和应用&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi edit ~/.bashrc &lt;span class="na">--apply&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi edit ~/.bashrc &lt;span class="na">--apply&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>其默认不带 &lt;code>--apply&lt;/code> 参数，所以编辑完成后也不会直接作用于源文件，&lt;code>--dry-run&lt;/code> 参数可以空运行而不改变目标文件&lt;/li>
 &lt;li>&lt;code>$EDITOR&lt;/code> 环境变量决定所使用的编辑器。&lt;/li>
@@ -436,22 +437,22 @@ alt="show environments">
 &lt;li>&lt;code>$ chezmoi -v apply&lt;/code> 应用改动&lt;/li>
 &lt;/ul>
 &lt;h3 id="同步与合并">同步与合并&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>pull &lt;span class="na">-- --rebase&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nf">chezmoi&lt;/span> diff
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>pull &lt;span class="na">-- --rebase&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nf">chezmoi&lt;/span> diff
 &lt;span class="nv">$ &lt;/span>chezmoi apply &lt;span class="na">--verbose&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>其同步操作与 git 本身无异，通过 &lt;code>--&lt;/code> 可以传递所需参数。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>add .nanorc
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>add .nanorc
 &lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>commit &lt;span class="na">-- -m&lt;/span> &lt;span class="s2">&amp;#34;Initial commit&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>支持自动提交，但考虑到用户可能意外添加&lt;strong>敏感数据&lt;/strong>的情况下不建议开启，配置文件的介绍将在稍后提到。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">sourceVCS&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">autoCommit&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
 &lt;span class="nx">autoPush&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以一次打包成压缩包放 U 盘上硬件备份&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi archive &lt;span class="na">--output&lt;/span>&lt;span class="o">=&lt;/span>dotfiles.tar
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi archive &lt;span class="na">--output&lt;/span>&lt;span class="o">=&lt;/span>dotfiles.tar
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="小结">小结&lt;/h3>
 &lt;p>&lt;figure style="flex-grow: 126; flex-basis: 304px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png" data-size="1048x826">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_3.png 1024w"
 width="1048"
 height="826"
 loading="lazy"
@@ -467,20 +468,20 @@ alt="doctor">
 >go template&lt;/a> 的朋友一定不会对此感到陌生，得益于 &lt;code>golang&lt;/code> 的实现，chezmoi 不仅做到了单文件、跨平台使用，还继承了其强大的数据模板功能，可以对于不同的设备实现不同的数据配置，比如配置不同的 &lt;code>ssh key&lt;/code>，这也是与诸多的 dotfiles manager 的不同之处。&lt;/p>
 &lt;h3 id="创建模板">创建模板&lt;/h3>
 &lt;p>以 &lt;code>.gitconfig&lt;/code> 为例，原文如下：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>
 &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>为了在不同的设备电脑上使用不同的 git 账户这一需求，要将其中的用户信息数据与配置文件进行绑定，而原文件将作为 &lt;code>.tmpl&lt;/code> 为后缀的模板文件保存。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.local/share/chezmoi/dot_gitconfig.tmpl&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.local/share/chezmoi/dot_gitconfig.tmpl&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .name }}&amp;#34;&lt;/span>
 &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .email }}&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>模板文件如上，&lt;code>{{ }}&lt;/code> 是 go template 的数据变量标记符，&lt;code>.&lt;/code> 代表了当前变量，即在非循环体内，&lt;code>.&lt;/code> 就代表了传入的那个变量。一般的变量定义可由赋值表达式定义 &lt;code>{{ $variable := Balabala }}&lt;/code>，不过这里 chezmoi 会根据配置文件自动生成和对应。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--autotemplate&lt;/span> ~/.gitconfig
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--autotemplate&lt;/span> ~/.gitconfig
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>chezmoi 提供了自动生成模板的功能，但是聪明的生成器未必懂你心意，正如我的 hostname 恰好等于 username 而在其他机器上未必如此。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 380; flex-basis: 913px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png" data-size="544x143">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_3.png 1024w"
 width="544"
 height="143"
 loading="lazy"
@@ -490,7 +491,7 @@ alt="dot_gitconfig.tmpl">
 &lt;/figure>&lt;/p>
 &lt;p>此时重新 &lt;code>$ chezmoi edit ~/.gitconfig&lt;/code> 对应编辑的就是模板文件（就不要图快加上 &lt;code>--apply&lt;/code> 了，以免产生不必要的手滑）。&lt;code>$ chezmoi data&lt;/code> 的内容便是其妄加猜测的根源，对应变量也可以手动添加使用，如下，根据系统类型来判断模板中的内容是否作用于该机器，&lt;code>-&lt;/code> 符号用于移除前或者后的空格，更多语法可去 &lt;a class="link" href="https://golang.org/pkg/text/template/" target="_blank" rel="noopener"
 >go template&lt;/a> 参阅。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
 &lt;/span>&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">eq&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;linux&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;span class="x">[core]
 &lt;/span>&lt;span class="x"> editor = nvim
@@ -499,11 +500,11 @@ alt="dot_gitconfig.tmpl">
 &lt;/span>&lt;span class="x"> editor = &lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.editor&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>对于大量需要编辑内容的配置文件，也可根据不同机器直接做多份同名文件，并对应进行切换。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># symlink_dot_bashrc.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># symlink_dot_bashrc.tmpl
 &lt;/span>&lt;span class="x">.bashrc_&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这将会创建一个 &lt;code>~/.bashrc&lt;/code> 的软链接到对应的配置文件, 若不希望以软链接形式，&lt;code>{{ include &amp;quot;.bashrc_linux&amp;quot; }}&lt;/code> 可以直接替换为文件。&lt;code>.chezmoiignore&lt;/code> 用于确保对应的系统安装对应的文件，意为如果不匹配，则忽略对应的配置文件，此外还有 &lt;code>.chezmoiremove&lt;/code> 等，详见 &lt;a class="link" href="https://www.chezmoi.io/docs/reference/#chezmoiignore" target="_blank" rel="noopener"
 >reference&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># .chezmoiignore
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># .chezmoiignore
 &lt;/span>&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ne&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;darwin&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;span class="x">.bashrc_darwin
 &lt;/span>&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
@@ -517,21 +518,21 @@ alt="dot_gitconfig.tmpl">
 &lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/reference/#configuration-file" target="_blank" rel="noopener"
 >配置文件模板&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">github&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">editor&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;nano&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>如下命令可临时调试时，脱离模板文件查看变量值是否正确。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
 &lt;span class="nf">nano&lt;/span>⏎
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="编辑配置">编辑配置&lt;/h3>
 &lt;p>相比于自动创建模板的南辕北辙，通过智能人工从模板中自动生成 TOML 配置则显得较为靠谱。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/test.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/test.tmpl
 &lt;/span>&lt;span class="x">&lt;/span>&lt;span class="cp">{{-&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">:=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">promptString&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
 &lt;/span>&lt;span class="x">[data]
 &lt;/span>&lt;span class="x"> email = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>promptString&lt;/code> 这个函数解析等下从命令行中传入的参数，并传入到配置文件中。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
 &lt;span class="o">[&lt;/span>data&lt;span class="o">]&lt;/span>
 &lt;span class="nv">email&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl@example.com&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="管理私有数据">管理私有数据&lt;/h3>
@@ -547,19 +548,19 @@ alt="dot_gitconfig.tmpl">
 &lt;h4 id="gpg">GPG&lt;/h4>
 &lt;p>支持对称和非对称密钥加密两种方式。&lt;/p>
 &lt;p>非对称加密方式中，可用如下命令查看接受方名称，所用 shell 支持的话也可以 &lt;code>$ gpg --recipient &amp;lt;Tab&amp;gt;&lt;/code> 进行补全。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>gpg &lt;span class="na">--list-public-keys&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>gpg &lt;span class="na">--list-public-keys&lt;/span>
 &lt;span class="nf">pub&lt;/span> ed25519 &lt;span class="m">2019&lt;/span>-&lt;span class="m">07&lt;/span>-&lt;span class="m">04&lt;/span> &lt;span class="o">[&lt;/span>SC&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>expires: &lt;span class="m">2024&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">07&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">02&lt;/span>&lt;span class="o">]&lt;/span>
 &lt;span class="nf">1FDBDCE2D26BD8F100EE2E73B1B9AAD8BE7E7326&lt;/span>
 &lt;span class="nf">uid&lt;/span> &lt;span class="o">[&lt;/span>ultimate&lt;span class="o">]&lt;/span> ArielAxionL &lt;span class="o">&amp;lt;&lt;/span>i@axionl.me&lt;span class="o">&amp;gt;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>以接受方竟是我自己为例，在配置文件 &lt;code>chezmoi.toml&lt;/code> 中填入：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">recipient&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;ArielAxionL&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>将文件加密并添加，chezmoi 默认使用了 &lt;code>gpg --armor&lt;/code> 参数使得加密文件可读，可以通过配置中，的 &lt;code>command&lt;/code> 字段来定义 gpg 的其他参数。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--encrypt&lt;/span> test.toml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--encrypt&lt;/span> test.toml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 140; flex-basis: 337px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png" data-size="903x643">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_3.png 1024w"
 width="903"
 height="643"
 loading="lazy"
@@ -568,7 +569,7 @@ alt="加密内容">
 &lt;figcaption>加密内容&lt;/figcaption>
 &lt;/figure> &lt;figure style="flex-grow: 165; flex-basis: 397px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png" data-size="1064x643">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_3.png 1024w"
 width="1064"
 height="643"
 loading="lazy"
@@ -577,7 +578,7 @@ alt="解密内容">
 &lt;figcaption>解密内容&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>对称加密：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">symmetric&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="gnome-keyring">Gnome Keyring&lt;/h4>
@@ -586,13 +587,13 @@ alt="解密内容">
 >github.com/zalando/go-keyring&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>Linux 中环境下，keyring 的实现目前还只支持 gnome-keyring，希望以后也能提供 kwallet 版本的接口。macOS 则支持 Keychain 存储帐号密码。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github&lt;span class="na">-user&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github&lt;span class="na">-user&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
 &lt;span class="nf">Password&lt;/span>: &lt;span class="o">&amp;lt;&lt;/span>github&lt;span class="na">-token&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>将 &lt;code>set&lt;/code> 替换成 &lt;code>get&lt;/code> 从命令行拿到所存密令，或者使用 &lt;a class="link" href="https://wiki.gnome.org/Apps/Seahorse" target="_blank" rel="noopener"
 >Seahorse&lt;/a> 客户端查看。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 125; flex-basis: 300px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png" data-size="829x663">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_3.png 1024w"
 width="829"
 height="663"
 loading="lazy"
@@ -600,7 +601,7 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 &lt;/a>
 &lt;figcaption>Seahorse 是一个管理 gnome-keyring 的软件&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
 &lt;/span>&lt;span class="x">
 &lt;/span>&lt;span class="x">[github]
 &lt;/span>&lt;span class="x"> user = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
@@ -609,16 +610,16 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 >GNOME/Keyring&lt;/a>。&lt;/p>
 &lt;h3 id="keepassxc">KeepassXC&lt;/h3>
 &lt;p>配置文件&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
 &lt;span class="p">[&lt;/span>&lt;span class="nx">keepassxc&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">args&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;--key-file&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/key&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">database&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/kdbx&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认字段有 &lt;code>Notes&lt;/code>, &lt;code>Password&lt;/code>, &lt;code>URL&lt;/code>, &lt;code>Username&lt;/code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
 &lt;img src="https://axionl.me/attributes.png" alt="KeepassXC Entry Attributes" />&lt;/p>
 &lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="结束">结束&lt;/h2>
 &lt;p>得益于数据模板的引入，chezmoi 作为一款 dotfiles manager，其配置管理功能相较之下更加强大，也有更多新的功能和应用场景可以发掘。&lt;/p></description></item><item><title>[归档] Hello, My Firefox</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</link><pubDate>Wed, 27 Jan 2021 16:24:43 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/wallhaven-eo5jko.png" alt="Featured image of post [归档] Hello, My Firefox" />&lt;blockquote>
 &lt;p>自用配置项，持续更新中&amp;hellip;&amp;hellip;&lt;/p>
@@ -627,27 +628,27 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 &lt;ul>
 &lt;li>允许加载用户样式文件（userChrome.css）&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">toolkit.legacyUserProfileCustomizations.stylesheets&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">toolkit.legacyUserProfileCustomizations.stylesheets&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>调整浏览器标签宽度&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">browser.tabs.tabClipWidth&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">83&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">browser.tabs.tabClipWidth&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">83&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>硬件加速&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">media.ffmpeg.vaapi.enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">media.ffmpeg.vaapi.enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
 &lt;span class="na">media.ffvpx.enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">false&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>配合系统环境变量使用 &lt;code>MOZ_X11_EGL=1&lt;/code> 或 &lt;code>MOZ_ENABLE_WAYLAND=1&lt;/code>，&lt;code>MOZ_WEBRENDER=1&lt;/code>&lt;/p>
 &lt;ul>
 &lt;li>Devtools&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">devtools.editor.tabsize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">4&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">devtools.editor.tabsize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">4&lt;/span>
 &lt;span class="na">devtools.debugger.remote-enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>DevTools 中还有 &lt;code>Enable browser chrome and add-on debugging toolboxes&lt;/code> 可以打开，调试扩展常用选项&lt;/p>
 &lt;ul>
 &lt;li>易用模式&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">accessibility.typeaheadfind.enablesound&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">false&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">accessibility.typeaheadfind.enablesound&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">false&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认开了这个选项，导致 Ctrl+F 搜索不到结果的时候笔记本的蜂鸣器会吼得很大声&lt;/p>
 &lt;h2 id="主题">主题&lt;/h2>
 &lt;p>&lt;img src="https://user-images.githubusercontent.com/5405629/45172944-21d91900-b24a-11e8-8bc5-03814121b0de.png" alt="MaterialFox Preview" />&lt;/p>
@@ -662,7 +663,7 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 >Tree Style Tab&lt;/a>&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 146; flex-basis: 352px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview.png" data-size="1072x730">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_1024x0_resize_box_3.png 1024w"
 width="1072"
 height="730"
 loading="lazy"
@@ -684,7 +685,7 @@ alt="TST Preview">
 &lt;ol>
 &lt;li>&lt;figure style="flex-grow: 132; flex-basis: 317px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons.png" data-size="396x299">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_1024x0_resize_box_3.png 1024w"
 width="396"
 height="299"
 loading="lazy"
@@ -694,7 +695,7 @@ alt="Debug Add-ons">
 &lt;/figure>&lt;/li>
 &lt;li>&lt;figure style="flex-grow: 327; flex-basis: 787px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime.png" data-size="692x211">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_1024x0_resize_box_3.png 1024w"
 width="692"
 height="211"
 loading="lazy"
@@ -704,7 +705,7 @@ alt="Debug Runtime">
 &lt;/figure>&lt;/li>
 &lt;li>&lt;figure style="flex-grow: 162; flex-basis: 390px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page.png" data-size="296x182">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_1024x0_resize_box_3.png 1024w"
 width="296"
 height="182"
 loading="lazy"
@@ -714,7 +715,7 @@ alt="Debug TST Page">
 &lt;/figure>&lt;/li>
 &lt;li>&lt;figure style="flex-grow: 179; flex-basis: 430px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst.png" data-size="1392x776">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_1024x0_resize_box_3.png 1024w"
 width="1392"
 height="776"
 loading="lazy"
@@ -767,7 +768,7 @@ alt="Debug TST">
 &lt;/ul>
 &lt;p>&lt;figure style="flex-grow: 175; flex-basis: 422px">
 &lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki.png" data-size="1756x998">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki.png"
-srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_1024x0_resize_box_3.png 1024w"
 width="1756"
 height="998"
 loading="lazy"
@@ -800,10 +801,10 @@ alt="ArchWiki TOC">
 &lt;li>Intel: Intel Virtual Technology&lt;/li>
 &lt;/ul>
 &lt;p>开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ &lt;span class="nv">LC_ALL&lt;/span>&lt;span class="o">=&lt;/span>C lscpu &lt;span class="p">|&lt;/span> grep Virtualization
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ &lt;span class="nv">LC_ALL&lt;/span>&lt;span class="o">=&lt;/span>C lscpu &lt;span class="p">|&lt;/span> grep Virtualization
 Virtualization: AMD-V
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 &lt;code>core/linux&lt;/code> 则已经包含了对应的 kvm 模块（&lt;code>kvm&lt;/code>、&lt;code>kvm_amd&lt;/code>或&lt;code>kvm_intel&lt;/code>）:&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ zgrep CONFIG_KVM /proc/config.gz
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ zgrep CONFIG_KVM /proc/config.gz
 &lt;span class="nv">CONFIG_KVM_GUEST&lt;/span>&lt;span class="o">=&lt;/span>y
 &lt;span class="nv">CONFIG_KVM_MMIO&lt;/span>&lt;span class="o">=&lt;/span>y
 &lt;span class="nv">CONFIG_KVM_ASYNC_PF&lt;/span>&lt;span class="o">=&lt;/span>y
@@ -817,17 +818,17 @@ Virtualization: AMD-V
 &lt;span class="nv">CONFIG_KVM_AMD_SEV&lt;/span>&lt;span class="o">=&lt;/span>y
 &lt;span class="nv">CONFIG_KVM_MMU_AUDIT&lt;/span>&lt;span class="o">=&lt;/span>y
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>查看这些内核模块是否已自动加载：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ lsmod &lt;span class="p">|&lt;/span>grep kvm
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ lsmod &lt;span class="p">|&lt;/span>grep kvm
 kvm_amd &lt;span class="m">114688&lt;/span> &lt;span class="m">8&lt;/span>
 ccp &lt;span class="m">118784&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
 kvm &lt;span class="m">933888&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
 irqbypass &lt;span class="m">16384&lt;/span> &lt;span class="m">1&lt;/span> kvm
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>如果没有自动加载则手动：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo modprobe kvm
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo modprobe kvm
 $ sudo modprobe kvm_amd &lt;span class="c1"># 对应你的 CPU 类型&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="1-准虚拟化使用-virtio">1. 准虚拟化（使用 VIRTIO）&lt;/h3>
 &lt;p>检测 VIRTIO 模块是否可用：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ zgrep VIRTIO /proc/config.gz
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ zgrep VIRTIO /proc/config.gz
 &lt;span class="nv">CONFIG_BLK_MQ_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>y
 &lt;span class="nv">CONFIG_VIRTIO_VSOCKETS&lt;/span>&lt;span class="o">=&lt;/span>m
 &lt;span class="nv">CONFIG_VIRTIO_VSOCKETS_COMMON&lt;/span>&lt;span class="o">=&lt;/span>m
@@ -860,17 +861,17 @@ $ sudo modprobe kvm_amd &lt;span class="c1"># 对应你的 CPU 类型&lt;/span>
 &lt;li>控制器设备 (virtio-scsi)&lt;/li>
 &lt;/ul>
 &lt;h3 id="2-安装-qemu">2. 安装 QEMU&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo pacman -S qemu
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo pacman -S qemu
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>Arch Wiki: &lt;a class="link" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#Setting_up_IOMMU" target="_blank" rel="noopener"
 >PCI 直通&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>如果需要启用 PCI 直通功能则需要在内核参数中添加 &lt;code>intel_iommu=on&lt;/code> 或者 &lt;code>amd_iommu=on&lt;/code>，同时可以在其后添加 &lt;code>iommu=pt&lt;/code>，以防前者失效，以下命令检测是否开启成功，由于本人所用 &lt;code>AMD Ryzen 5 4600U&lt;/code> 支持方面还有些问题，故此不做展示。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo dmesg &lt;span class="p">|&lt;/span> grep -i -e DMAR -e IOMMU
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo dmesg &lt;span class="p">|&lt;/span> grep -i -e DMAR -e IOMMU
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="3-安装-libvirt">3. 安装 libvirt&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo pacman -S libvirt virt-manager dnsmasq edk2-ovmf
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo pacman -S libvirt virt-manager dnsmasq edk2-ovmf
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>为了避免每次都需要询问 &lt;code>root&lt;/code> 密码，建议将自己的用户添加到 &lt;code>libvirt&lt;/code> 组：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo usermod -aG libvirt &amp;lt;YourUserName&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo usermod -aG libvirt &amp;lt;YourUserName&amp;gt;
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>编辑服务端配置文件 &lt;code>/etc/libvirt/libvirtd.conf&lt;/code>，取消如下几行的注释：&lt;/p>
 &lt;pre>&lt;code class="language-config" data-lang="config">unix_sock_group = &amp;quot;libvirt&amp;quot;
 unix_sock_ro_perms = &amp;quot;0777&amp;quot; # set to 0770 to deny on-group libvirt users
@@ -878,13 +879,13 @@ unix_sock_rw_perms = &amp;quot;0770&amp;quot;
 auth_unix_ro = &amp;quot;none&amp;quot;
 auth_unix_rw = &amp;quot;none&amp;quot;
 &lt;/code>&lt;/pre>&lt;p>同时添加 ipv4 的内核转发参数：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo &lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;net.ipv4.ip_forward = 1&amp;#39;&lt;/span> &amp;gt;&amp;gt; /etc/sysctl.d/00-network.conf
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo &lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;net.ipv4.ip_forward = 1&amp;#39;&lt;/span> &amp;gt;&amp;gt; /etc/sysctl.d/00-network.conf
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>设置开机启动和运行服务。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo systemctl &lt;span class="nb">enable&lt;/span> --now libvirtd.service
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo systemctl &lt;span class="nb">enable&lt;/span> --now libvirtd.service
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="4-配置-virt-manager">4. 配置 virt-manager&lt;/h3>
 &lt;p>&lt;figure style="flex-grow: 302; flex-basis: 726px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection.png" data-size="799x264">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_1024x0_resize_box_3.png 1024w"
 width="799"
 height="264"
 loading="lazy"
@@ -895,7 +896,7 @@ alt="添加连接">
 &lt;p>建议重启以应用之前的设置，此时在 &lt;code>Virtual Machine Manager&lt;/code> 的界面应该可以看到一些已经连接上的服务端，如果没有则在菜单栏自行添加，推荐初次连接系统级服务来创建虚拟机。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 96; flex-basis: 230px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm.png" data-size="547x569">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_1024x0_resize_box_3.png 1024w"
 width="547"
 height="569"
 loading="lazy"
@@ -910,7 +911,7 @@ alt="添加虚拟机">
 &lt;p>将下载到的镜像文件&lt;strong>所在目录&lt;/strong>创建为文件系统池，随后在其中选择镜像文件进行加载。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 115; flex-basis: 278px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool.png" data-size="544x469">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_1024x0_resize_box_3.png 1024w"
 width="544"
 height="469"
 loading="lazy"
@@ -919,7 +920,7 @@ alt="添加镜像池">
 &lt;figcaption>添加镜像池&lt;/figcaption>
 &lt;/figure> &lt;figure style="flex-grow: 138; flex-basis: 333px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image.png" data-size="790x569">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_1024x0_resize_box_3.png 1024w"
 width="790"
 height="569"
 loading="lazy"
@@ -930,7 +931,7 @@ alt="选择镜像">
 &lt;p>设置合适的系统资源和网络配置等（初次使用推荐用 &lt;code>NAT&lt;/code> 模式较为简单，&lt;code>Bridge&lt;/code> 模式之后会提到如何配置）。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 94; flex-basis: 227px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus.png" data-size="540x569">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_1024x0_resize_box_3.png 1024w"
 width="540"
 height="569"
 loading="lazy"
@@ -939,7 +940,7 @@ alt="虚拟机能用的内存和CPU核心数量设置">
 &lt;figcaption>虚拟机能用的内存和CPU核心数量设置&lt;/figcaption>
 &lt;/figure> &lt;figure style="flex-grow: 94; flex-basis: 227px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage.png" data-size="540x569">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_1024x0_resize_box_3.png 1024w"
 width="540"
 height="569"
 loading="lazy"
@@ -950,7 +951,7 @@ alt="存储空间设置">
 &lt;p>如果你的宿主机支持的话，推荐使用 &lt;code>UEFI&lt;/code> 模式启动（由 &lt;code>extra/edk2-ovmf&lt;/code> 这个提供，中途安装的话要重启 &lt;code>libvirtd&lt;/code> 服务以生效）。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 121; flex-basis: 290px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi.png" data-size="1064x878">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_1024x0_resize_box_3.png 1024w"
 width="1064"
 height="878"
 loading="lazy"
@@ -961,7 +962,7 @@ alt="EFI Firmware">
 &lt;p>调整镜像到启动优先级最高，最后启动工具栏上的 Begin Install 就可以安装了。
 &lt;figure style="flex-grow: 121; flex-basis: 290px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order.png" data-size="1064x878">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_1024x0_resize_box_3.png 1024w"
 width="1064"
 height="878"
 loading="lazy"
@@ -977,7 +978,7 @@ alt="更改启动优先级">
 &lt;h3 id="0-进入引导界面">0. 进入引导界面&lt;/h3>
 &lt;p>&lt;figure style="flex-grow: 146; flex-basis: 351px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub.png" data-size="768x525">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_1024x0_resize_box_3.png 1024w"
 width="768"
 height="525"
 loading="lazy"
@@ -986,7 +987,7 @@ alt="ISO Grub">
 &lt;figcaption>ISO Grub&lt;/figcaption>
 &lt;/figure> &lt;figure style="flex-grow: 121; flex-basis: 290px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin.png" data-size="1064x878">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_1024x0_resize_box_3.png 1024w"
 width="1064"
 height="878"
 loading="lazy"
@@ -999,7 +1000,7 @@ alt="NixOS 镜像启动">
 &lt;p>查看当前块设备状态，可以看到我们之前分配的盘 &lt;code>vda&lt;/code> 还未被挂载&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 295; flex-basis: 708px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk.png" data-size="449x152">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_1024x0_resize_box_3.png 1024w"
 width="449"
 height="152"
 loading="lazy"
@@ -1008,10 +1009,10 @@ alt="lsblk">
 &lt;figcaption>lsblk&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>建议使用 GPT 分区表，按照可以按照图中对 &lt;code>boot&lt;/code>、&lt;code>swap&lt;/code>(可选)和 &lt;code>root&lt;/code> 分区进行创建，注意下方 &lt;code>Type&lt;/code> 选择对应的分区类型，&lt;code>Write&lt;/code> 写入后退出。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo cfdisk /dev/vda
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo cfdisk /dev/vda
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 135; flex-basis: 324px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk.png" data-size="1025x759">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_1024x0_resize_box_3.png 1024w"
 width="1025"
 height="759"
 loading="lazy"
@@ -1020,13 +1021,13 @@ alt="cfdisk">
 &lt;figcaption>cfdisk&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>格式化分区，可以看到格式化后效果如下：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo mkfs.fat -F32 /dev/vda1
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo mkfs.fat -F32 /dev/vda1
 $ sudo mkswap /dev/vda2
 $ sudo swapon
 $ sudo mkfs.xfs -L root /dev/vda3
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 448; flex-basis: 1075px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label.png" data-size="1058x236">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_1024x0_resize_box_3.png 1024w"
 width="1058"
 height="236"
 loading="lazy"
@@ -1035,13 +1036,13 @@ alt="mkfs check">
 &lt;figcaption>mkfs check&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;h3 id="2-分区挂载">2. 分区挂载&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo mount /dev/vda3 /mnt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo mount /dev/vda3 /mnt
 $ sudo mkdir -p /mnt/boot
 $ sudo mount /dev/vda1 /mnt/boot
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>挂载后可以检查是否挂载成功，不要重复挂载。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 238; flex-basis: 572px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount.png" data-size="563x236">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_1024x0_resize_box_3.png 1024w"
 width="563"
 height="236"
 loading="lazy"
@@ -1051,12 +1052,12 @@ alt="挂载">
 &lt;/figure>&lt;/p>
 &lt;h3 id="3-系统配置">3. 系统配置&lt;/h3>
 &lt;p>由命令生成默认的配置文件：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-generate-config --root /mnt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-generate-config --root /mnt
 $ sudo nano /mnt/etc/nixos/configuration.nix
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到已经有了 &lt;code>systemd-boot&lt;/code> 作为 &lt;code>bootloader&lt;/code> 引导操作系统。其他一些基本配置，按照自己的需求取消注释并修改内容即可，注意创建用户 &lt;code>users.users.&amp;lt;YourUserName&amp;gt;&lt;/code> 及其对应的用户组，完成后 &lt;code>Ctrl + O&lt;/code> 保存。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 132; flex-basis: 318px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config.png" data-size="1082x816">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_1024x0_resize_box_3.png 1024w"
 width="1082"
 height="816"
 loading="lazy"
@@ -1069,9 +1070,9 @@ alt="config">
 &lt;p>&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/nix/" target="_blank" rel="noopener"
 >TUNA Nix Help&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixos-20.09 nixos
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixos-20.09 nixos
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>sudo nixos-install&lt;/code> 进行安装并设置 &lt;code>root&lt;/code> 密码，完成之后取消挂载并重启（记得更改启动项顺序到虚拟硬盘）。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-install
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-install
 ...
 setting root password...
 Enter new UNIX password: ***
@@ -1080,7 +1081,7 @@ $ sudo umount -r /mnt
 $ reboot
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 230; flex-basis: 553px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev.png" data-size="1135x492">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_1024x0_resize_box_3.png 1024w"
 width="1135"
 height="492"
 loading="lazy"
@@ -1091,10 +1092,10 @@ alt="调整启动顺序">
 &lt;h2 id="nixos-系统配置和使用">NixOS 系统配置和使用&lt;/h2>
 &lt;h3 id="0-检查引导状态">0. 检查引导状态&lt;/h3>
 &lt;p>重启登陆后可以查看引导状态：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo bootctl status
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo bootctl status
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 119; flex-basis: 287px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status.png" data-size="984x822">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_1024x0_resize_box_3.png 1024w"
 width="984"
 height="822"
 loading="lazy"
@@ -1104,7 +1105,7 @@ alt="systemd-boot 状态">
 &lt;/figure>&lt;/p>
 &lt;h3 id="1-配置桌面环境">1. 配置桌面环境&lt;/h3>
 &lt;p>&lt;code>/etc/nixos/configuration.conf&lt;/code> 配置文件参考如下&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-nix" data-lang="nix">&lt;span class="c1"># Edit this configuration file to define what should be installed on&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-nix" data-lang="nix">&lt;span class="c1"># Edit this configuration file to define what should be installed on&lt;/span>
 &lt;span class="c1"># your system. Help is available in the configuration.nix(5) man page&lt;/span>
 &lt;span class="c1"># and in the NixOS manual (accessible by running ‘nixos-help’).&lt;/span>
 &lt;span class="p">{&lt;/span> &lt;span class="n">config&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="o">...&lt;/span> &lt;span class="p">}:&lt;/span>
@@ -1198,11 +1199,11 @@ alt="systemd-boot 状态">
 &lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">allowUnfree&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>修改配置文件之后需要使用命令重建并推荐重启生效：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-rebuild switch --upgrade
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo nixos-rebuild switch --upgrade
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>日常使用的时候理论上可以多套配置（profile）兼容和切换，当配置过多的时候可用 &lt;code>nix-collect-garbage -d&lt;/code> 来完成，详见&lt;a class="link" href="https://nixos.org/guides/nix-pills/garbage-collector.html" target="_blank" rel="noopener"
 >文档&lt;/a>。&lt;/p>
 &lt;p>在用户层面安装软件包使用 &lt;code>nix&lt;/code> 包管理器进行搜索和安装：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ nix search &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 搜索&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ nix search &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 搜索&lt;/span>
 $ nix-env -i &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 安装&lt;/span>
 $ nix-env -qa &lt;span class="c1"># 列出可安装的包&lt;/span>
 $ nix-env -e &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 卸载软件包&lt;/span>
@@ -1214,7 +1215,7 @@ $ nix-env --rollback &lt;span class="c1"># 软件包回滚&lt;/span>
 &lt;h3 id="2-截图">2. 截图&lt;/h3>
 &lt;p>&lt;figure style="flex-grow: 175; flex-basis: 420px">
 &lt;a href="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final.png" data-size="1960x1120">&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final.png"
-srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_480x0_resize_box_2.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_1024x0_resize_box_3.png 1024w"
 width="1960"
 height="1120"
 loading="lazy"
@@ -1234,7 +1235,7 @@ alt="预览">
 &lt;h3 id="通俗易懂的说明">通俗易懂的说明&lt;/h3>
 &lt;p>&lt;figure style="flex-grow: 157; flex-basis: 379px">
 &lt;a href="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png" data-size="916x580">&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png"
-srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_2.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w"
 width="916"
 height="580"
 loading="lazy"
@@ -1249,7 +1250,7 @@ alt="introduction">
 &lt;p>虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 218; flex-basis: 523px">
 &lt;a href="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png" data-size="1019x467">&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png"
-srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_2.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w"
 width="1019"
 height="467"
 loading="lazy"
@@ -1263,7 +1264,7 @@ alt="流程示意图">
 &lt;ul>
 &lt;li>公共协议&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-proto" data-lang="proto">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-proto" data-lang="proto">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">go_package&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="kd">message&lt;/span> &lt;span class="nc">HelloMessage&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 公共消息体，未包含任何字段
@@ -1275,7 +1276,7 @@ alt="流程示意图">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>golang 客户端&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
 &lt;span class="o">...&lt;/span>
 &lt;span class="nx">pb&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>
 &lt;span class="p">)&lt;/span>
@@ -1308,7 +1309,7 @@ alt="流程示意图">
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>服务端&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
 &lt;span class="o">...&lt;/span>
 &lt;span class="nx">pb&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>
 &lt;span class="p">)&lt;/span>
@@ -1347,7 +1348,7 @@ alt="流程示意图">
 &lt;p>作为一种语言中立的协议，其在多种语言中都有对应的变量类型转换，需要特别注意是否在转换过程中出现精度丢失现象，或者并非预期类型的现象，比如 &lt;code>bytes&lt;/code> 对应到 &lt;code>C++&lt;/code> 的类型为 &lt;code>string&lt;/code>，需要自己适当转换。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 110; flex-basis: 264px">
 &lt;a href="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png" data-size="862x782">&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png"
-srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_2.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w"
 width="862"
 height="782"
 loading="lazy"
@@ -1356,7 +1357,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;figcaption>变量类型对应表 (&lt;a href="https://developers.google.com/protocol-buffers/docs/overview#scalar">https://developers.google.com/protocol-buffers/docs/overview#scalar&lt;/a>)&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>此外支持通过嵌套类型，实现结构体形式的信息的传输和还原。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="kd">message&lt;/span> &lt;span class="nc">PersonalInfo&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="kd">message&lt;/span> &lt;span class="nc">PersonalInfo&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span> &lt;span class="kt">int32&lt;/span> &lt;span class="n">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span> &lt;span class="kt">int32&lt;/span> &lt;span class="n">score&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
@@ -1390,13 +1391,13 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;ul>
 &lt;li>命令行方式&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>protoc &lt;span class="na">--plugin&lt;/span>&lt;span class="o">=&lt;/span>protoc&lt;span class="na">-gen-go-grpc&lt;/span> &lt;span class="na">--go_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">--go-grpc_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">-I&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="nf">info&lt;/span>.proto
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>protoc &lt;span class="na">--plugin&lt;/span>&lt;span class="o">=&lt;/span>protoc&lt;span class="na">-gen-go-grpc&lt;/span> &lt;span class="na">--go_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">--go-grpc_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">-I&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="nf">info&lt;/span>.proto
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>然后生成了 &lt;code>info.pb.go&lt;/code> 和 &lt;code>info_grpc.pb.go&lt;/code> 两个文件，大体上看前者管定义，后者管实现，属于同一个包。其他语言主要是将二进制插件和输出参数替换成对应语言的。&lt;/p>
 &lt;ul>
 &lt;li>cmake 包办&lt;/li>
 &lt;/ul>
 &lt;p>可以参考如下两个 &lt;code>.cmake&lt;/code> 文件，自己在 &lt;code>CMakeLists.txt&lt;/code> 中设置变量名称。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-cmake" data-lang="cmake">&lt;span class="c">## protobuf.cmake
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmake" data-lang="cmake">&lt;span class="c">## protobuf.cmake
 &lt;/span>&lt;span class="c"># Find Protobuf
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nb">find_package&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">Protobuf&lt;/span> &lt;span class="s">REQUIRED&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">
@@ -1417,7 +1418,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="c"># Generated Sources
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nb">protobuf_generate_cpp&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">API_PROTO_SRCS&lt;/span> &lt;span class="s">API_PROTO_HDRS&lt;/span> &lt;span class="s2">&amp;#34;${API_PROTO}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-cmake" data-lang="cmake">&lt;span class="c">## grpc.cmake
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmake" data-lang="cmake">&lt;span class="c">## grpc.cmake
 &lt;/span>&lt;span class="c"># Find gRPC Package
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nb">find_package&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">gRPC&lt;/span> &lt;span class="s">CONFIG&lt;/span> &lt;span class="s">REQUIRED&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">
@@ -1452,7 +1453,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="一个综合的案例">一个综合的案例&lt;/h3>
 &lt;p>&lt;a class="link" href="https://github.com/v2fly/v2ray-core/blob/master/config.proto" target="_blank" rel="noopener"
 >v2ray config.proto&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nn">v2ray&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">core&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">csharp_namespace&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;V2Ray.Core&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
@@ -1464,7 +1465,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="k">import&lt;/span> &lt;span class="s">&amp;#34;transport/config.proto&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span>&lt;span class="o">...&lt;/span>&lt;span class="err">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到首先引入了两个子 &lt;code>proto&lt;/code> 文件，其中包含一些自己项目具体定义的消息类型，以 &lt;code>typed_message.proto&lt;/code> 为例子，其中只包含了两种类型的两个字段。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="kd">message&lt;/span> &lt;span class="nc">TypedMessage&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="kd">message&lt;/span> &lt;span class="nc">TypedMessage&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span> &lt;span class="c1">// The name of the message type, retrieved from protobuf API.
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">type&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
 &lt;/span>&lt;span class="err">&lt;/span> &lt;span class="c1">// Serialized proto message.
@@ -1497,10 +1498,10 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 >CN 源&lt;/a> 里安装 &lt;code>smartdns-china-list-git&lt;/code> 以获取自动更新。&lt;/p>
 &lt;p>生成对应的配置文件操作如下，&lt;a class="link" href="https://github.com/archlinuxcn/repo/blob/c2fe2e155a35da76a879b6a9d0fe21975413bce2/archlinuxcn/dnsmasq-china-list-git/PKGBUILD#L22" target="_blank" rel="noopener"
 >具体参考&lt;/a>，可见其生成形式为 &lt;code>nameserver /&amp;lt;域名&amp;gt;/&amp;lt;组名&amp;gt;&lt;/code>，后面的组名就是对应我们后来需要的匹配规则而制定的。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cd dnsmasq&lt;span class="na">-china-list&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cd dnsmasq&lt;span class="na">-china-list&lt;/span>
 &lt;span class="nv">$ &lt;/span>make smartdns &lt;span class="nv">SERVER&lt;/span>&lt;span class="o">=&lt;/span>china
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="w"> &lt;/span>&lt;span class="c"># （可选）引入额外的规则列表，用绝对路径&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="w"> &lt;/span>&lt;span class="c"># （可选）引入额外的规则列表，用绝对路径&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/accelerated-domains.china.smartdns.conf&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/apple.china.smartdns.conf&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/google.china.smartdns.conf&lt;/span>&lt;span class="w">
@@ -1532,12 +1533,12 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;p>如果有多个分组需求，可以自定义规则配置文件，服务配置后面再添加 &lt;code>-group [组名]&lt;/code>。&lt;/p>
 &lt;p>被 &lt;code>-exclude-default-group&lt;/code> 标记为排除在默认组之内的服务需至少在一个组才可能被访问到。&lt;/p>
 &lt;h2 id="启动">启动&lt;/h2>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="c"># smartdns -c smartdns.conf
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="c"># smartdns -c smartdns.conf
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="k">or&lt;/span>
 &lt;span class="c"># systemctl enable --now smartdns.service
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>默认在后台运行，推荐使用自带的 &lt;a class="link" href="https://github.com/pymumu/smartdns/blob/master/systemd/smartdns.service.in" target="_blank" rel="noopener"
 >&lt;code>systemd service&lt;/code>&lt;/a> 来进行管理，如果 &lt;code>/ect/resolv.conf&lt;/code> 没有被更改成监听本地的话可以检查一下文件是否有特殊标志位(&lt;code>lsattr&lt;/code>)，手动修改即可(&lt;code>chattr&lt;/code> )。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cat /etc/resolv.conf
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cat /etc/resolv.conf
 &lt;span class="c"># DNS managed by SmartDNS
 &lt;/span>&lt;span class="c">&lt;/span>&lt;span class="nf">nameserver&lt;/span> &lt;span class="m">127&lt;/span>.&lt;span class="m">0&lt;/span>.&lt;span class="m">0&lt;/span>.&lt;span class="m">1&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
@@ -1558,7 +1559,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;/ol>
 &lt;p>&lt;figure style="flex-grow: 132; flex-basis: 317px">
 &lt;a href="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather.png" data-size="661x500">&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather.png"
-srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_480x0_resize_box_2.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_1024x0_resize_box_3.png 1024w"
 width="661"
 height="500"
 loading="lazy"
@@ -1566,48 +1567,49 @@ alt="botfather">
 &lt;/a>
 &lt;figcaption>botfather&lt;/figcaption>
 &lt;/figure>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-markdown" data-lang="markdown">...
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">...
 Use this token to access the HTTP API:
 &lt;span class="sb">`&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;`&lt;/span>
 Keep your token secure and store it safely, ...
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="安装-python-环境">安装 Python 环境&lt;/h3>
 &lt;blockquote>
-&lt;p>官方网站: &lt;a href="https://www.python.org/downloads">https://www.python.org/downloads&lt;/a>&lt;/p>
+&lt;p>官方网站: &lt;a class="link" href="https://www.python.org/downloads" target="_blank" rel="noopener"
+>https://www.python.org/downloads&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 &lt;code>Python&lt;/code> 即可（&lt;del>2021 年了应该都默认 Python3?)&lt;/del>&lt;/p>
 &lt;p>Windows 则 Python 官方提供了安装器，记得把 &lt;code>Python&lt;/code> 加到环境变量 (PATH) 的框给勾选上。&lt;/p>
 &lt;p>为了避免开发环境不干净对后续开发和使用系统造成影响，建议创建一个用于该机器人项目的&lt;a class="link" href="https://docs.python.org/zh-cn/3/tutorial/venv.html" target="_blank" rel="noopener"
 >虚拟环境(virtual environment)&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>python &lt;span class="na">-m&lt;/span> venv .venv // 创建了一个名为 .venv 的隐藏文件夹
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>python &lt;span class="na">-m&lt;/span> venv .venv // 创建了一个名为 .venv 的隐藏文件夹
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>对于国内使用 PyPi 源速度不是很给力的情况，可以考虑替换镜像源为&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/" target="_blank" rel="noopener"
 >清华源&lt;/a>&lt;/p>
 &lt;p>也可以写入默认配置文件 &lt;code>~/.config/pip/pip.conf&lt;/code>（如果没有则&lt;a class="link" href="https://pip.pypa.io/en/stable/user_guide/#config-file" target="_blank" rel="noopener"
 >创建&lt;/a>）&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="k">[global]&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="k">[global]&lt;/span>
 &lt;span class="na">index-url&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">https://pypi.tuna.tsinghua.edu.cn/simple&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>可以查看设置是否生效&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip config list
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip config list
 &lt;span class="nf">global&lt;/span>.index&lt;span class="na">-url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;https://pypi.tuna.tsinghua.edu.cn/simple&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>创建虚拟环境后，您可以激活它，进入项目所在目录。&lt;/p>
 &lt;ul>
 &lt;li>在 Windows 上，运行:&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-cmd" data-lang="cmd">tutorial-env\Scripts\activate.bat
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmd" data-lang="cmd">tutorial-env\Scripts\activate.bat
 &lt;/code>&lt;/pre>&lt;/div>&lt;ul>
 &lt;li>在 Unix 或 MacOS 上，运行:&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ &lt;span class="nb">source&lt;/span> tutorial-env/bin/activate
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ &lt;span class="nb">source&lt;/span> tutorial-env/bin/activate
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>对于 &lt;code>csh&lt;/code> 和 &lt;code>fish shell&lt;/code> 分别对应名为 &lt;code>activate.csh&lt;/code> 和 &lt;code>activate.fish&lt;/code> 的脚本&lt;/p>
 &lt;h3 id="安装软件包依赖">安装软件包依赖&lt;/h3>
 &lt;blockquote>
 &lt;p>&lt;a class="link" href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener"
 >python telegram bot 项目地址&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip install python&lt;span class="na">-telegram-bot&lt;/span> &lt;span class="na">--upgrade&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip install python&lt;span class="na">-telegram-bot&lt;/span> &lt;span class="na">--upgrade&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以将依赖导出到文件，便于开发迁移&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip freeze &lt;span class="o">&amp;gt;&lt;/span> requirements.txt
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip freeze &lt;span class="o">&amp;gt;&lt;/span> requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="coding-time">Coding Time&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
 &lt;span class="c1"># 从环境变量中读取 TOKEN 减少硬编码可能带来的泄漏风险&lt;/span>
 &lt;span class="c1"># 如果只是本地测试的话可以直接把 TOKEN 粘贴到程序中&lt;/span>
 &lt;span class="n">TOKEN&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;TELEGRAM_BOT_TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
@@ -1622,7 +1624,7 @@ Keep your token secure and store it safely, ...
 &lt;span class="k">if&lt;/span> &lt;span class="vm">__name__&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;__main__&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="n">main&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>上述几行代码构成了整个机器人的基本框架，包含了机器人身份认证和开启机器人服务等。我们还需要向该框架内注册具体的方法，以实现所需功能。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">start&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">start&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Send a message when the command /start is issued.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
 &lt;span class="n">reply_text&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;你好～&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
 &lt;span class="n">user&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">from_user&lt;/span>
@@ -1650,7 +1652,7 @@ Keep your token secure and store it safely, ...
 >上游 API 文档&lt;/a>。&lt;/p>
 &lt;p>回到需求，我们需要的检测关键词部分也是从 &lt;code>Update&lt;/code> 中来，用关键词列表简单演示，当消息中包含关键词的时候发送一个表情，或者其他类型的回复&lt;a class="link" href="https://python-telegram-bot.readthedocs.io/en/stable/telegram.message.html?highlight=Message" target="_blank" rel="noopener"
 >详见 Message 类文档&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="kn">from&lt;/span> &lt;span class="nn">telegram&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Sticker&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="kn">from&lt;/span> &lt;span class="nn">telegram&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Sticker&lt;/span>
 &lt;span class="c1"># 临时创建一个表情量&lt;/span>
 &lt;span class="n">sticker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">file_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;CAACAgUAAxkBAAIMOV_jA7I0IAABMbqNVNGkJWZNiDRT6QACiwIAArL6ew6tFsY1eQy9Lx4E&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
 &lt;span class="n">file_unique_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;AgADiwIAArL6ew4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">480&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">height&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">512&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">is_animated&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
@@ -1662,7 +1664,7 @@ Keep your token secure and store it safely, ...
 &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 209; flex-basis: 503px">
 &lt;a href="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview.png" data-size="596x284">&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview.png"
-srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_480x0_resize_box_2.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_1024x0_resize_box_3.png 1024w"
 width="596"
 height="284"
 loading="lazy"
@@ -1677,7 +1679,7 @@ alt="echo">
 &lt;/ul>
 &lt;h4 id="sticker-信息">Sticker 信息&lt;/h4>
 &lt;p>可以添加一个专用于获取表情包信息的句柄&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
 &lt;span class="o">...&lt;/span>
@@ -1687,7 +1689,7 @@ alt="echo">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>为了便于理解这里在服务端后台直接输出表情包信息作为日志，对于一些要动态添加表情包和对应关键字的需求来说，一个轻便的可持久化数据才是更好的选择。创建 Sticker 实例的时候注意不要遗漏必要的传入参数。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 736; flex-basis: 1768px">
 &lt;a href="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info.png" data-size="862x117">&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info.png"
-srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_480x0_resize_box_2.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_1024x0_resize_box_3.png 1024w"
 width="862"
 height="117"
 loading="lazy"
@@ -1697,14 +1699,14 @@ alt="sticker_info">
 &lt;/figure>&lt;/p>
 &lt;h4 id="如何回复指定的消息">如何回复指定的消息&lt;/h4>
 &lt;p>简单来说这就是一个套娃过程，从包含关键字消息的 &lt;code>reply_to_message&lt;/code> 成员可以判断并拿到上一条回复的消息，回复拿到的上一条消息即可，从而实现精准打击（x&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-python" data-lang="python"> &lt;span class="o">...&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python"> &lt;span class="o">...&lt;/span>
 &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_to_message&lt;/span>
 &lt;span class="k">if&lt;/span> &lt;span class="n">msg&lt;/span> &lt;span class="ow">is&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
 &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;span class="o">...&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure style="flex-grow: 155; flex-basis: 373px">
 &lt;a href="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply.png" data-size="666x428">&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply.png"
-srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_480x0_resize_box_2.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_1024x0_resize_box_3.png 1024w"
 width="666"
 height="428"
 loading="lazy"
@@ -1735,7 +1737,7 @@ alt="reply to your reply">
 &lt;/ul>
 &lt;h2 id="快速配置">快速配置&lt;/h2>
 &lt;h3 id="服务端及-web-管理平台">服务端及 Web 管理平台&lt;/h3>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 数据存放目录&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">auth_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
@@ -1767,14 +1769,14 @@ alt="reply to your reply">
 &lt;li>所有的登陆行文均在 &lt;code>web_listen_addr&lt;/code> 所指示的地址发生。&lt;/li>
 &lt;li>注意证书所对应的域名与可访问的相同&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ teleport start --config teleport.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ teleport start --config teleport.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>tctl&lt;/code> 是 &lt;code>teleport&lt;/code> 的一个命令行管理工具，在 &lt;code>teleport&lt;/code> 服务运行时，可以由它对用户、节点、密令等进行动态管理。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># 创建一个初始用户&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># 创建一个初始用户&lt;/span>
 $ tctl users add &amp;lt;username&amp;gt; &amp;lt;login_user, login_group&amp;gt; --config teleport.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>添加好用户后可访问提示的地址，输入账户密码，用手机两步验证器扫码后填入验证码即可初始化成功。配置文件中支持除 &lt;code>otp&lt;/code> 外还支持 &lt;code>github auth&lt;/code> 认证等方式。&lt;/p>
 &lt;p>&lt;figure style="flex-grow: 120; flex-basis: 289px">
 &lt;a href="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png" data-size="884x734">&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png"
-srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_2.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_3.png 1024w"
 width="884"
 height="734"
 loading="lazy"
@@ -1783,7 +1785,7 @@ alt="注册界面">
 &lt;figcaption>注册界面&lt;/figcaption>
 &lt;/figure> &lt;figure style="flex-grow: 99; flex-basis: 238px">
 &lt;a href="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login.png" data-size="700x705">&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login.png"
-srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_2.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_3.png 1024w"
 width="700"
 height="705"
 loading="lazy"
@@ -1810,7 +1812,7 @@ alt="登陆界面">
 &lt;/ul>
 &lt;h4 id="静态子节点">静态子节点&lt;/h4>
 &lt;p>静态子节点配置文件需要对应服务端里的地址和 &lt;code>&amp;lt;nodes_auth_token&amp;gt;&lt;/code>，随后直接在节点上运行即可。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">nodename&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;my_laptop&amp;#34;&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport/&lt;/span>&lt;span class="w">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">auth_token&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;nodes_auth_token&amp;gt;&lt;/span>&lt;span class="w">
@@ -1826,16 +1828,16 @@ alt="登陆界面">
 &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地子节点暂时无需启动认证服务端&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="动态子节点">动态子节点&lt;/h4>
 &lt;p>动态子节点需要在服务端上进行添加，由以下命令生成一个临时的 &lt;code>token&lt;/code> 以添加子节点。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ tctl nodes add --roles&lt;span class="o">=&lt;/span>node,proxy --ttl&lt;span class="o">=&lt;/span>5m --config teleport.yaml
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ tctl nodes add --roles&lt;span class="o">=&lt;/span>node,proxy --ttl&lt;span class="o">=&lt;/span>5m --config teleport.yaml
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>得到形如下方的命令：&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ teleport start &lt;span class="se">\
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ teleport start &lt;span class="se">\
 &lt;/span>&lt;span class="se">&lt;/span> --roles&lt;span class="o">=&lt;/span>node,proxy &lt;span class="se">\
 &lt;/span>&lt;span class="se">&lt;/span> --token&lt;span class="o">=&lt;/span>&amp;lt;random_token&amp;gt; &lt;span class="se">\
 &lt;/span>&lt;span class="se">&lt;/span> --auth-server&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt;
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>添加成功后可以在 &lt;code>web&lt;/code> 界面内看到所有的节点。
 &lt;figure style="flex-grow: 454; flex-basis: 1089px">
 &lt;a href="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png" data-size="822x181">&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png"
-srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_2.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_2.png 1024w"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_3.png 1024w"
 width="822"
 height="181"
 loading="lazy"
@@ -1845,15 +1847,15 @@ alt="Server Page">
 &lt;/figure>&lt;/p>
 &lt;h3 id="客户端">客户端&lt;/h3>
 &lt;p>安装包内自带一个名为 &lt;code>tsh&lt;/code> 的可执行文件，用于命令行认证和登陆&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh login --proxy&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt; --user&lt;span class="o">=&lt;/span>&amp;lt;username&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh login --proxy&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt; --user&lt;span class="o">=&lt;/span>&amp;lt;username&amp;gt;
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>登陆后可以使用 &lt;code>ls&lt;/code> 命令查看已添加的节点&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh ls
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh ls
 Node Name Address Labels
 -------------- -------------- ----------------
 demo_cluster 127.0.0.1:3022 &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>core_service
 my_laptop ⟵ Tunnel &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>local_node
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>ssh&lt;/code> 来登陆节点终端&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh ssh &amp;lt;node_name&amp;gt;
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ tsh ssh &amp;lt;node_name&amp;gt;
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="高级配置">高级配置&lt;/h2>
 &lt;h3 id="配合-k8s-管理服务">配合 K8S 管理服务&lt;/h3>
 &lt;p>TBC&amp;hellip;&lt;/p>
