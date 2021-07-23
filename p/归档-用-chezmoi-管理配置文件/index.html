@@ -270,7 +270,11 @@ Linux
 </code></pre></div><p>默认字段有 <code>Notes</code>, <code>Password</code>, <code>URL</code>, <code>Username</code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{ (keepassxc &#34;&lt;YourEntry&gt;&#34;).Password }}&#39;</span>
 </code></pre></div><p>KeepassXC 支持自定义字段，比如你的密钥：
-<img src=/attributes.png alt="KeepassXC Entry Attributes"></p>
+<figure style=flex-grow:127;flex-basis:305px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png data-size=970x761><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w" width=970 height=761 loading=lazy alt="KeepassXC Entry Attributes">
+</a>
+<figcaption>KeepassXC Entry Attributes</figcaption>
+</figure></p>
 <p>在模板中用 <code>keepassxcAttribute</code> 获取：</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{ keepassxcAttribute &#34;VPS Keyring&#34; &#34;public-key&#34; }}&#39;</span>
 </code></pre></div><h2 id=结束>结束</h2>

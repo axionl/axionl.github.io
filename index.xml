@@ -617,7 +617,16 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认字段有 &lt;code>Notes&lt;/code>, &lt;code>Password&lt;/code>, &lt;code>URL&lt;/code>, &lt;code>Username&lt;/code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
-&lt;img src="https://axionl.me/attributes.png" alt="KeepassXC Entry Attributes" />&lt;/p>
+&lt;figure style="flex-grow: 127; flex-basis: 305px">
+&lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png" data-size="970x761">&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w"
+width="970"
+height="761"
+loading="lazy"
+alt="KeepassXC Entry Attributes">
+&lt;/a>
+&lt;figcaption>KeepassXC Entry Attributes&lt;/figcaption>
+&lt;/figure>&lt;/p>
 &lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="结束">结束&lt;/h2>
