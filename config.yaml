@@ -34,6 +34,7 @@ params:
     emoji: "\U0001F431"
     subtitle: 「 一個你知道的地方，和一個沒有酒的故事 ｜ 言文 」
     avatar:
+      enabled: true
       local: true
       src: "/img/avatar.jpg"
     twitter:

@@ -9,25 +9,27 @@
         <a href="{{ .Site.BaseURL }}">
             <div class="site-avatar-container">
                 {{ with .Site.Params.sidebar.avatar }}
-                <figure class="site-avatar">
-                    {{ if not .local }}
-                    <img src="{{ .src }}" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
-                    {{ else }}
-                    {{ $avatar := resources.Get (.src) }}
+                {{ if (default true .enabled) }}
+                    <figure class="site-avatar">
+                        {{ if not .local }}
+                        <img src="{{ .src }}" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                        {{ else }}
+                        {{ $avatar := resources.Get (.src) }}
 
-                    {{ if $avatar }}
-                    {{ $avatarResized := $avatar.Resize "300x" }}
-                    <img src="{{ $avatarResized.RelPermalink }}" width="{{ $avatarResized.Width }}"
-                        height="{{ $avatarResized.Height }}" class="site-logo" loading="lazy" alt="Avatar">
-                    {{ else }}
-                    {{ errorf "Failed loading avatar from %q" . }}
-                    {{ end }}
-                    {{ end }}
+                        {{ if $avatar }}
+                        {{ $avatarResized := $avatar.Resize "300x" }}
+                        <img src="{{ $avatarResized.RelPermalink }}" width="{{ $avatarResized.Width }}"
+                            height="{{ $avatarResized.Height }}" class="site-logo" loading="lazy" alt="Avatar">
+                        {{ else }}
+                        {{ errorf "Failed loading avatar from %q" . }}
+                        {{ end }}
+                        {{ end }}
 
-                    {{ with $.Site.Params.sidebar.emoji }}
-                    <span class="emoji">{{ . }}</span>
+                        {{ with $.Site.Params.sidebar.emoji }}
+                        <span class="emoji">{{ . }}</span>
+                        {{ end }}
+                    </figure>
                     {{ end }}
-                </figure>
                 {{ end }}
             </div>
         </a>
