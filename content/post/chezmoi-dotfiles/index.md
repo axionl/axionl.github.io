@@ -316,7 +316,7 @@ $ chezmoi execute-template '{{ (keepassxc "<YourEntry>").Password }}'
 ```
 
 KeepassXC 支持自定义字段，比如你的密钥：
-![KeepassXC Entry Attributes](./attributes.png)
+![KeepassXC Entry Attributes](attributes.png)
 
 在模板中用 `keepassxcAttribute` 获取：
 
