@@ -280,7 +280,9 @@ Rectangle {
 
 ## 事件和交互
 
-虽然 `QtQuick.Controls` 中提供了 `Button` 控件，但是我们仍然可以先为自己创立一个简单的按钮。
+### 事件触发
+
+虽然 `QtQuick.Controls` 中提供了 `Button` 控件，但是我们仍然可以先为自己创立一个简单的按钮，通过鼠标点击这一事件理解其基本实现。
 
 ```qml
 Rectangle {
@@ -299,28 +301,32 @@ Rectangle {
         color: "white"      // 文字颜色
     }
 
-    // 覆盖全按键的鼠标动作区域
+    // 大小和位置覆盖全按钮的鼠标动作区域
     MouseArea {
         anchors.fill: parent
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         hoverEnabled: true  // 允许响应鼠标停留
 
         onEntered: {
-            parent.color = Qt.lighter(button.color, 0.8)  // 进入颜色变深
-            parent.opacity = 1.0 // 不透明
+            parent.color = Qt.lighter(button.color, 0.8);  // 进入颜色变深
+            parent.opacity = 1.0; // 不透明
         }
 
         onExited: {
-            parent.color =  Qt.lighter(button.color, 0.9) // 退出颜色变浅
-            parent.opacity = 0.7
+            parent.color =  Qt.lighter(button.color, 0.9); // 退出颜色变浅
+            parent.opacity = 0.7;
         }
 
         onClicked: {
-            parent.color =  Qt.lighter(button.color, 1.1) // 点击颜色变亮
+            parent.color =  Qt.lighter(button.color, 1.1); // 点击颜色变亮
         }
     }
 }
 ```
+
+`Qt.lighter()` 和 `Qt.darker()`是 `color` 属性内置的两个方法，用于相对调整颜色的深浅。运行时，鼠标放到按钮上方即可看见按钮颜色变化。
+
+> [darker-method](https://doc.qt.io/qt-5/qml-qtqml-qt.html#darker-method) | [lighter-method](https://doc.qt.io/qt-5/qml-qtqml-qt.html#lighter-method)
 
 这里有一个常见用法可以将需要设置的属性用 `property` 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 `state` 可以提供若干个对象默认状态进行切换，这部分后面会见到。
 
@@ -333,3 +339,158 @@ Rectangle {
     color: buttonColor  // 引用属性值
 }
 ```
+
+### 事件交互（响应）
+
+那么如何使得按钮能够响应我需要的事件呢，比如说点击按钮后用系统默认浏览器打开一个网址：
+
+```qml
+Rectangle {
+    property string url: "https://axionl.me"
+    
+    text: "ClickMe!"
+
+    onClicked: {
+        openURL(url); // 我们需要实现一个形如这样的方法
+    }
+}
+```
+
+好在作为一个常见功能，QML 已经将其置为默认对象的方法之一，点击后即可调用默认浏览器打开所设置的网址
+
+> [openUrlExternally-method](https://doc.qt.io/qt-5/qml-qtqml-qt.html#openUrlExternally-method)
+
+```qml
+Rectangle {
+    property string url: "https://axionl.me"
+    
+    text: "ClickMe!"
+
+    onClicked: {
+        Qt.openUrlExternally(url); // 使用默认提供的方法
+    }
+}
+```
+
+### 自定义类型和方法
+
+在 C++ 中先写一个基于 `QObject` 父类的类对象，并实现所需的方法。
+
+```c++
+// my_button.hpp
+class MyButton : public QObject
+{
+    Q_OBJECT
+public:
+    explicit MyButton(QObject *parent = nullptr) {};
+
+    Q_INVOKABLE void openUrl(const QUrl& url) {
+        bool err = QDesktopServices::openUrl(url);
+        if (err) {
+            qDebug() << "Failed to open url";
+        }
+    };
+};
+```
+
+我们用 `Q_INVOKABLE` 宏声明了一个可以被外部调用（指 QML 中用 javascript 调用）的方法 `void openUrl(const QUrl& url)`。
+
+> [QDesktopServices](https://doc.qt.io/qt-5/qdesktopservices.html)
+> |
+> 该方法是对 `QDesktopServices` 类中打开链接方法的套用，其在不同平台下其会调用系统浏览器来打开链接。当然也可以自行实现，比如 Linux 平台如果装了 `extra/xdg-utils` 可以利用 `xdg-open` 来打开链接。
+
+```c++
+// main.cpp
+import "my_button.hpp"
+
+int main(int argc, char *argv[])
+{
+    QGuiApplication app(argc, argv);
+
+    // ...
+
+    // 声明自定义对象
+    qmlRegisterType<MyButton>("MyApp", 1, 0, "MyButton");
+
+    // ...
+
+    QQmlApplicationEngine engine;
+
+    return app.exec();
+}
+```
+
+简单注册如上，`qmlRegisterType<类名>("包名", 主版本号, 次版本号, "对象名");`，然后在所需的 qml 文件中引入。
+
+```qml
+import MyApp 1.0
+
+Item {
+    // 以对象名为组件名
+    MyButton {
+        id: myButton // 实例化对象
+    }
+
+    Rectangle {
+        property string url: "https://axionl.me"
+        
+        text: "ClickMe!"
+
+        onClicked: {
+            myButton.openUrl(url); // 使用自己实现的方法
+        }
+    }   
+}
+```
+
+也可以先在 C++ 中实例化一个对象，再传入对象引用。
+
+```c++
+// main.cpp
+import "my_button.hpp"
+
+int main(int argc, char *argv[])
+{
+    QGuiApplication app(argc, argv);
+
+    // ...
+
+
+    // 实例化一个对象
+    MyButton my_button;
+
+    // ...
+
+    QQmlApplicationEngine engine;
+
+    // 传入对象引用
+    engine.rootContext()->setContextProperty(QStringLiteral("myButtonObject"), &my_button); // 全局使用时，设置唯一名称
+
+    return app.exec();
+}
+```
+
+此时我们不再需要注册声明该对象，也无需在 QML 中引入和实例化，而是直接调用该对象的方法。
+
+```qml
+Rectangle {
+    property string url: "https://axionl.me"
+    
+    text: "ClickMe!"
+
+    onClicked: {
+        myButtonObjecton.openUrl(url); // 直接调用对象方法
+    }
+}
+```
+
+## 小节
+
+至此已经实现了 Demo 的全部功能：
+
+- 一个用于展示的界面
+- 能用默认浏览器打开链接的按钮
+
+本节基本介绍了 QML 的组织结构和简单事件交互的实现方法，下一节将以一个新的例子来介绍信号量和信号槽这一对重要的概念，以及 C++ 后端代码到 QML 的数据绑定实现。
+
+> 另外还建立了个人讨论群方便大家互相交流: https://t.me/Qt_CN
