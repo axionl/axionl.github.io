@@ -315,7 +315,8 @@ Tutorial
 <figcaption>no_z_index</figcaption>
 </figure></p>
 <h2 id=事件和交互>事件和交互</h2>
-<p>虽然 <code>QtQuick.Controls</code> 中提供了 <code>Button</code> 控件，但是我们仍然可以先为自己创立一个简单的按钮。</p>
+<h3 id=事件触发>事件触发</h3>
+<p>虽然 <code>QtQuick.Controls</code> 中提供了 <code>Button</code> 控件，但是我们仍然可以先为自己创立一个简单的按钮，通过鼠标点击这一事件理解其基本实现。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=nx>Rectangle</span> <span class=p>{</span>
     <span class=kd>id: button</span>
     <span class=k>implicitHeight:</span> <span class=mi>48</span>
@@ -332,28 +333,32 @@ Tutorial
 </span><span class=c1></span>        <span class=k>color:</span> <span class=s2>&#34;white&#34;</span>      <span class=c1>// 文字颜色
 </span><span class=c1></span>    <span class=p>}</span>
 
-    <span class=c1>// 覆盖全按键的鼠标动作区域
+    <span class=c1>// 大小和位置覆盖全按钮的鼠标动作区域
 </span><span class=c1></span>    <span class=nx>MouseArea</span> <span class=p>{</span>
         <span class=k>anchors.fill:</span> <span class=nx>parent</span>
         <span class=k>Layout.alignment:</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignHCenter</span> <span class=o>|</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>AlignVCenter</span>
         <span class=k>hoverEnabled:</span> <span class=kc>true</span>  <span class=c1>// 允许响应鼠标停留
 </span><span class=c1></span>
         <span class=k>onEntered:</span> <span class=p>{</span>
-            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>0.8</span><span class=p>)</span>  <span class=c1>// 进入颜色变深
-</span><span class=c1></span>            <span class=nx>parent</span><span class=p>.</span><span class=nx>opacity</span> <span class=o>=</span> <span class=mf>1.0</span> <span class=c1>// 不透明
+            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span> <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>0.8</span><span class=p>);</span>  <span class=c1>// 进入颜色变深
+</span><span class=c1></span>            <span class=nx>parent</span><span class=p>.</span><span class=nx>opacity</span> <span class=o>=</span> <span class=mf>1.0</span><span class=p>;</span> <span class=c1>// 不透明
 </span><span class=c1></span>        <span class=p>}</span>
 
         <span class=k>onExited:</span> <span class=p>{</span>
-            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span>  <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>0.9</span><span class=p>)</span> <span class=c1>// 退出颜色变浅
-</span><span class=c1></span>            <span class=nx>parent</span><span class=p>.</span><span class=nx>opacity</span> <span class=o>=</span> <span class=mf>0.7</span>
+            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span>  <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>0.9</span><span class=p>);</span> <span class=c1>// 退出颜色变浅
+</span><span class=c1></span>            <span class=nx>parent</span><span class=p>.</span><span class=nx>opacity</span> <span class=o>=</span> <span class=mf>0.7</span><span class=p>;</span>
         <span class=p>}</span>
 
         <span class=k>onClicked:</span> <span class=p>{</span>
-            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span>  <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>1.1</span><span class=p>)</span> <span class=c1>// 点击颜色变亮
+            <span class=nx>parent</span><span class=p>.</span><span class=nx>color</span> <span class=o>=</span>  <span class=nx>Qt</span><span class=p>.</span><span class=nx>lighter</span><span class=p>(</span><span class=nx>button</span><span class=p>.</span><span class=nx>color</span><span class=p>,</span> <span class=mf>1.1</span><span class=p>);</span> <span class=c1>// 点击颜色变亮
 </span><span class=c1></span>        <span class=p>}</span>
     <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><p>这里有一个常见用法可以将需要设置的属性用 <code>property</code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 <code>state</code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。</p>
+</code></pre></div><p><code>Qt.lighter()</code> 和 <code>Qt.darker()</code>是 <code>color</code> 属性内置的两个方法，用于相对调整颜色的深浅。运行时，鼠标放到按钮上方即可看见按钮颜色变化。</p>
+<blockquote>
+<p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#darker-method target=_blank rel=noopener>darker-method</a> | <a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#lighter-method target=_blank rel=noopener>lighter-method</a></p>
+</blockquote>
+<p>这里有一个常见用法可以将需要设置的属性用 <code>property</code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 <code>state</code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=nx>Rectangle</span> <span class=p>{</span>
     <span class=c1>// ...
 </span><span class=c1></span>    <span class=nx>property</span> <span class=nx>string</span> <span class=k>buttonColor:</span> <span class=s2>&#34;#ef7e9ceb&#34;</span>
@@ -361,7 +366,132 @@ Tutorial
 
     <span class=k>color:</span> <span class=nx>buttonColor</span>  <span class=c1>// 引用属性值
 </span><span class=c1></span><span class=p>}</span>
-</code></pre></div>
+</code></pre></div><h3 id=事件交互响应>事件交互（响应）</h3>
+<p>那么如何使得按钮能够响应我需要的事件呢，比如说点击按钮后用系统默认浏览器打开一个网址：</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=nx>Rectangle</span> <span class=p>{</span>
+    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
+    
+    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
+
+    <span class=k>onClicked:</span> <span class=p>{</span>
+        <span class=nx>openURL</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 我们需要实现一个形如这样的方法
+</span><span class=c1></span>    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>好在作为一个常见功能，QML 已经将其置为默认对象的方法之一，点击后即可调用默认浏览器打开所设置的网址</p>
+<blockquote>
+<p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#openUrlExternally-method target=_blank rel=noopener>openUrlExternally-method</a></p>
+</blockquote>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=nx>Rectangle</span> <span class=p>{</span>
+    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
+    
+    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
+
+    <span class=k>onClicked:</span> <span class=p>{</span>
+        <span class=nx>Qt</span><span class=p>.</span><span class=nx>openUrlExternally</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 使用默认提供的方法
+</span><span class=c1></span>    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=自定义类型和方法>自定义类型和方法</h3>
+<p>在 C++ 中先写一个基于 <code>QObject</code> 父类的类对象，并实现所需的方法。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=c1>// my_button.hpp
+</span><span class=c1></span><span class=k>class</span> <span class=nc>MyButton</span> <span class=o>:</span> <span class=k>public</span> <span class=n>QObject</span>
+<span class=p>{</span>
+    <span class=n>Q_OBJECT</span>
+<span class=k>public</span><span class=o>:</span>
+    <span class=k>explicit</span> <span class=n>MyButton</span><span class=p>(</span><span class=n>QObject</span> <span class=o>*</span><span class=n>parent</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{};</span>
+
+    <span class=n>Q_INVOKABLE</span> <span class=kt>void</span> <span class=nf>openUrl</span><span class=p>(</span><span class=k>const</span> <span class=n>QUrl</span><span class=o>&amp;</span> <span class=n>url</span><span class=p>)</span> <span class=p>{</span>
+        <span class=kt>bool</span> <span class=n>err</span> <span class=o>=</span> <span class=n>QDesktopServices</span><span class=o>::</span><span class=n>openUrl</span><span class=p>(</span><span class=n>url</span><span class=p>);</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>err</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>qDebug</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Failed to open url&#34;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>};</span>
+<span class=p>};</span>
+</code></pre></div><p>我们用 <code>Q_INVOKABLE</code> 宏声明了一个可以被外部调用（指 QML 中用 javascript 调用）的方法 <code>void openUrl(const QUrl& url)</code>。</p>
+<blockquote>
+<p><a class=link href=https://doc.qt.io/qt-5/qdesktopservices.html target=_blank rel=noopener>QDesktopServices</a>
+|
+该方法是对 <code>QDesktopServices</code> 类中打开链接方法的套用，其在不同平台下其会调用系统浏览器来打开链接。当然也可以自行实现，比如 Linux 平台如果装了 <code>extra/xdg-utils</code> 可以利用 <code>xdg-open</code> 来打开链接。</p>
+</blockquote>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=c1>// main.cpp
+</span><span class=c1></span><span class=n>import</span> <span class=s>&#34;my_button.hpp&#34;</span>
+
+<span class=kt>int</span> <span class=n>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+<span class=p>{</span>
+    <span class=n>QGuiApplication</span> <span class=nf>app</span><span class=p>(</span><span class=n>argc</span><span class=p>,</span> <span class=n>argv</span><span class=p>);</span>
+
+    <span class=c1>// ...
+</span><span class=c1></span>
+    <span class=c1>// 声明自定义对象
+</span><span class=c1></span>    <span class=n>qmlRegisterType</span><span class=o>&lt;</span><span class=n>MyButton</span><span class=o>&gt;</span><span class=p>(</span><span class=s>&#34;MyApp&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=s>&#34;MyButton&#34;</span><span class=p>);</span>
+
+    <span class=c1>// ...
+</span><span class=c1></span>
+    <span class=n>QQmlApplicationEngine</span> <span class=n>engine</span><span class=p>;</span>
+
+    <span class=k>return</span> <span class=n>app</span><span class=p>.</span><span class=n>exec</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div><p>简单注册如上，<code>qmlRegisterType&lt;类名>("包名", 主版本号, 次版本号, "对象名");</code>，然后在所需的 qml 文件中引入。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=kr>import</span> <span class=nx>MyApp</span> <span class=mf>1.0</span>
+
+<span class=nx>Item</span> <span class=p>{</span>
+    <span class=c1>// 以对象名为组件名
+</span><span class=c1></span>    <span class=nx>MyButton</span> <span class=p>{</span>
+        <span class=kd>id: myButton</span> <span class=c1>// 实例化对象
+</span><span class=c1></span>    <span class=p>}</span>
+
+    <span class=nx>Rectangle</span> <span class=p>{</span>
+        <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
+        
+        <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
+
+        <span class=k>onClicked:</span> <span class=p>{</span>
+            <span class=nx>myButton</span><span class=p>.</span><span class=nx>openUrl</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 使用自己实现的方法
+</span><span class=c1></span>        <span class=p>}</span>
+    <span class=p>}</span>   
+<span class=p>}</span>
+</code></pre></div><p>也可以先在 C++ 中实例化一个对象，再传入对象引用。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=c1>// main.cpp
+</span><span class=c1></span><span class=n>import</span> <span class=s>&#34;my_button.hpp&#34;</span>
+
+<span class=kt>int</span> <span class=n>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+<span class=p>{</span>
+    <span class=n>QGuiApplication</span> <span class=nf>app</span><span class=p>(</span><span class=n>argc</span><span class=p>,</span> <span class=n>argv</span><span class=p>);</span>
+
+    <span class=c1>// ...
+</span><span class=c1></span>
+
+    <span class=c1>// 实例化一个对象
+</span><span class=c1></span>    <span class=n>MyButton</span> <span class=n>my_button</span><span class=p>;</span>
+
+    <span class=c1>// ...
+</span><span class=c1></span>
+    <span class=n>QQmlApplicationEngine</span> <span class=n>engine</span><span class=p>;</span>
+
+    <span class=c1>// 传入对象引用
+</span><span class=c1></span>    <span class=n>engine</span><span class=p>.</span><span class=n>rootContext</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>setContextProperty</span><span class=p>(</span><span class=n>QStringLiteral</span><span class=p>(</span><span class=s>&#34;myButtonObject&#34;</span><span class=p>),</span> <span class=o>&amp;</span><span class=n>my_button</span><span class=p>);</span> <span class=c1>// 全局使用时，设置唯一名称
+</span><span class=c1></span>
+    <span class=k>return</span> <span class=n>app</span><span class=p>.</span><span class=n>exec</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div><p>此时我们不再需要注册声明该对象，也无需在 QML 中引入和实例化，而是直接调用该对象的方法。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=nx>Rectangle</span> <span class=p>{</span>
+    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
+    
+    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
+
+    <span class=k>onClicked:</span> <span class=p>{</span>
+        <span class=nx>myButtonObjecton</span><span class=p>.</span><span class=nx>openUrl</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 直接调用对象方法
+</span><span class=c1></span>    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=小节>小节</h2>
+<p>至此已经实现了 Demo 的全部功能：</p>
+<ul>
+<li>一个用于展示的界面</li>
+<li>能用默认浏览器打开链接的按钮</li>
+</ul>
+<p>本节基本介绍了 QML 的组织结构和简单事件交互的实现方法，下一节将以一个新的例子来介绍信号量和信号槽这一对重要的概念，以及 C++ 后端代码到 QML 的数据绑定实现。</p>
+<blockquote>
+<p>另外还建立了个人讨论群方便大家互相交流: <a class=link href=https://t.me/Qt_CN target=_blank rel=noopener>https://t.me/Qt_CN</a></p>
+</blockquote>
 </section>
 <footer class=article-footer>
 <section class=article-tags>
@@ -503,7 +633,14 @@ Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=
 <li><a href=#样式>样式</a></li>
 </ol>
 </li>
-<li><a href=#事件和交互>事件和交互</a></li>
+<li><a href=#事件和交互>事件和交互</a>
+<ol>
+<li><a href=#事件触发>事件触发</a></li>
+<li><a href=#事件交互响应>事件交互（响应）</a></li>
+<li><a href=#自定义类型和方法>自定义类型和方法</a></li>
+</ol>
+</li>
+<li><a href=#小节>小节</a></li>
 </ol>
 </nav>
 </div>
