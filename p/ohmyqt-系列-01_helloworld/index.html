@@ -22,7 +22,7 @@
 // 基本元素如下 Window { // 窗口一个大盒子  Box { // 里面套个小盒子  Title {} // 盒子里面有标题  Description {} // 标题下面有描述  } } 进一步加上居中对齐和间距：">
 <meta property="og:url" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/">
 <meta property="og:site_name" content="初等記憶體">
-<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Qt"><meta property="article:tag" content="QML"><meta property="article:published_time" content="2021-07-20T10:58:40+08:00"><meta property="article:modified_time" content="2021-07-20T10:58:40+08:00"><meta property="og:image" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2.png">
+<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Qt"><meta property="article:tag" content="QML"><meta property="article:published_time" content="2021-07-20T10:58:40+08:00"><meta property="article:modified_time" content="2021-07-20T10:58:40+08:00"><meta property="og:image" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png">
 <meta name=twitter:site content="@ArielAxionL">
 <meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="[OhMyQt 系列] 01_HelloWorld">
 <meta name=twitter:description content="前言  项目地址: axionl/OhMyQt
@@ -34,7 +34,7 @@
  内容整体居中 标题和描述上下排布 内容之间最好有一定的间距   layout 
 如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
 // 基本元素如下 Window { // 窗口一个大盒子  Box { // 里面套个小盒子  Title {} // 盒子里面有标题  Description {} // 标题下面有描述  } } 进一步加上居中对齐和间距："><meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2.png">
+<meta name=twitter:image content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png">
 <link rel="shortcut icon" href=/img/favicon.ico>
 </head>
 <body class="article-page has-toc">
@@ -52,7 +52,7 @@ extended">
 <header class=article-header>
 <div class=article-image>
 <a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/>
-<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2_hu56ef77228714123a900f9c56e7cffbb3_121405_800x0_resize_box_3.png srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2_hu56ef77228714123a900f9c56e7cffbb3_121405_800x0_resize_box_3.png 800w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2_hu56ef77228714123a900f9c56e7cffbb3_121405_1600x0_resize_box_3.png 1600w" width=800 height=257 loading=lazy alt="Featured image of post [OhMyQt 系列] 01_HelloWorld">
+<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png 800w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_1600x0_resize_box_3.png 1600w" width=800 height=267 loading=lazy alt="Featured image of post [OhMyQt 系列] 01_HelloWorld">
 </a>
 </div>
 <div class=article-details>
@@ -482,7 +482,12 @@ Tutorial
         <span class=nx>myButtonObjecton</span><span class=p>.</span><span class=nx>openUrl</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 直接调用对象方法
 </span><span class=c1></span>    <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=小节>小节</h2>
+</code></pre></div><h2 id=小结>小结</h2>
+<p><figure style=flex-grow:199;flex-basis:478px>
+<a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png data-size=940x471><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_1024x0_resize_box_3.png 1024w" width=940 height=471 loading=lazy alt=preview>
+</a>
+<figcaption>preview</figcaption>
+</figure></p>
 <p>至此已经实现了 Demo 的全部功能：</p>
 <ul>
 <li>一个用于展示的界面</li>
@@ -511,7 +516,7 @@ Tutorial
 <article class=has-image>
 <a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/>
 <div class=article-image>
-<img src=/preview.png loading=lazy data-key data-hash=/preview.png>
+<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy data-key data-hash="md5-kgGUncNnKiOnd9vCr8rhwg==">
 </div>
 <div class=article-details>
 <h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2>
@@ -640,7 +645,7 @@ Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=
 <li><a href=#自定义类型和方法>自定义类型和方法</a></li>
 </ol>
 </li>
-<li><a href=#小节>小节</a></li>
+<li><a href=#小结>小结</a></li>
 </ol>
 </nav>
 </div>

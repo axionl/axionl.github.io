@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/preview.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
 &lt;blockquote>
 &lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
 >axionl/OhMyQt&lt;/a>&lt;/p>
@@ -116,7 +116,7 @@ alt="HelloWorld">
 &lt;figcaption>HelloWorld&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>恭喜你，已经搭建好了本教程的开发环境！&lt;/p>
-&lt;h2 id="在-windows-11-上搭建">在 Windows 11 上搭建&lt;/h2></description></item><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview2.png" alt="Featured image of post [OhMyQt 系列] 01_HelloWorld" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;h2 id="在-windows-11-上搭建">在 Windows 11 上搭建&lt;/h2></description></item><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png" alt="Featured image of post [OhMyQt 系列] 01_HelloWorld" />&lt;h2 id="前言">前言&lt;/h2>
 &lt;blockquote>
 &lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
 >axionl/OhMyQt&lt;/a>&lt;/p>
@@ -525,7 +525,17 @@ alt="no_z_index">
 &lt;span class="nx">myButtonObjecton&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">openUrl&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 直接调用对象方法
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="小节">小节&lt;/h2>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>&lt;figure style="flex-grow: 199; flex-basis: 478px">
+&lt;a href="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png" data-size="940x471">&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_1024x0_resize_box_3.png 1024w"
+width="940"
+height="471"
+loading="lazy"
+alt="preview">
+&lt;/a>
+&lt;figcaption>preview&lt;/figcaption>
+&lt;/figure>&lt;/p>
 &lt;p>至此已经实现了 Demo 的全部功能：&lt;/p>
 &lt;ul>
 &lt;li>一个用于展示的界面&lt;/li>
