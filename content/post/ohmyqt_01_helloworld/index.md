@@ -1,7 +1,7 @@
 ---
 title: "[OhMyQt 系列] 01_HelloWorld"
 date: 2021-07-20T10:58:40+08:00
-image: preview2.png
+image: banner.png
 categories:
   - Tutorial
 tags:
@@ -484,7 +484,9 @@ Rectangle {
 }
 ```
 
-## 小节
+## 小结
+
+![preview](last_preview.png)
 
 至此已经实现了 Demo 的全部功能：
 

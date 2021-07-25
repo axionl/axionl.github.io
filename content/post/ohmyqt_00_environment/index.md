@@ -1,7 +1,7 @@
 ---
 title: "[OhMyQt 系列] _00__搭建环境"
 date: 2021-07-24T00:39:13+08:00
-image: preview.png
+image: banner.png
 categories:
   - Tutorial
 tags:
