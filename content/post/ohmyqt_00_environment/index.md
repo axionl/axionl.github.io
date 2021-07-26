@@ -98,5 +98,44 @@ kit 保持默认的 Desktop 就好，因为我们最终也是要做一个桌面�
 
 ## 在 Windows 11 上搭建
 
+### 通过 Installer 安装
 
+> https://www.qt.io/download
 
+注册账号并下载开源版本（需遵守 GPL 许可并限于个人使用）
+
+![installation folder](installation_folder.png)
+
+**此处安装路径至今未支持带空格**，故不要选择常见的 `C:\Program Files` 等目录
+
+手动最小化安装则选择 `Custom Installation`
+
+![select components](select_components.png)
+
+至少需要选择一个版本的 Qt 支持（如 `MinGW 8.1.0 64-bit` 包含了 Qt 和其他所需的一些环境），而 `QtCreator` 作为 IDE 在下方已经被默认勾选了，还有 `CMake` 如果需要或是已经手动安装则可消去。等待联网装好后即可使用
+
+### 通过第三方包管理器安装
+
+`chocolately` 也提供了 [QtCreator](https://community.chocolatey.org/packages/qtcreator) 的安装脚本和基本的 [Qt5 SDK](https://community.chocolatey.org/packages/qt5-default) 环境
+
+```PowerShell
+choco install -y qt5-default qtcreato
+```
+
+脚本会自动下载安装，默认路径为 `C:\Qt`
+
+### 配置工具链
+
+![toolkits](toolkits.png)
+
+QtCreator 左边 `Projects` 有配置工具链的地方，通常来说会自动检测是否已经安装对应工具并设置，如果需要自定义或者不在查找范围内的目录，则可以手动进行指定。
+
+若在开发时终端需要运行 Qt 程序，则需要将库所在目录添加到环境变量 `PATH` 中（如 `C:\Qt\5.15.2\mingw81_64\bin`）
+
+![environment](environment.png)
+
+若是打包和分发的话则需要带上对应的动态链接库。
+
+## 小结
+
+Linux 平台上开发相对方便，而 Windows 平台上开发则受到没有合适包管理的限制，需要自己折腾一下。下一节将会正式开始教程中的第一个 Demo，一个用于展示自己内容的 Hello World 程序。
