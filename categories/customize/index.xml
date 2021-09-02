@@ -2,6 +2,6 @@
 选项 允许加载用户样式文件（userChrome.css） toolkit.legacyUserProfileCustomizations.stylesheets = true 调整浏览器标签宽度 browser.tabs.tabClipWidth = 83 硬件加速 media.ffmpeg.vaapi.enabled = true media.ffvpx.enabled = false 配合系统环境变量使用 MOZ_X11_EGL=1 或 MOZ_ENABLE_WAYLAND=1，MOZ_WEBRENDER=1
 Devtools devtools.editor.tabsize = 4 devtools.debugger.remote-enabled = true DevTools 中还有 Enable browser chrome and add-on debugging toolboxes 可以打开，调试扩展常用选项
 易用模式 accessibility.typeaheadfind.enablesound = false 默认开了这个选项，导致 Ctrl+F 搜索不到结果的时候笔记本的蜂鸣器会吼得很大声
-主题 MaterialFox
-扩展 Tree Style Tab
-TST Preview</description></item></channel></rss>
+主题 MaterialFox Preview
+MaterialFox
+扩展 Tree Style Tab</description></item></channel></rss>

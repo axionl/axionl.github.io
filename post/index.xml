@@ -31,9 +31,9 @@ $ chezmoi source-path 可以列出其路径 $ chezmoi cd 可以直接进入到�
 选项 允许加载用户样式文件（userChrome.css） toolkit.legacyUserProfileCustomizations.stylesheets = true 调整浏览器标签宽度 browser.tabs.tabClipWidth = 83 硬件加速 media.ffmpeg.vaapi.enabled = true media.ffvpx.enabled = false 配合系统环境变量使用 MOZ_X11_EGL=1 或 MOZ_ENABLE_WAYLAND=1，MOZ_WEBRENDER=1
 Devtools devtools.editor.tabsize = 4 devtools.debugger.remote-enabled = true DevTools 中还有 Enable browser chrome and add-on debugging toolboxes 可以打开，调试扩展常用选项
 易用模式 accessibility.typeaheadfind.enablesound = false 默认开了这个选项，导致 Ctrl+F 搜索不到结果的时候笔记本的蜂鸣器会吼得很大声
-主题 MaterialFox
-扩展 Tree Style Tab
-TST Preview</description></item><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
+主题 MaterialFox Preview
+MaterialFox
+扩展 Tree Style Tab</description></item><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
 本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近
 QEMU/KVM 虚拟机配置 ArchLinux Wiki: KVM | QEMU | Libvirt
 0. 检测硬件是否支持 KVM 一般情况下需要进入到 BIOS 对应页面打开虚拟化支持，常见对应设置项如下：
@@ -49,6 +49,7 @@ gRPC Protocol Buffers 通俗易懂的说明 introduction
 公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端 import ( .</description></item><item><title>[归档] SmartDNS 一个智能分流的 DNS 服务</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sat, 02 Jan 2021 09:41:20 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</guid><description>介绍 项目地址
 DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
 SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
+structure
 配置 默认配置文件
 推荐项目：dnsmasq-china-list
 作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。

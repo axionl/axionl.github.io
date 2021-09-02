@@ -138,8 +138,9 @@ Linux
 </code></pre></div><p>也可以一次打包成压缩包放 U 盘上硬件备份</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi archive <span class=na>--output</span><span class=o>=</span>dotfiles.tar
 </code></pre></div><h3 id=小结>小结</h3>
-<p><figure style=flex-grow:126;flex-basis:304px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png data-size=1048x826><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_3.png 1024w" width=1048 height=826 loading=lazy alt=doctor>
+<p><figure class=gallery-image style=flex-grow:126;flex-basis:304px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png data-size=1048x826>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png width=1048 height=826 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_3.png 1024w" loading=lazy alt=doctor>
 </a>
 <figcaption>doctor</figcaption>
 </figure></p>
@@ -160,8 +161,9 @@ Linux
 </code></pre></div><p>模板文件如上，<code>{{ }}</code> 是 go template 的数据变量标记符，<code>.</code> 代表了当前变量，即在非循环体内，<code>.</code> 就代表了传入的那个变量。一般的变量定义可由赋值表达式定义 <code>{{ $variable := Balabala }}</code>，不过这里 chezmoi 会根据配置文件自动生成和对应。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi add <span class=na>--autotemplate</span> ~/.gitconfig
 </code></pre></div><p>chezmoi 提供了自动生成模板的功能，但是聪明的生成器未必懂你心意，正如我的 hostname 恰好等于 username 而在其他机器上未必如此。</p>
-<p><figure style=flex-grow:380;flex-basis:913px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png data-size=544x143><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_3.png 1024w" width=544 height=143 loading=lazy alt=dot_gitconfig.tmpl>
+<p><figure class=gallery-image style=flex-grow:380;flex-basis:913px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png data-size=544x143>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png width=544 height=143 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_3.png 1024w" loading=lazy alt=dot_gitconfig.tmpl>
 </a>
 <figcaption>dot_gitconfig.tmpl</figcaption>
 </figure></p>
@@ -230,12 +232,14 @@ Linux
     <span class=nx>recipient</span> <span class=p>=</span> <span class=s2>&#34;ArielAxionL&#34;</span>
 </code></pre></div><p>将文件加密并添加，chezmoi 默认使用了 <code>gpg --armor</code> 参数使得加密文件可读，可以通过配置中，的 <code>command</code> 字段来定义 gpg 的其他参数。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi add <span class=na>--encrypt</span> test.toml
-</code></pre></div><p><figure style=flex-grow:140;flex-basis:337px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png data-size=903x643><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_3.png 1024w" width=903 height=643 loading=lazy alt=加密内容>
+</code></pre></div><p><figure class=gallery-image style=flex-grow:140;flex-basis:337px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png data-size=903x643>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png width=903 height=643 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_3.png 1024w" loading=lazy alt=加密内容>
 </a>
 <figcaption>加密内容</figcaption>
-</figure> <figure style=flex-grow:165;flex-basis:397px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png data-size=1064x643><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_3.png 1024w" width=1064 height=643 loading=lazy alt=解密内容>
+</figure> <figure class=gallery-image style=flex-grow:165;flex-basis:397px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png data-size=1064x643>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png width=1064 height=643 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_3.png 1024w" loading=lazy alt=解密内容>
 </a>
 <figcaption>解密内容</figcaption>
 </figure></p>
@@ -252,8 +256,9 @@ Linux
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi secret keyring set <span class=na>--service</span><span class=o>=</span>github <span class=na>--user</span><span class=o>=&lt;</span>github<span class=na>-user</span><span class=o>&gt;</span>
 <span class=nf>Password</span>: <span class=o>&lt;</span>github<span class=na>-token</span><span class=o>&gt;</span>
 </code></pre></div><p>将 <code>set</code> 替换成 <code>get</code> 从命令行拿到所存密令，或者使用 <a class=link href=https://wiki.gnome.org/Apps/Seahorse target=_blank rel=noopener>Seahorse</a> 客户端查看。</p>
-<p><figure style=flex-grow:125;flex-basis:300px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png data-size=829x663><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_3.png 1024w" width=829 height=663 loading=lazy alt="Seahorse 是一个管理 gnome-keyring 的软件">
+<p><figure class=gallery-image style=flex-grow:125;flex-basis:300px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png data-size=829x663>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png width=829 height=663 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_3.png 1024w" loading=lazy alt="Seahorse 是一个管理 gnome-keyring 的软件">
 </a>
 <figcaption>Seahorse 是一个管理 gnome-keyring 的软件</figcaption>
 </figure></p>
@@ -273,8 +278,9 @@ Linux
 </code></pre></div><p>默认字段有 <code>Notes</code>, <code>Password</code>, <code>URL</code>, <code>Username</code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{ (keepassxc &#34;&lt;YourEntry&gt;&#34;).Password }}&#39;</span>
 </code></pre></div><p>KeepassXC 支持自定义字段，比如你的密钥：
-<figure style=flex-grow:127;flex-basis:305px>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png data-size=970x761><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w" width=970 height=761 loading=lazy alt="KeepassXC Entry Attributes">
+<figure class=gallery-image style=flex-grow:127;flex-basis:305px>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png data-size=970x761>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png width=970 height=761 srcset="/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w" loading=lazy alt="KeepassXC Entry Attributes">
 </a>
 <figcaption>KeepassXC Entry Attributes</figcaption>
 </figure></p>
@@ -367,7 +373,7 @@ Linux
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.1.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>

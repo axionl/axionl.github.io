@@ -3,6 +3,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="介绍  项目地址
  DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
 SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
+ structure 
 配置  默认配置文件
   推荐项目：dnsmasq-china-list
  作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。
@@ -14,6 +15,7 @@ $ cd dnsmasq-china-list $ make smartdns SERVER=china 默认的配置文件中有
 <meta property="og:description" content="介绍  项目地址
  DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
 SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
+ structure 
 配置  默认配置文件
   推荐项目：dnsmasq-china-list
  作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。
@@ -28,6 +30,7 @@ $ cd dnsmasq-china-list $ make smartdns SERVER=china 默认的配置文件中有
 <meta name=twitter:description content="介绍  项目地址
  DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
 SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
+ structure 
 配置  默认配置文件
   推荐项目：dnsmasq-china-list
  作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。
@@ -80,7 +83,12 @@ Tutorial
 <p>域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。</p>
 <h3 id=smartdns>SmartDNS</h3>
 <p>SmartDNS 集成了多种出栈请求协议，包括常用的 <code>UDP</code> 和较为现代的 <code>DNS-Over-Https</code> 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。</p>
-<p><img src=https://github.com/pymumu/smartdns/raw/master/doc/architecture.png alt=structure></p>
+<p><figure>
+<a href=https://github.com/pymumu/smartdns/raw/master/doc/architecture.png>
+<img src=https://github.com/pymumu/smartdns/raw/master/doc/architecture.png loading=lazy alt=structure>
+</a>
+<figcaption>structure</figcaption>
+</figure></p>
 <h2 id=配置>配置</h2>
 <blockquote>
 <p><a class=link href=https://github.com/pymumu/smartdns/blob/master/etc/smartdns/smartdns.conf target=_blank rel=noopener>默认配置文件</a></p>
@@ -220,7 +228,7 @@ Tutorial
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.1.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>

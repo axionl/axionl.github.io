@@ -78,8 +78,9 @@ Develop
 </ul>
 </blockquote>
 <h3 id=通俗易懂的说明>通俗易懂的说明</h3>
-<p><figure style=flex-grow:157;flex-basis:379px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png data-size=916x580><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w" width=916 height=580 loading=lazy alt=introduction>
+<p><figure class=gallery-image style=flex-grow:157;flex-basis:379px>
+<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png data-size=916x580>
+<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png width=916 height=580 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w" loading=lazy alt=introduction>
 </a>
 <figcaption>introduction</figcaption>
 </figure></p>
@@ -87,8 +88,9 @@ Develop
 <h3 id=有点复杂的介绍>有点复杂的介绍</h3>
 <p><a class=link href=https://en.wikipedia.org/wiki/Remote_procedure_call target=_blank rel=noopener>RPC(Remote Procedure Call)</a> 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。</p>
 <p>虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。</p>
-<p><figure style=flex-grow:218;flex-basis:523px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png data-size=1019x467><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w" width=1019 height=467 loading=lazy alt=流程示意图>
+<p><figure class=gallery-image style=flex-grow:218;flex-basis:523px>
+<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png data-size=1019x467>
+<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png width=1019 height=467 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w" loading=lazy alt=流程示意图>
 </a>
 <figcaption>流程示意图</figcaption>
 </figure></p>
@@ -189,8 +191,9 @@ Develop
 <p><a class=link href=https://developers.google.com/protocol-buffers target=_blank rel=noopener>Protocol Buffers</a></p>
 </blockquote>
 <p>作为一种语言中立的协议，其在多种语言中都有对应的变量类型转换，需要特别注意是否在转换过程中出现精度丢失现象，或者并非预期类型的现象，比如 <code>bytes</code> 对应到 <code>C++</code> 的类型为 <code>string</code>，需要自己适当转换。</p>
-<p><figure style=flex-grow:110;flex-basis:264px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png data-size=862x782><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w" width=862 height=782 loading=lazy alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/overview#scalar)">
+<p><figure class=gallery-image style=flex-grow:110;flex-basis:264px>
+<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png data-size=862x782>
+<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png width=862 height=782 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w" loading=lazy alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/overview#scalar)">
 </a>
 <figcaption>变量类型对应表 (<a href=https://developers.google.com/protocol-buffers/docs/overview#scalar>https://developers.google.com/protocol-buffers/docs/overview#scalar</a>)</figcaption>
 </figure></p>
@@ -364,7 +367,7 @@ Develop
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.1.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>

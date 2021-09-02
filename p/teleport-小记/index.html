@@ -123,12 +123,14 @@ Tutorial
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=c1># 创建一个初始用户</span>
 $ tctl users add &lt;username&gt; &lt;login_user, login_group&gt; --config teleport.yaml 
 </code></pre></div><p>添加好用户后可访问提示的地址，输入账户密码，用手机两步验证器扫码后填入验证码即可初始化成功。配置文件中支持除 <code>otp</code> 外还支持 <code>github auth</code> 认证等方式。</p>
-<p><figure style=flex-grow:120;flex-basis:289px>
-<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png data-size=884x734><img src=/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_3.png 1024w" width=884 height=734 loading=lazy alt=注册界面>
+<p><figure class=gallery-image style=flex-grow:120;flex-basis:289px>
+<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png data-size=884x734>
+<img src=/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png width=884 height=734 srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_3.png 1024w" loading=lazy alt=注册界面>
 </a>
 <figcaption>注册界面</figcaption>
-</figure> <figure style=flex-grow:99;flex-basis:238px>
-<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/login.png data-size=700x705><img src=/p/teleport-%E5%B0%8F%E8%AE%B0/login.png srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_3.png 1024w" width=700 height=705 loading=lazy alt=登陆界面>
+</figure> <figure class=gallery-image style=flex-grow:99;flex-basis:238px>
+<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/login.png data-size=700x705>
+<img src=/p/teleport-%E5%B0%8F%E8%AE%B0/login.png width=700 height=705 srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_3.png 1024w" loading=lazy alt=登陆界面>
 </a>
 <figcaption>登陆界面</figcaption>
 </figure></p>
@@ -171,8 +173,9 @@ $ tctl users add &lt;username&gt; &lt;login_user, login_group&gt; --config telep
 </span><span class=se></span>    --token<span class=o>=</span>&lt;random_token&gt; <span class=se>\
 </span><span class=se></span>    --auth-server<span class=o>=</span>&lt;https://example.domain.org:3025&gt;
 </code></pre></div><p>添加成功后可以在 <code>web</code> 界面内看到所有的节点。
-<figure style=flex-grow:454;flex-basis:1089px>
-<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png data-size=822x181><img src=/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_3.png 1024w" width=822 height=181 loading=lazy alt="Server Page">
+<figure class=gallery-image style=flex-grow:454;flex-basis:1089px>
+<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png data-size=822x181>
+<img src=/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png width=822 height=181 srcset="/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_3.png 480w, /p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_3.png 1024w" loading=lazy alt="Server Page">
 </a>
 <figcaption>Server Page</figcaption>
 </figure></p>
@@ -280,7 +283,7 @@ my_laptop      ⟵ Tunnel      <span class=nv>env</span><span class=o>=</span>lo
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.1.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>
