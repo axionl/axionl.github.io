@@ -156,7 +156,7 @@ $ sudo modprobe kvm_amd <span class=c1># 对应你的 CPU 类型</span>
 </code></pre></div><p>为了避免每次都需要询问 <code>root</code> 密码，建议将自己的用户添加到 <code>libvirt</code> 组：</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo usermod -aG libvirt &lt;YourUserName&gt;
 </code></pre></div><p>编辑服务端配置文件 <code>/etc/libvirt/libvirtd.conf</code>，取消如下几行的注释：</p>
-<pre><code class=language-config data-lang=config>unix_sock_group = &quot;libvirt&quot;
+<pre tabindex=0><code class=language-config data-lang=config>unix_sock_group = &quot;libvirt&quot;
 unix_sock_ro_perms = &quot;0777&quot;  # set to 0770 to deny on-group libvirt users
 unix_sock_rw_perms = &quot;0770&quot;
 auth_unix_ro = &quot;none&quot;
