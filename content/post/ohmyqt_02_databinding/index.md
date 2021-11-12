@@ -62,6 +62,17 @@ Item {
 且同样会随着这个公共属性变化而改变现有对象的属性。还注意到，如果是同一层级的对象，调用属性的时候需要指定对象 id，而在父对象中的属性则可以直接使用，也可以指定父对象的 id。
 
 ### 从 JavaScript 绑定
+```qml
+TextField {
+    textColor: "black"
+
+    onTextChanged: {
+        if (text === "warn") {
+            textColor = "red"
+        }
+    }
+}
+```
 
 ### C++ 绑定
 
