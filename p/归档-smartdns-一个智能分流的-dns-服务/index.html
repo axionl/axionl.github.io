@@ -46,7 +46,7 @@ $ cd dnsmasq-china-list $ make smartdns SERVER=china 默认的配置文件中有
 <div class="container main-container flex
 extended">
 <div id=article-toolbar>
-<a href=https://axionl.me class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
 <span>返回</span>
 </a>
 </div>
@@ -70,6 +70,11 @@ Tutorial
 <footer class=article-time>
 <div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>Jan 02, 2021</time>
+</div>
+<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>
+阅读时长: 1 分钟
+</time>
 </div>
 </footer>
 </div>
@@ -98,7 +103,7 @@ Tutorial
 </blockquote>
 <p>作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 <a class=link href=https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/ target=_blank rel=noopener>CN 源</a> 里安装 <code>smartdns-china-list-git</code> 以获取自动更新。</p>
 <p>生成对应的配置文件操作如下，<a class=link href=https://github.com/archlinuxcn/repo/blob/c2fe2e155a35da76a879b6a9d0fe21975413bce2/archlinuxcn/dnsmasq-china-list-git/PKGBUILD#L22 target=_blank rel=noopener>具体参考</a>，可见其生成形式为 <code>nameserver /&lt;域名>/&lt;组名></code>，后面的组名就是对应我们后来需要的匹配规则而制定的。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>cd dnsmasq<span class=na>-china-list</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>cd dnsmasq-china-list
 <span class=nv>$ </span>make smartdns <span class=nv>SERVER</span><span class=o>=</span>china
 </code></pre></div><p>默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w> </span><span class=c># （可选）引入额外的规则列表，用绝对路径</span><span class=w>
@@ -228,7 +233,7 @@ Tutorial
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.5.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>

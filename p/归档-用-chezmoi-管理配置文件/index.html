@@ -40,7 +40,7 @@ $ curl -sfL https://git.io/chezmoi | sh 快速上手 初始化 $ chezmoi init --
 <div class="container main-container flex
 extended">
 <div id=article-toolbar>
-<a href=https://axionl.me class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
 <span>返回</span>
 </a>
 </div>
@@ -67,6 +67,11 @@ Linux
 <footer class=article-time>
 <div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>Jan 29, 2021</time>
+</div>
+<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>
+阅读时长: 3 分钟
+</time>
 </div>
 </footer>
 </div>
@@ -197,7 +202,7 @@ Linux
 <span class=p>[</span><span class=nx>data</span><span class=p>.</span><span class=nx>github</span><span class=p>]</span>
 <span class=nx>editor</span> <span class=p>=</span> <span class=s2>&#34;nano&#34;</span>
 </code></pre></div><p>如下命令可临时调试时，脱离模板文件查看变量值是否正确。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{- .github.editor -}}&#39;</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute-template <span class=s1>&#39;{{- .github.editor -}}&#39;</span>
 <span class=nf>nano</span>⏎
 </code></pre></div><h3 id=编辑配置>编辑配置</h3>
 <p>相比于自动创建模板的南辕北辙，通过智能人工从模板中自动生成 TOML 配置则显得较为靠谱。</p>
@@ -206,7 +211,7 @@ Linux
 </span><span class=x>[data]
 </span><span class=x>    email = &#34;</span><span class=cp>{{</span><span class=w> </span><span class=nx>$email</span><span class=w> </span><span class=cp>}}</span><span class=x>&#34;
 </span></code></pre></div><p>通过 <code>promptString</code> 这个函数解析等下从命令行中传入的参数，并传入到配置文件中。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=na>--init</span> <span class=na>--promptString</span> <span class=nv>email</span><span class=o>=</span>axionl@example.com <span class=o>&lt;</span> ~/test.tmpl
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute-template <span class=na>--init</span> <span class=na>--promptString</span> <span class=nv>email</span><span class=o>=</span>axionl@example.com <span class=o>&lt;</span> ~/test.tmpl
 
 <span class=o>[</span>data<span class=o>]</span>
     <span class=nv>email</span> <span class=o>=</span> <span class=s2>&#34;axionl@example.com&#34;</span>
@@ -253,8 +258,8 @@ Linux
 <p><a class=link href=https://github.com/zalando/go-keyring target=_blank rel=noopener>github.com/zalando/go-keyring</a></p>
 </blockquote>
 <p>Linux 中环境下，keyring 的实现目前还只支持 gnome-keyring，希望以后也能提供 kwallet 版本的接口。macOS 则支持 Keychain 存储帐号密码。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi secret keyring set <span class=na>--service</span><span class=o>=</span>github <span class=na>--user</span><span class=o>=&lt;</span>github<span class=na>-user</span><span class=o>&gt;</span>
-<span class=nf>Password</span>: <span class=o>&lt;</span>github<span class=na>-token</span><span class=o>&gt;</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi secret keyring set <span class=na>--service</span><span class=o>=</span>github <span class=na>--user</span><span class=o>=&lt;</span>github-user<span class=o>&gt;</span>
+<span class=nf>Password</span>: <span class=o>&lt;</span>github-token<span class=o>&gt;</span>
 </code></pre></div><p>将 <code>set</code> 替换成 <code>get</code> 从命令行拿到所存密令，或者使用 <a class=link href=https://wiki.gnome.org/Apps/Seahorse target=_blank rel=noopener>Seahorse</a> 客户端查看。</p>
 <p><figure class=gallery-image style=flex-grow:125;flex-basis:300px>
 <a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png data-size=829x663>
@@ -276,7 +281,7 @@ Linux
     <span class=nx>args</span> <span class=p>=</span> <span class=p>[</span><span class=s2>&#34;--key-file&#34;</span><span class=p>,</span> <span class=s2>&#34;/path/to/your/key&#34;</span><span class=p>]</span>
     <span class=nx>database</span> <span class=p>=</span> <span class=s2>&#34;/path/to/your/kdbx&#34;</span>
 </code></pre></div><p>默认字段有 <code>Notes</code>, <code>Password</code>, <code>URL</code>, <code>Username</code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{ (keepassxc &#34;&lt;YourEntry&gt;&#34;).Password }}&#39;</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute-template <span class=s1>&#39;{{ (keepassxc &#34;&lt;YourEntry&gt;&#34;).Password }}&#39;</span>
 </code></pre></div><p>KeepassXC 支持自定义字段，比如你的密钥：
 <figure class=gallery-image style=flex-grow:127;flex-basis:305px>
 <a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png data-size=970x761>
@@ -285,7 +290,7 @@ Linux
 <figcaption>KeepassXC Entry Attributes</figcaption>
 </figure></p>
 <p>在模板中用 <code>keepassxcAttribute</code> 获取：</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute<span class=na>-template</span> <span class=s1>&#39;{{ keepassxcAttribute &#34;VPS Keyring&#34; &#34;public-key&#34; }}&#39;</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>chezmoi execute-template <span class=s1>&#39;{{ keepassxcAttribute &#34;VPS Keyring&#34; &#34;public-key&#34; }}&#39;</span>
 </code></pre></div><h2 id=结束>结束</h2>
 <p>得益于数据模板的引入，chezmoi 作为一款 dotfiles manager，其配置管理功能相较之下更加强大，也有更多新的功能和应用场景可以发掘。</p>
 </section>
@@ -373,7 +378,7 @@ Linux
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.5.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>

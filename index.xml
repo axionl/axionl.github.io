@@ -771,7 +771,7 @@ alt="apps.conf">
 &lt;p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。&lt;/p>
 &lt;p>&lt;code>~/.config/fish/conf.d/env_init.fish&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="k">if&lt;/span> &lt;span class="k">not&lt;/span> &lt;span class="nb">contains&lt;/span> &lt;span class="nv">$USER&lt;/span> &lt;span class="nv">$PATH&lt;/span>
-&lt;span class="nf">export&lt;/span> &lt;span class="o">(&lt;/span>/usr/lib/systemd/user&lt;span class="na">-environment-generators&lt;/span>/&lt;span class="m">30&lt;/span>&lt;span class="na">-systemd-environment-d-generator&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;span class="nf">export&lt;/span> &lt;span class="o">(&lt;/span>/usr/lib/systemd/user-environment-generators/&lt;span class="m">30&lt;/span>-systemd-environment-d-generator&lt;span class="o">)&lt;/span>
 &lt;span class="k">end&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;figure
 class="gallery-image"
@@ -799,19 +799,19 @@ alt="show environments">
 &lt;p>启用后重启生效。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>kwriteconfig5 &lt;span class="na">--file&lt;/span> startkderc &lt;span class="na">--group&lt;/span> General &lt;span class="na">--key&lt;/span> systemdBoot true
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set&lt;span class="na">-property&lt;/span> app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
-&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> &lt;span class="nb">status &lt;/span>app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope
-● app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope &lt;span class="na">- Telegram&lt;/span> Desktop
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
+&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> &lt;span class="nb">status &lt;/span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="na">- Telegram&lt;/span> Desktop
 &lt;span class="nf">Loaded&lt;/span>: loaded &lt;span class="o">(&lt;/span>/usr/share/applications/telegramdesktop.desktop&lt;span class="p">;&lt;/span> &lt;span class="nf">transient&lt;/span>&lt;span class="o">)&lt;/span>
 &lt;span class="nf">Transient&lt;/span>: yes
-&lt;span class="nf">Drop-In&lt;/span>: /run/user/&lt;span class="m">1000&lt;/span>/systemd/transient/app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope.d
-└─&lt;span class="m">50&lt;/span>&lt;span class="na">-MemoryLimit&lt;/span>.conf, &lt;span class="m">50&lt;/span>&lt;span class="na">-MemoryMax&lt;/span>.conf
+&lt;span class="nf">Drop-In&lt;/span>: /run/user/&lt;span class="m">1000&lt;/span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
+└─&lt;span class="m">50&lt;/span>-MemoryLimit.conf, &lt;span class="m">50&lt;/span>-MemoryMax.conf
 &lt;span class="nf">Active&lt;/span>: active &lt;span class="o">(&lt;/span>&lt;span class="nf">running&lt;/span>&lt;span class="o">)&lt;/span> since Tue &lt;span class="m">2021&lt;/span>-&lt;span class="m">02&lt;/span>-&lt;span class="m">23&lt;/span> &lt;span class="m">21&lt;/span>:&lt;span class="m">02&lt;/span>:&lt;span class="m">37&lt;/span> CST&lt;span class="p">;&lt;/span> &lt;span class="nf">5min&lt;/span> ago
 &lt;span class="nf">Tasks&lt;/span>: &lt;span class="m">44&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="nf">limit&lt;/span>: &lt;span class="m">18425&lt;/span>&lt;span class="o">)&lt;/span>
 &lt;span class="nf">Memory&lt;/span>: &lt;span class="m">351&lt;/span>.0M &lt;span class="o">(&lt;/span>&lt;span class="nf">max&lt;/span>: &lt;span class="m">1&lt;/span>.4G limit: &lt;span class="m">1&lt;/span>.0G&lt;span class="o">)&lt;/span>
 &lt;span class="nf">CPU&lt;/span>: &lt;span class="m">20&lt;/span>.056s
-&lt;span class="nf">CGroup&lt;/span>: /user.slice/user-&lt;span class="m">1000&lt;/span>.slice/user@&lt;span class="m">1000&lt;/span>.service/app.slice/app&lt;span class="na">-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4&lt;/span>.scope
-└─&lt;span class="m">15363&lt;/span> /usr/bin/telegram&lt;span class="na">-desktop&lt;/span> &lt;span class="na">--
+&lt;span class="nf">CGroup&lt;/span>: /user.slice/user-&lt;span class="m">1000&lt;/span>.slice/user@&lt;span class="m">1000&lt;/span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+└─&lt;span class="m">15363&lt;/span> /usr/bin/telegram-desktop &lt;span class="na">--
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.jpg" alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" />&lt;h2 id="前言">前言&lt;/h2>
 &lt;blockquote>
 &lt;p>项目地址：&lt;a class="link" href="https://github.com/twpayne/chezmoi" target="_blank" rel="noopener"
@@ -965,7 +965,7 @@ alt="dot_gitconfig.tmpl">
 &lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">github&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">editor&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;nano&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>如下命令可临时调试时，脱离模板文件查看变量值是否正确。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
 &lt;span class="nf">nano&lt;/span>⏎
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="编辑配置">编辑配置&lt;/h3>
 &lt;p>相比于自动创建模板的南辕北辙，通过智能人工从模板中自动生成 TOML 配置则显得较为靠谱。&lt;/p>
@@ -974,7 +974,7 @@ alt="dot_gitconfig.tmpl">
 &lt;/span>&lt;span class="x">[data]
 &lt;/span>&lt;span class="x"> email = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
 &lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过 &lt;code>promptString&lt;/code> 这个函数解析等下从命令行中传入的参数，并传入到配置文件中。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
 &lt;span class="o">[&lt;/span>data&lt;span class="o">]&lt;/span>
 &lt;span class="nv">email&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl@example.com&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="管理私有数据">管理私有数据&lt;/h3>
@@ -1041,8 +1041,8 @@ alt="解密内容">
 >github.com/zalando/go-keyring&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;p>Linux 中环境下，keyring 的实现目前还只支持 gnome-keyring，希望以后也能提供 kwallet 版本的接口。macOS 则支持 Keychain 存储帐号密码。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github&lt;span class="na">-user&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
-&lt;span class="nf">Password&lt;/span>: &lt;span class="o">&amp;lt;&lt;/span>github&lt;span class="na">-token&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github-user&lt;span class="o">&amp;gt;&lt;/span>
+&lt;span class="nf">Password&lt;/span>: &lt;span class="o">&amp;lt;&lt;/span>github-token&lt;span class="o">&amp;gt;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>将 &lt;code>set&lt;/code> 替换成 &lt;code>get&lt;/code> 从命令行拿到所存密令，或者使用 &lt;a class="link" href="https://wiki.gnome.org/Apps/Seahorse" target="_blank" rel="noopener"
 >Seahorse&lt;/a> 客户端查看。&lt;/p>
 &lt;p>&lt;figure
@@ -1075,7 +1075,7 @@ alt="Seahorse 是一个管理 gnome-keyring 的软件">
 &lt;span class="nx">args&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;--key-file&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/key&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;span class="nx">database&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/kdbx&amp;#34;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认字段有 &lt;code>Notes&lt;/code>, &lt;code>Password&lt;/code>, &lt;code>URL&lt;/code>, &lt;code>Username&lt;/code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
 &lt;figure
 class="gallery-image"
@@ -1094,7 +1094,7 @@ alt="KeepassXC Entry Attributes">
 &lt;figcaption>KeepassXC Entry Attributes&lt;/figcaption>
 &lt;/figure>&lt;/p>
 &lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute&lt;span class="na">-template&lt;/span> &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="结束">结束&lt;/h2>
 &lt;p>得益于数据模板的引入，chezmoi 作为一款 dotfiles manager，其配置管理功能相较之下更加强大，也有更多新的功能和应用场景可以发掘。&lt;/p></description></item><item><title>[归档] Hello, My Firefox</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</link><pubDate>Wed, 27 Jan 2021 16:24:43 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/wallhaven-eo5jko.png" alt="Featured image of post [归档] Hello, My Firefox" />&lt;blockquote>
 &lt;p>自用配置项，持续更新中&amp;hellip;&amp;hellip;&lt;/p>
@@ -2092,7 +2092,7 @@ alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/
 &lt;ul>
 &lt;li>命令行方式&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>protoc &lt;span class="na">--plugin&lt;/span>&lt;span class="o">=&lt;/span>protoc&lt;span class="na">-gen-go-grpc&lt;/span> &lt;span class="na">--go_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">--go-grpc_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">-I&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="nf">info&lt;/span>.proto
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>protoc &lt;span class="na">--plugin&lt;/span>&lt;span class="o">=&lt;/span>protoc-gen-go-grpc &lt;span class="na">--go_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">--go-grpc_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">-I&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="nf">info&lt;/span>.proto
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>然后生成了 &lt;code>info.pb.go&lt;/code> 和 &lt;code>info_grpc.pb.go&lt;/code> 两个文件，大体上看前者管定义，后者管实现，属于同一个包。其他语言主要是将二进制插件和输出参数替换成对应语言的。&lt;/p>
 &lt;ul>
 &lt;li>cmake 包办&lt;/li>
@@ -2207,7 +2207,7 @@ alt="structure">
 >CN 源&lt;/a> 里安装 &lt;code>smartdns-china-list-git&lt;/code> 以获取自动更新。&lt;/p>
 &lt;p>生成对应的配置文件操作如下，&lt;a class="link" href="https://github.com/archlinuxcn/repo/blob/c2fe2e155a35da76a879b6a9d0fe21975413bce2/archlinuxcn/dnsmasq-china-list-git/PKGBUILD#L22" target="_blank" rel="noopener"
 >具体参考&lt;/a>，可见其生成形式为 &lt;code>nameserver /&amp;lt;域名&amp;gt;/&amp;lt;组名&amp;gt;&lt;/code>，后面的组名就是对应我们后来需要的匹配规则而制定的。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cd dnsmasq&lt;span class="na">-china-list&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>cd dnsmasq-china-list
 &lt;span class="nv">$ &lt;/span>make smartdns &lt;span class="nv">SERVER&lt;/span>&lt;span class="o">=&lt;/span>china
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="w"> &lt;/span>&lt;span class="c"># （可选）引入额外的规则列表，用绝对路径&lt;/span>&lt;span class="w">
@@ -2304,7 +2304,7 @@ Keep your token secure and store it safely, ...
 &lt;span class="na">index-url&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">https://pypi.tuna.tsinghua.edu.cn/simple&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>可以查看设置是否生效&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip config list
-&lt;span class="nf">global&lt;/span>.index&lt;span class="na">-url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;https://pypi.tuna.tsinghua.edu.cn/simple&amp;#39;&lt;/span>
+&lt;span class="nf">global&lt;/span>.index-&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;https://pypi.tuna.tsinghua.edu.cn/simple&amp;#39;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>创建虚拟环境后，您可以激活它，进入项目所在目录。&lt;/p>
 &lt;ul>
 &lt;li>在 Windows 上，运行:&lt;/li>
@@ -2320,7 +2320,7 @@ Keep your token secure and store it safely, ...
 &lt;p>&lt;a class="link" href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener"
 >python telegram bot 项目地址&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip install python&lt;span class="na">-telegram-bot&lt;/span> &lt;span class="na">--upgrade&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip install python-telegram-bot &lt;span class="na">--upgrade&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以将依赖导出到文件，便于开发迁移&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="nv">$ &lt;/span>pip freeze &lt;span class="o">&amp;gt;&lt;/span> requirements.txt
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="coding-time">Coding Time&lt;/h3>

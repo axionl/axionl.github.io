@@ -40,7 +40,7 @@ if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators
 <div class="container main-container flex
 extended">
 <div id=article-toolbar>
-<a href=https://axionl.me class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
 <span>返回</span>
 </a>
 </div>
@@ -67,6 +67,11 @@ Linux
 <footer class=article-time>
 <div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>Feb 23, 2021</time>
+</div>
+<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>
+阅读时长: 1 分钟
+</time>
 </div>
 </footer>
 </div>
@@ -104,7 +109,7 @@ Linux
 <p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。</p>
 <p><code>~/.config/fish/conf.d/env_init.fish</code></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=k>if</span> <span class=k>not</span> <span class=nb>contains</span> <span class=nv>$USER</span> <span class=nv>$PATH</span>
-    <span class=nf>export</span> <span class=o>(</span>/usr/lib/systemd/user<span class=na>-environment-generators</span>/<span class=m>30</span><span class=na>-systemd-environment-d-generator</span><span class=o>)</span>
+    <span class=nf>export</span> <span class=o>(</span>/usr/lib/systemd/user-environment-generators/<span class=m>30</span>-systemd-environment-d-generator<span class=o>)</span>
 <span class=k>end</span>
 </code></pre></div><p><figure class=gallery-image style=flex-grow:152;flex-basis:366px>
 <a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png data-size=1100x721>
@@ -121,19 +126,19 @@ Linux
 <p>启用后重启生效。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>kwriteconfig5 <span class=na>--file</span> startkderc <span class=na>--group</span> General <span class=na>--key</span> systemdBoot true
 </code></pre></div><p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>systemctl <span class=na>--user</span> set<span class=na>-property</span> app<span class=na>-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4</span>.scope <span class=nv>MemoryMax</span><span class=o>=</span>1500M <span class=nv>MemoryLimit</span><span class=o>=</span>1G
-<span class=nv>$ </span>systemctl <span class=na>--user</span> <span class=nb>status </span>app<span class=na>-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4</span>.scope
-  ● app<span class=na>-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4</span>.scope <span class=na>- Telegram</span> Desktop
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>systemctl <span class=na>--user</span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=nv>MemoryMax</span><span class=o>=</span>1500M <span class=nv>MemoryLimit</span><span class=o>=</span>1G
+<span class=nv>$ </span>systemctl <span class=na>--user</span> <span class=nb>status </span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+  ● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=na>- Telegram</span> Desktop
       <span class=nf>Loaded</span>: loaded <span class=o>(</span>/usr/share/applications/telegramdesktop.desktop<span class=p>;</span> <span class=nf>transient</span><span class=o>)</span>
     <span class=nf>Transient</span>: yes
-      <span class=nf>Drop-In</span>: /run/user/<span class=m>1000</span>/systemd/transient/app<span class=na>-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4</span>.scope.d
-              └─<span class=m>50</span><span class=na>-MemoryLimit</span>.conf, <span class=m>50</span><span class=na>-MemoryMax</span>.conf
+      <span class=nf>Drop-In</span>: /run/user/<span class=m>1000</span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
+              └─<span class=m>50</span>-MemoryLimit.conf, <span class=m>50</span>-MemoryMax.conf
       <span class=nf>Active</span>: active <span class=o>(</span><span class=nf>running</span><span class=o>)</span> since Tue <span class=m>2021</span>-<span class=m>02</span>-<span class=m>23</span> <span class=m>21</span>:<span class=m>02</span>:<span class=m>37</span> CST<span class=p>;</span> <span class=nf>5min</span> ago
       <span class=nf>Tasks</span>: <span class=m>44</span> <span class=o>(</span><span class=nf>limit</span>: <span class=m>18425</span><span class=o>)</span>
       <span class=nf>Memory</span>: <span class=m>351</span>.0M <span class=o>(</span><span class=nf>max</span>: <span class=m>1</span>.4G limit: <span class=m>1</span>.0G<span class=o>)</span>
       <span class=nf>CPU</span>: <span class=m>20</span>.056s
-      <span class=nf>CGroup</span>: /user.slice/user-<span class=m>1000</span>.slice/user@<span class=m>1000</span>.service/app.slice/app<span class=na>-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4</span>.scope
-              └─<span class=m>15363</span> /usr/bin/telegram<span class=na>-desktop</span> <span class=na>--
+      <span class=nf>CGroup</span>: /user.slice/user-<span class=m>1000</span>.slice/user@<span class=m>1000</span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+              └─<span class=m>15363</span> /usr/bin/telegram-desktop <span class=na>--
 </span></code></pre></div>
 </section>
 <footer class=article-footer>
@@ -220,7 +225,7 @@ Linux
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.2.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.5.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>
