@@ -257,7 +257,7 @@ params:
         desc: "皓奇不是黑狗是黑猫"
       - name: Vifly
         url: "https://viflythink.com/"
-        avatar: "https://viflythink.com/img/avatar.png"
+        avatar: "https://avatars.githubusercontent.com/u/48406926"
         desc: "不是 Vim 用户"
       - name: CSSLayer
         url: "https://www.csslayer.info/"
