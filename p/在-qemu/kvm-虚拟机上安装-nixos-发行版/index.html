@@ -8,7 +8,7 @@ QEMU/KVM 虚拟机配置  ArchLinux Wiki: KVM | QEMU | Libvirt
 $ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
 $ zgrep CONFIG_KVM /proc/config.gz CONFIG_KVM_GUEST=y CONFIG_KVM_MMIO=y CONFIG_KVM_ASYNC_PF=y CONFIG_KVM_VFIO=y CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y CONFIG_KVM_COMPAT=y CONFIG_KVM_XFER_TO_GUEST_WORK=y CONFIG_KVM=m CONFIG_KVM_INTEL=m CONFIG_KVM_AMD=m # 可以看到有该模块 CONFIG_KVM_AMD_SEV=y CONFIG_KVM_MMU_AUDIT=y 查看这些内核模块是否已自动加载："><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title>
 <link rel=canonical href=https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/>
-<link rel=stylesheet href=/scss/style.min.css><meta property="og:title" content="在 QEMU/KVM 虚拟机上安装 NixOS 发行版">
+<link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="在 QEMU/KVM 虚拟机上安装 NixOS 发行版">
 <meta property="og:description" content="前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
 本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近
 QEMU/KVM 虚拟机配置  ArchLinux Wiki: KVM | QEMU | Libvirt
@@ -544,7 +544,7 @@ $ nix-env --rollback <span class=c1># 软件包回滚</span>
 <section class=powerby>
 Ariel AxionL's Blog <br>
 Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.5.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
 </section>
 </footer>
 <div class=pswp tabindex=-1 role=dialog aria-hidden=true>
