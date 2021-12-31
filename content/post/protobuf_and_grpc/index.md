@@ -30,9 +30,10 @@ draft: false
 ![流程示意图](flow.png)
 
 ### 一个简单的例子
+
 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 `golang`	或者 `java` 等语言来说 `proto3` 支持以 `option` 的方式产生适合其代码引入的包封装 ([详见](https://developers.google.com/protocol-buffers/docs/tutorials))。
 
-- 公共协议
+#### 公共协议
 ```proto
 syntax = "proto3";
 option go_package = "example.com/user/grpcGoExample"
@@ -45,7 +46,18 @@ service Greeter {
 }
 ```
 
-- golang 客户端
+使用 protocol buffers 第一步便是在 `proto` 文件中定于需要序列化的数据结构：这是一个以 `.proto` 为扩展名的普通文本文件。数据被构造为消息（`message`），其中每条消息包含数量不等的键值对（也可以为空），下面简单举例，传输到接收方可以直接从结构体中取出想要的数据，而从结构体到序列化压缩传输，再到还原成结构体这一过程对程序员来说是透明的，由 `protobuf` 生成的库文件自动完成。
+
+```proto
+message Person {
+  string name = 1;
+  int32 id = 2;
+  bool has_ponycopter = 3;
+}
+```
+
+#### golang 客户端
+
 ```go
 import (
 	...
@@ -83,7 +95,7 @@ func main() {
 }
 ```
 
-- 服务端
+#### golang 服务端
 ```go
 import (
 	...
@@ -178,64 +190,49 @@ $ protoc --plugin=protoc-gen-go-grpc --go_out=. --go-grpc_out=. -I=. info.proto
 
 - cmake 包办
 
-可以参考如下两个 `.cmake` 文件，自己在 `CMakeLists.txt` 中设置变量名称。
+可以参考如下 `.cmake` 文件，自行在 `CMakeLists.txt` 引入库文件和生成的头文件。
+
+`protobuf.cmake`
 
 ```cmake
-## protobuf.cmake
 # Find Protobuf
-find_package(Protobuf REQUIRED)
+find_package(Protobuf REQUIRED) # 如果没有需要自行安装
 
-# Find Generator Executable
+# Find Generator Executable # 找到两个用于生成库文件的可执行文件
 find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
+find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin) # 对应所需要生成的语言
 
-# Set Proto Name
-set(API_PROTO_NAME "<YourProtoName>")
+# Set Proto File Name
+list(APPEND PROTO_NAME_LISTS
+    "api"
+    )
 
-# Set Libraries
-set(PROTOBUF_LIBPROTOBUF_LIB protobuf::libprotobuf)
+# Generate gRPC and protobuf Sources
+foreach(PROTO_NAME ${PROTO_NAME_LISTS})
+    set(GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc")
+    set(GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h")
+    set(PB_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc")
+    set(PB_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h")
+    set(PROTO_DIR "${CMAKE_SOURCE_DIR}/misc/")
+    set(PROTO_FILE "${PROTO_DIR}/${PROTO_NAME}.proto")
 
-# Set Proto Path
-get_filename_component(API_PROTO_PATH "protofile" ABSOLUTE)
-
-# File Proto File
-get_filename_component(API_PROTO "${API_PROTO_PATH}/${API_PROTO_NAME}.proto" ABSOLUTE)
-
-# Generated Sources
-protobuf_generate_cpp(API_PROTO_SRCS API_PROTO_HDRS "${API_PROTO}")
-```
-```cmake
-## grpc.cmake
-# Find gRPC Package
-find_package(gRPC CONFIG REQUIRED)
-
-# Find Generator Executable Plugin
-find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
-
-# Find PkgConfig
-find_package(PkgConfig REQUIRED)
-
-# Check Modules
-pkg_check_modules(GRPC REQUIRED grpc++ grpc)
-
-# Set Source Files
-set(API_GRPC_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.cc)
-set(API_GRPC_HDRS ${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.h)
-
-# Set Libraries
-set(GRPC_GRPCPP_LIB gRPC::grpc++)
-set(GRPC_REFLECTION_LIB gRPC::grpc++_reflection)
-
-# Generate gRPC Sources
-add_custom_command(
-        OUTPUT "${API_GRPC_SRCS}" "${API_GRPC_HDRS}" "${API_PROTO_SRCS}" "${API_PROTO_HDRS}"
-        COMMAND ${PROTOBUF_PROTOC_EXECUTABLE}
-        ARGS --grpc_out=${CMAKE_CURRENT_BINARY_DIR}
-            --cpp_out=${CMAKE_CURRENT_BINARY_DIR}
-            -I="${API_PROTO_PATH}"
+    add_custom_command(
+        OUTPUT "${GRPC_SOURCE}" "${GRPC_HEADER}" "${PB_SOURCE}" "${PB_HEADER}"
+        COMMAND "${PROTOBUF_PROTOC_EXECUTABLE}"
+        ARGS
+            --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
+            --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
+            -I="${PROTO_DIR}"
             --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
-            "${API_PROTO}"
-        DEPENDS "${API_PROTO}"
-)
+            "${PROTO_FILE}"
+        DEPENDS "${PROTO_FILE}")
+
+    list(APPEND GRPC_HEADERS "${GRPC_HEADER}")
+    list(APPEND GRPC_SOURCES "${GRPC_SOURCE}")
+
+    list(APPEND PROTO_HEADERS "${PB_HEADER}")
+    list(APPEND PROTO_SOURCES "${PB_SOURCE}")
+endforeach()
 ```
 
 ### 一个综合的案例
