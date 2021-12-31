@@ -7,7 +7,7 @@
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
- 公共协议  syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端  import ( ."><title>Protocol Buffers 和 gRPC（一）</title>
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><title>Protocol Buffers 和 gRPC（一）</title>
 <link rel=canonical href=https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/>
 <link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="Protocol Buffers 和 gRPC（一）">
 <meta property="og:description" content="前言  官方网站
@@ -17,7 +17,7 @@
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
- 公共协议  syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端  import ( .">
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 .">
 <meta property="og:url" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/">
 <meta property="og:site_name" content="初等記憶體">
 <meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="RPC"><meta property="article:published_time" content="2021-01-03T23:46:51+08:00"><meta property="article:modified_time" content="2021-01-03T23:46:51+08:00"><meta property="og:image" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg">
@@ -30,7 +30,7 @@
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
- 公共协议  syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);} golang 客户端  import ( ."><meta name=twitter:card content="summary_large_image">
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg">
 <link rel="shortcut icon" href=/img/favicon.ico>
 </head>
@@ -101,9 +101,7 @@ Develop
 </figure></p>
 <h3 id=一个简单的例子>一个简单的例子</h3>
 <p>以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 <code>golang</code> 或者 <code>java</code> 等语言来说 <code>proto3</code> 支持以 <code>option</code> 的方式产生适合其代码引入的包封装 (<a class=link href=https://developers.google.com/protocol-buffers/docs/tutorials target=_blank rel=noopener>详见</a>)。</p>
-<ul>
-<li>公共协议</li>
-</ul>
+<h4 id=公共协议>公共协议</h4>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
 </span><span class=err></span><span class=k>option</span> <span class=n>go_package</span> <span class=o>=</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span><span class=err>
 </span><span class=err>
@@ -113,9 +111,13 @@ Develop
 </span><span class=err></span><span class=kd>service</span> <span class=n>Greeter</span> <span class=p>{</span><span class=err>
 </span><span class=err></span>  <span class=k>rpc</span> <span class=n>SayHello</span><span class=p>(</span><span class=n>HelloMessage</span><span class=p>)</span> <span class=k>returns</span> <span class=p>(</span><span class=n>HelloMessage</span><span class=p>);</span><span class=err>
 </span><span class=err></span><span class=p>}</span><span class=err>
-</span></code></pre></div><ul>
-<li>golang 客户端</li>
-</ul>
+</span></code></pre></div><p>使用 protocol buffers 第一步便是在 <code>proto</code> 文件中定于需要序列化的数据结构：这是一个以 <code>.proto</code> 为扩展名的普通文本文件。数据被构造为消息（<code>message</code>），其中每条消息包含数量不等的键值对（也可以为空），下面简单举例，传输到接收方可以直接从结构体中取出想要的数据，而从结构体到序列化压缩传输，再到还原成结构体这一过程对程序员来说是透明的，由 <code>protobuf</code> 生成的库文件自动完成。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=kd>message</span> <span class=nc>Person</span> <span class=p>{</span><span class=err>
+</span><span class=err></span>  <span class=kt>string</span> <span class=n>name</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span><span class=err></span>  <span class=kt>int32</span> <span class=n>id</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
+</span><span class=err></span>  <span class=kt>bool</span> <span class=n>has_ponycopter</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span><span class=err>
+</span><span class=err></span><span class=p>}</span><span class=err>
+</span></code></pre></div><h4 id=golang-客户端>golang 客户端</h4>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=kn>import</span> <span class=p>(</span>
 	<span class=o>...</span>
 	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
@@ -150,9 +152,7 @@ Develop
 	<span class=nx>greeter</span> <span class=o>:=</span> <span class=nx>Greeter</span><span class=p>{</span><span class=nx>client</span><span class=p>:</span> <span class=nx>client</span><span class=p>}</span>
 	<span class=nx>greeter</span><span class=p>.</span><span class=nf>sayHello</span><span class=p>()</span> <span class=c1>// 调用方法
 </span><span class=c1></span><span class=p>}</span>
-</code></pre></div><ul>
-<li>服务端</li>
-</ul>
+</code></pre></div><h4 id=golang-服务端>golang 服务端</h4>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=kn>import</span> <span class=p>(</span>
 	<span class=o>...</span>
 	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
@@ -239,60 +239,46 @@ Develop
 <ul>
 <li>cmake 包办</li>
 </ul>
-<p>可以参考如下两个 <code>.cmake</code> 文件，自己在 <code>CMakeLists.txt</code> 中设置变量名称。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=c>## protobuf.cmake
-</span><span class=c># Find Protobuf
-</span><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>Protobuf</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Find Generator Executable
+<p>可以参考如下 <code>.cmake</code> 文件，自行在 <code>CMakeLists.txt</code> 引入库文件和生成的头文件。</p>
+<p><code>protobuf.cmake</code></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=c># Find Protobuf
+</span><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>Protobuf</span> <span class=s>REQUIRED</span><span class=p>)</span> <span class=c># 如果没有需要自行安装
+</span><span class=c></span><span class=err>
+</span><span class=err></span><span class=c># Find Generator Executable # 找到两个用于生成库文件的可执行文件
 </span><span class=c></span><span class=nb>find_program</span><span class=p>(</span><span class=s>PROTOBUF_PROTOC_EXECUTABLE</span> <span class=s>protoc</span><span class=p>)</span><span class=err>
+</span><span class=err></span><span class=nb>find_program</span><span class=p>(</span><span class=s>GRPC_CC_PLUGIN_EXECUTABLE</span> <span class=s>grpc_cpp_plugin</span><span class=p>)</span> <span class=c># 对应所需要生成的语言
+</span><span class=c></span><span class=err>
+</span><span class=err></span><span class=c># Set Proto File Name
+</span><span class=c></span><span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_NAME_LISTS</span>
+    <span class=s2>&#34;api&#34;</span>
+    <span class=p>)</span><span class=err>
 </span><span class=err>
-</span><span class=err></span><span class=c># Set Proto Name
-</span><span class=c></span><span class=nb>set</span><span class=p>(</span><span class=s>API_PROTO_NAME</span> <span class=s2>&#34;&lt;YourProtoName&gt;&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span><span class=c># Generate gRPC and protobuf Sources
+</span><span class=c></span><span class=nb>foreach</span><span class=p>(</span><span class=s>PROTO_NAME</span> <span class=o>${</span><span class=nv>PROTO_NAME_LISTS</span><span class=o>}</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_DIR</span> <span class=s2>&#34;${CMAKE_SOURCE_DIR}/misc/&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_FILE</span> <span class=s2>&#34;${PROTO_DIR}/${PROTO_NAME}.proto&#34;</span><span class=p>)</span><span class=err>
 </span><span class=err>
-</span><span class=err></span><span class=c># Set Libraries
-</span><span class=c></span><span class=nb>set</span><span class=p>(</span><span class=s>PROTOBUF_LIBPROTOBUF_LIB</span> <span class=s>protobuf::libprotobuf</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Set Proto Path
-</span><span class=c></span><span class=nb>get_filename_component</span><span class=p>(</span><span class=s>API_PROTO_PATH</span> <span class=s2>&#34;protofile&#34;</span> <span class=s>ABSOLUTE</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># File Proto File
-</span><span class=c></span><span class=nb>get_filename_component</span><span class=p>(</span><span class=s>API_PROTO</span> <span class=s2>&#34;${API_PROTO_PATH}/${API_PROTO_NAME}.proto&#34;</span> <span class=s>ABSOLUTE</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Generated Sources
-</span><span class=c></span><span class=nb>protobuf_generate_cpp</span><span class=p>(</span><span class=s>API_PROTO_SRCS</span> <span class=s>API_PROTO_HDRS</span> <span class=s2>&#34;${API_PROTO}&#34;</span><span class=p>)</span><span class=err>
-</span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=c>## grpc.cmake
-</span><span class=c># Find gRPC Package
-</span><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>gRPC</span> <span class=s>CONFIG</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Find Generator Executable Plugin
-</span><span class=c></span><span class=nb>find_program</span><span class=p>(</span><span class=s>GRPC_CC_PLUGIN_EXECUTABLE</span> <span class=s>grpc_cpp_plugin</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Find PkgConfig
-</span><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>PkgConfig</span> <span class=s>REQUIRED</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Check Modules
-</span><span class=c></span><span class=nb>pkg_check_modules</span><span class=p>(</span><span class=s>GRPC</span> <span class=s>REQUIRED</span> <span class=s>grpc++</span> <span class=s>grpc</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Set Source Files
-</span><span class=c></span><span class=nb>set</span><span class=p>(</span><span class=s>API_GRPC_SRCS</span> <span class=o>${</span><span class=nv>CMAKE_CURRENT_BINARY_DIR</span><span class=o>}</span><span class=s>/</span><span class=o>${</span><span class=nv>API_PROTO_NAME</span><span class=o>}</span><span class=s>.grpc.pb.cc</span><span class=p>)</span><span class=err>
-</span><span class=err></span><span class=nb>set</span><span class=p>(</span><span class=s>API_GRPC_HDRS</span> <span class=o>${</span><span class=nv>CMAKE_CURRENT_BINARY_DIR</span><span class=o>}</span><span class=s>/</span><span class=o>${</span><span class=nv>API_PROTO_NAME</span><span class=o>}</span><span class=s>.grpc.pb.h</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Set Libraries
-</span><span class=c></span><span class=nb>set</span><span class=p>(</span><span class=s>GRPC_GRPCPP_LIB</span> <span class=s>gRPC::grpc++</span><span class=p>)</span><span class=err>
-</span><span class=err></span><span class=nb>set</span><span class=p>(</span><span class=s>GRPC_REFLECTION_LIB</span> <span class=s>gRPC::grpc++_reflection</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Generate gRPC Sources
-</span><span class=c></span><span class=nb>add_custom_command</span><span class=p>(</span>
-        <span class=s>OUTPUT</span> <span class=s2>&#34;${API_GRPC_SRCS}&#34;</span> <span class=s2>&#34;${API_GRPC_HDRS}&#34;</span> <span class=s2>&#34;${API_PROTO_SRCS}&#34;</span> <span class=s2>&#34;${API_PROTO_HDRS}&#34;</span>
-        <span class=s>COMMAND</span> <span class=o>${</span><span class=nv>PROTOBUF_PROTOC_EXECUTABLE</span><span class=o>}</span>
-        <span class=s>ARGS</span> <span class=s>--grpc_out=</span><span class=o>${</span><span class=nv>CMAKE_CURRENT_BINARY_DIR</span><span class=o>}</span>
-            <span class=s>--cpp_out=</span><span class=o>${</span><span class=nv>CMAKE_CURRENT_BINARY_DIR</span><span class=o>}</span>
-            <span class=s>-I=</span><span class=s2>&#34;${API_PROTO_PATH}&#34;</span>
+</span><span class=err></span>    <span class=nb>add_custom_command</span><span class=p>(</span>
+        <span class=s>OUTPUT</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span> <span class=s2>&#34;${PB_HEADER}&#34;</span>
+        <span class=s>COMMAND</span> <span class=s2>&#34;${PROTOBUF_PROTOC_EXECUTABLE}&#34;</span>
+        <span class=s>ARGS</span>
+            <span class=s>--grpc_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
+            <span class=s>--cpp_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
+            <span class=s>-I=</span><span class=s2>&#34;${PROTO_DIR}&#34;</span>
             <span class=s>--plugin=protoc-gen-grpc=</span><span class=s2>&#34;${GRPC_CC_PLUGIN_EXECUTABLE}&#34;</span>
-            <span class=s2>&#34;${API_PROTO}&#34;</span>
-        <span class=s>DEPENDS</span> <span class=s2>&#34;${API_PROTO}&#34;</span>
-<span class=p>)</span><span class=err>
+            <span class=s2>&#34;${PROTO_FILE}&#34;</span>
+        <span class=s>DEPENDS</span> <span class=s2>&#34;${PROTO_FILE}&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err>
+</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_HEADERS</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_SOURCES</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err>
+</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_HEADERS</span> <span class=s2>&#34;${PB_HEADER}&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_SOURCES</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span><span class=p>)</span><span class=err>
+</span><span class=err></span><span class=nb>endforeach</span><span class=p>()</span><span class=err>
 </span></code></pre></div><h3 id=一个综合的案例>一个综合的案例</h3>
 <p><a class=link href=https://github.com/v2fly/v2ray-core/blob/master/config.proto target=_blank rel=noopener>v2ray config.proto</a></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
@@ -424,7 +410,13 @@ Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=
 <ol>
 <li><a href=#通俗易懂的说明>通俗易懂的说明</a></li>
 <li><a href=#有点复杂的介绍>有点复杂的介绍</a></li>
-<li><a href=#一个简单的例子>一个简单的例子</a></li>
+<li><a href=#一个简单的例子>一个简单的例子</a>
+<ol>
+<li><a href=#公共协议>公共协议</a></li>
+<li><a href=#golang-客户端>golang 客户端</a></li>
+<li><a href=#golang-服务端>golang 服务端</a></li>
+</ol>
+</li>
 </ol>
 </li>
 <li><a href=#protocol-buffers-简要>Protocol Buffers 简要</a>
