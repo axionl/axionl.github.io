@@ -1,0 +1,305 @@
+<!doctype html><html lang=en-us>
+<head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="TinyTeX 是 yihui 制作的一款基于 TeX Live 的轻量级、跨平台、简单易用的 LaTeX 发行版。与安装占用空间庞大的完整版相比，TinyTex 按需所取、大幅精简，用 tlmgr 包管理器安装所需依赖即可基本使用。
+项目链接  Github | 文档
+ 安装 TinyTex 从 R 语言终端安装 初始化 R 语言环境设置，主要是修改软件源方便后续下载，这部分参考 Arch Wiki。
+$ sudo pacman -S r $ touch ~/.Renviron ~/.Rprofile # 创建两配置文件内容如下  .Renviron  R_HOME_USER = /path/to/your/r/directory # 设置你自己的目标路径，下同 R_PROFILE_USER = ${HOME}/.config/r/.Rprofile R_LIBS_USER = /path/to/your/r/library R_HISTFILE = /path/to/your/filename.Rhistory # Do not forget to append the .Rhistory MYSQL_HOME = /var/lib/mysql  .Rprofile  # The ."><title>[归档] TinyTeX + VSCode</title>
+<link rel=canonical href=https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/>
+<link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="[归档] TinyTeX + VSCode">
+<meta property="og:description" content="TinyTeX 是 yihui 制作的一款基于 TeX Live 的轻量级、跨平台、简单易用的 LaTeX 发行版。与安装占用空间庞大的完整版相比，TinyTex 按需所取、大幅精简，用 tlmgr 包管理器安装所需依赖即可基本使用。
+项目链接  Github | 文档
+ 安装 TinyTex 从 R 语言终端安装 初始化 R 语言环境设置，主要是修改软件源方便后续下载，这部分参考 Arch Wiki。
+$ sudo pacman -S r $ touch ~/.Renviron ~/.Rprofile # 创建两配置文件内容如下  .Renviron  R_HOME_USER = /path/to/your/r/directory # 设置你自己的目标路径，下同 R_PROFILE_USER = ${HOME}/.config/r/.Rprofile R_LIBS_USER = /path/to/your/r/library R_HISTFILE = /path/to/your/filename.Rhistory # Do not forget to append the .Rhistory MYSQL_HOME = /var/lib/mysql  .Rprofile  # The .">
+<meta property="og:url" content="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/">
+<meta property="og:site_name" content="初等記憶體">
+<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="LaTeX"><meta property="article:published_time" content="2018-12-26T18:26:33+08:00"><meta property="article:modified_time" content="2018-12-26T18:26:33+08:00"><meta property="og:image" content="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner.png">
+<meta name=twitter:site content="@ArielAxionL">
+<meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="[归档] TinyTeX + VSCode">
+<meta name=twitter:description content="TinyTeX 是 yihui 制作的一款基于 TeX Live 的轻量级、跨平台、简单易用的 LaTeX 发行版。与安装占用空间庞大的完整版相比，TinyTex 按需所取、大幅精简，用 tlmgr 包管理器安装所需依赖即可基本使用。
+项目链接  Github | 文档
+ 安装 TinyTex 从 R 语言终端安装 初始化 R 语言环境设置，主要是修改软件源方便后续下载，这部分参考 Arch Wiki。
+$ sudo pacman -S r $ touch ~/.Renviron ~/.Rprofile # 创建两配置文件内容如下  .Renviron  R_HOME_USER = /path/to/your/r/directory # 设置你自己的目标路径，下同 R_PROFILE_USER = ${HOME}/.config/r/.Rprofile R_LIBS_USER = /path/to/your/r/library R_HISTFILE = /path/to/your/filename.Rhistory # Do not forget to append the .Rhistory MYSQL_HOME = /var/lib/mysql  .Rprofile  # The ."><meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner.png">
+<link rel="shortcut icon" href=/img/favicon.ico>
+</head>
+<body class="article-page has-toc">
+<script>(function(){const a='StackColorScheme';localStorage.getItem(a)||localStorage.setItem(a,"dark")})()</script><script>(function(){const b='StackColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.scheme='dark':document.documentElement.dataset.scheme='light'})()</script>
+<div class=main-container-background>
+<div class="container main-container flex
+extended">
+<div id=article-toolbar>
+<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span>
+</a>
+</div>
+<main class="main full-width">
+<article class="has-image main-article">
+<header class=article-header>
+<div class=article-image>
+<a href=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/>
+<img src=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner_huea4929c732bf0918ed85d7145c5041da_390093_800x0_resize_box_3.png srcset="/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner_huea4929c732bf0918ed85d7145c5041da_390093_800x0_resize_box_3.png 800w, /p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner_huea4929c732bf0918ed85d7145c5041da_390093_1600x0_resize_box_3.png 1600w" width=800 height=267 loading=lazy alt="Featured image of post [归档] TinyTeX + VSCode">
+</a>
+</div>
+<div class=article-details>
+<header class=article-category>
+<a href=/categories/tutorial/ style=background-color:#2a9d8f;color:#fff>
+Tutorial
+</a>
+</header>
+<h2 class=article-title>
+<a href=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/>[归档] TinyTeX + VSCode</a>
+</h2>
+<footer class=article-time>
+<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 26, 2018</time>
+</div>
+<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>
+阅读时长: 2 分钟
+</time>
+</div>
+</footer>
+</div>
+</header>
+<section class=article-content>
+<p><code>TinyTeX</code> 是 yihui 制作的一款基于 TeX Live 的轻量级、跨平台、简单易用的 LaTeX 发行版。与安装占用空间庞大的完整版相比，TinyTex 按需所取、大幅精简，用 <code>tlmgr</code> 包管理器安装所需依赖即可基本使用。</p>
+<h2 id=项目链接>项目链接</h2>
+<blockquote>
+<p><a class=link href=https://github.com/yihui/tinytex target=_blank rel=noopener>Github</a> |
+<a class=link href=https://yihui.name/tinytex/ target=_blank rel=noopener>文档</a></p>
+</blockquote>
+<h2 id=安装-tinytex>安装 TinyTex</h2>
+<h3 id=从-r-语言终端安装>从 R 语言终端安装</h3>
+<p>初始化 R 语言环境设置，主要是修改软件源方便后续下载，这部分参考 <a class=link href=https://wiki.archlinux.org/index.php/R target=_blank rel=noopener>Arch Wiki</a>。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -S r
+$ touch ~/.Renviron ~/.Rprofile <span class=c1># 创建两配置文件内容如下</span>
+</code></pre></div><ul>
+<li><code>.Renviron</code></li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=na>R_HOME_USER</span> <span class=o>=</span> <span class=s>/path/to/your/r/directory # 设置你自己的目标路径，下同</span>
+<span class=na>R_PROFILE_USER</span> <span class=o>=</span> <span class=s>${HOME}/.config/r/.Rprofile</span>
+<span class=na>R_LIBS_USER</span> <span class=o>=</span> <span class=s>/path/to/your/r/library</span>
+<span class=na>R_HISTFILE</span> <span class=o>=</span> <span class=s>/path/to/your/filename.Rhistory                                             # Do not forget to append the .Rhistory</span>
+<span class=na>MYSQL_HOME</span> <span class=o>=</span> <span class=s>/var/lib/mysql</span>
+</code></pre></div><ul>
+<li><code>.Rprofile</code></li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=c1># The .First function is called after everything else in .Rprofile is executed</span>
+<span class=n>.First</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>()</span> <span class=p>{</span>
+  <span class=c1># Print a welcome message</span>
+  <span class=nf>message</span><span class=p>(</span><span class=s>&#34;Welcome back &#34;</span><span class=p>,</span> <span class=nf>Sys.getenv</span><span class=p>(</span><span class=s>&#34;USER&#34;</span><span class=p>),</span><span class=s>&#34;!\n&#34;</span><span class=p>,</span><span class=s>&#34;working directory is:&#34;</span><span class=p>,</span> <span class=nf>getwd</span><span class=p>())</span>
+<span class=p>}</span>
+
+<span class=nf>options</span><span class=p>(</span><span class=n>digits</span> <span class=o>=</span> <span class=m>12</span><span class=p>)</span>                                          <span class=c1># number of digits to print. Default is 7, max is 15</span>
+<span class=nf>options</span><span class=p>(</span><span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>)</span>                             <span class=c1># Disable default conversion of character strings to factors</span>
+<span class=nf>options</span><span class=p>(</span><span class=n>show.signif.stars</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>)</span>                            <span class=c1># Don&#39;t show stars indicating statistical significance in model outputs</span>
+<span class=n>error</span> <span class=o>&lt;-</span> <span class=nf>quote</span><span class=p>(</span><span class=nf>dump.frames</span><span class=p>(</span><span class=s>&#34;${R_HOME_USER}/testdump&#34;</span><span class=p>,</span> <span class=kc>TRUE</span><span class=p>))</span>  <span class=c1># post-mortem debugging facilities</span>
+
+<span class=nf>options</span><span class=p>(</span><span class=s>&#34;repos&#34;</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=n>CRAN</span><span class=o>=</span><span class=s>&#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&#34;</span><span class=p>))</span> <span class=c1># 换用 tuna 源</span>
+</code></pre></div><p>如果不在配置文件中修改源的话，接下来在交互模式内，第一次安装包的时候也会出现一个窗口需要你来选择源。由于弹出窗口是 <code>tk</code> 实现的，所以需手动安装其作为依赖。如果第一次安装选择错误，那么可以进入交互模式后输入 <code>chooseCRANmirror()</code> 来修改，如提示所言，退出交互模式为 <code>q()</code>，并且会问你是否保存会话。</p>
+<p>在命令行输入 R，进入交互模式</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=o>$</span> <span class=n>R</span>
+
+<span class=n>R</span> <span class=n>version</span> <span class=m>3.5.2</span> <span class=p>(</span><span class=m>2018-12-20</span><span class=p>)</span> <span class=o>--</span> <span class=s>&#34;Eggshell Igloo&#34;</span>
+<span class=nf>Copyright </span><span class=p>(</span><span class=n>C</span><span class=p>)</span> <span class=m>2018</span> <span class=n>The</span> <span class=n>R</span> <span class=n>Foundation</span> <span class=n>for</span> <span class=n>Statistical</span> <span class=n>Computing</span>
+<span class=n>Platform</span><span class=o>:</span> <span class=n>x86_64</span><span class=o>-</span><span class=n>pc</span><span class=o>-</span><span class=n>linux</span><span class=o>-</span><span class=nf>gnu </span><span class=p>(</span><span class=m>64</span><span class=o>-</span><span class=n>bit</span><span class=p>)</span>
+<span class=n>R</span> <span class=n>is</span> <span class=n>free</span> <span class=n>software</span> <span class=n>and</span> <span class=n>comes</span> <span class=n>with</span> <span class=n>ABSOLUTELY</span> <span class=n>NO</span> <span class=n>WARRANTY.</span>
+<span class=n>You</span> <span class=n>are</span> <span class=n>welcome</span> <span class=n>to</span> <span class=n>redistribute</span> <span class=n>it</span> <span class=n>under</span> <span class=n>certain</span> <span class=n>conditions.</span>
+<span class=n>Type</span> <span class=s>&#39;license()&#39;</span> <span class=n>or</span> <span class=s>&#39;licence()&#39;</span> <span class=n>for</span> <span class=n>distribution</span> <span class=n>details.</span>
+<span class=n>Natural</span> <span class=n>language</span> <span class=n>support</span> <span class=n>but</span> <span class=n>running</span> <span class=n>in</span> <span class=n>an</span> <span class=n>English</span> <span class=n>locale</span>
+<span class=n>R</span> <span class=n>is</span> <span class=n>a</span> <span class=n>collaborative</span> <span class=n>project</span> <span class=n>with</span> <span class=n>many</span> <span class=n>contributors.</span>
+<span class=n>Type</span> <span class=s>&#39;contributors()&#39;</span> <span class=n>for</span> <span class=n>more</span> <span class=n>information</span> <span class=n>and</span>
+<span class=s>&#39;citation()&#39;</span> <span class=n>on</span> <span class=n>how</span> <span class=n>to</span> <span class=n>cite</span> <span class=n>R</span> <span class=n>or</span> <span class=n>R</span> <span class=n>packages</span> <span class=n>in</span> <span class=n>publications.</span>
+<span class=n>Type</span> <span class=s>&#39;demo()&#39;</span> <span class=n>for</span> <span class=n>some</span> <span class=n>demos</span><span class=p>,</span> <span class=s>&#39;help()&#39;</span> <span class=n>for</span> <span class=n>on</span><span class=o>-</span><span class=n>line</span> <span class=n>help</span><span class=p>,</span> <span class=n>or</span>
+<span class=s>&#39;help.start()&#39;</span> <span class=n>for</span> <span class=n>an</span> <span class=n>HTML</span> <span class=n>browser</span> <span class=n>interface</span> <span class=n>to</span> <span class=n>help.</span>
+<span class=n>Type</span> <span class=s>&#39;q()&#39;</span> <span class=n>to</span> <span class=n>quit</span> <span class=n>R.</span>
+
+<span class=o>&gt;</span> <span class=nf>install.packages</span><span class=p>(</span><span class=s>&#39;tinytex&#39;</span><span class=p>)</span> <span class=c1># 安装 tinytex</span>
+<span class=o>&gt;</span> <span class=n>tinytex</span><span class=o>::</span><span class=nf>install_tinytex</span><span class=p>()</span>
+</code></pre></div><p>如果使用非管理员权限安装的话，会出现以下提示，输入 <code>yes</code> 即将写入目录置于用户家目录下。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=o>&gt;</span> <span class=nf>install.packages</span><span class=p>(</span><span class=s>&#39;tinytex&#39;</span><span class=p>)</span>
+<span class=n>Warning</span> <span class=n>in</span> <span class=nf>install.packages</span><span class=p>(</span><span class=s>&#34;tinytex&#34;</span><span class=p>)</span> <span class=o>:</span>
+<span class=s>&#39;lib = &#34;/usr/lib/R/library&#34;&#39;</span> <span class=n>is</span> <span class=n>not</span> <span class=n>writable</span>
+<span class=n>Would</span> <span class=n>you</span> <span class=n>like</span> <span class=n>to</span> <span class=n>use</span> <span class=n>a</span> <span class=n>personal</span> <span class=n>library</span> <span class=n>instead</span><span class=o>?</span> <span class=p>(</span><span class=n>yes</span><span class=o>/</span><span class=n>No</span><span class=o>/</span><span class=n>cancel</span><span class=p>)</span>
+</code></pre></div><p>如果你看的是<a class=link href=https://yihui.name/tinytex/cn/ target=_blank rel=noopener>中文文档</a>的话，其中默认使用了 <code>devtools</code> 这个包，你需要自己先手动安装，即 <code>install.packages('devtools')</code>，无特殊需求则等待安装结束。</p>
+<h3 id=从脚本安装>从脚本安装</h3>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>wget -qO- <span class=s2>&#34;https://yihui.name/gh/tinytex/tools/install-unx.sh&#34;</span> <span class=p>|</span> sh
+</code></pre></div><h3 id=添加环境变量>添加环境变量</h3>
+<p>安装完成之后会在 <code>$HOME</code> 目录下出现一个 <code>.TinyTeX</code> 的文件夹，并且将其中的二进制软链接到了 <code>$HOME/bin</code>，你需要将这个文件夹添加到自己的 <code>$PATH</code> 中才可正常使用 <code>tlmgr</code> 等一系列工具。环境变量生效之后，TinyTeX 安装部分至此结束。</p>
+<h2 id=中文常用软件包配置>中文常用软件包配置</h2>
+<p>对于中文用户常用的包有 <code>ctex</code>、<code>xecjk</code>、<code>cjk</code>、<code>cjkpunct</code>、<code>fandol</code> 等，如果是直接用脚本安装的话可能需要手动装更多依赖，如果不确定要装什么包的话可以先找个简单的示例文档进行编译和预览，再根据报错提示来安装缺失的依赖包。</p>
+<p><code>tlmgr --gui</code> 提供了一个简易的图形界面用于软件包安装和配置。</p>
+<p><figure class=gallery-image style=flex-grow:98;flex-basis:235px>
+<a href=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager.png data-size=753x767>
+<img src=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager.png width=753 height=767 srcset="/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager_hu3d77905170a70818a291540747ec6718_71748_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager_hu3d77905170a70818a291540747ec6718_71748_1024x0_resize_box_3.png 1024w" loading=lazy alt=texLiveManager>
+</a>
+<figcaption>texLiveManager</figcaption>
+</figure></p>
+<p>也使用 R 语言提供的交互式命令行安装：</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=nf>tlmgr_install</span><span class=p>(</span><span class=s>&#39;PackageName&#39;</span><span class=p>)</span>
+</code></pre></div><p>或直接在命令行安装：</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=n>tlmgr</span> <span class=n>install</span> <span class=s>&#39;PackageName&#39;</span> <span class=c1># 安装</span>
+</code></pre></div><h2 id=vscode-配置>VSCode 配置</h2>
+<p><a class=link href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop" target=_blank rel=noopener>LaTeX Workshop</a> 插件提供 LaTeX 渲染、高亮和补全支持，可以在扩展商店中搜索安装。</p>
+<p><figure class=gallery-image style=flex-grow:130;flex-basis:313px>
+<a href=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview.png data-size=1057x808>
+<img src=/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview.png width=1057 height=808 srcset="/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview_hu181cf4fa8d2506633d4cf13cb20a64de_95522_480x0_resize_box_3.png 480w, /p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview_hu181cf4fa8d2506633d4cf13cb20a64de_95522_1024x0_resize_box_3.png 1024w" loading=lazy alt=texpreview>
+</a>
+<figcaption>texpreview</figcaption>
+</figure></p>
+<p>预览效果如上，其默认编译器的 <code>pdflatex</code> 对 <code>ctex</code> 中文包支持不是很好，建议参考照官方文档说明，在文档中添加 <code>% !TEX program = xelatex</code> ( Magic comment)，使用 xelatex 作为指定编译器。</p>
+<p>其余 LaTeX 具体书写语法可参见 <a class=link href=https://tuna.moe/assets/slides/latex-talk-v2.0.pdf target=_blank rel=noopener>TUNA 的演示文档</a>。</p>
+</section>
+<footer class=article-footer>
+<section class=article-tags>
+<a href=/tags/latex/>LaTeX</a>
+</section>
+<section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span>
+</section>
+</footer>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+</article>
+<aside class=related-contents--wrapper>
+<h2 class=section-title>相关文章</h2>
+<div class=related-contents>
+<div class="flex article-list--tile">
+<article class=has-image>
+<a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/>
+<div class=article-image>
+<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] _00__搭建环境" data-hash="md5-kgGUncNnKiOnd9vCr8rhwg==">
+</div>
+<div class=article-details>
+<h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2>
+</div>
+</a>
+</article>
+<article class=has-image>
+<a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/>
+<div class=article-image>
+<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.af922eb8135ee3585a9685207e1df25d_hu2b2e55908b8d26e47274f4f94447b3fd_141327_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] 01_HelloWorld" data-hash="md5-r5IuuBNe41haloUgfh3yXQ==">
+</div>
+<div class=article-details>
+<h2 class=article-title>[OhMyQt 系列] 01_HelloWorld</h2>
+</div>
+</a>
+</article>
+<article class=has-image>
+<a href=/p/the-wayland-protocol/>
+<div class=article-image>
+<img src=/p/the-wayland-protocol/wayland.2a9f76dee0fd08ca9e145ff26e79fb22_hu0adbd50c5ecec4ec41a5eaa3a1a2a25b_328685_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post The Wayland Protocol" data-hash="md5-Kp923uD9CMqeFF/ybnn7Ig==">
+</div>
+<div class=article-details>
+<h2 class=article-title>The Wayland Protocol</h2>
+</div>
+</a>
+</article>
+<article class=has-image>
+<a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/>
+<div class=article-image>
+<img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.4230682136e27cdb80fa13d080d92f16_huf5720345d1f95701fdc400deb49d5893_1019259_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Linux 用户环境变量设置" data-hash="md5-QjBoITbifNuA+hPQgNkvFg==">
+</div>
+<div class=article-details>
+<h2 class=article-title>Linux 用户环境变量设置</h2>
+</div>
+</a>
+</article>
+<article class=has-image>
+<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/>
+<div class=article-image>
+<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.6c13d53e882032ddb45706dd2bca5954_hud6f9c8919d070f75481ccdcf5e8a2ef3_499154_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" data-hash="md5-bBPVPoggMt20VwbdK8pZVA==">
+</div>
+<div class=article-details>
+<h2 class=article-title>[归档] 用 Chezmoi 管理配置文件</h2>
+</div>
+</a>
+</article>
+</div>
+</div>
+</aside>
+<div class=disqus-container>
+<div id=disqus_thread></div>
+<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//axionl.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style>
+<script>window.addEventListener('onColorSchemeChange',a=>{DISQUS&&DISQUS.reset({reload:!0})})</script>
+<footer class=site-footer>
+<section class=copyright>
+&copy;
+2020 -
+2021 初等記憶體
+</section>
+<section class=powerby>
+Ariel AxionL's Blog <br>
+Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
+Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
+</section>
+</footer>
+<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
+<div class=pswp__bg></div>
+<div class=pswp__scroll-wrap>
+<div class=pswp__container>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+</div>
+<div class="pswp__ui pswp__ui--hidden">
+<div class=pswp__top-bar>
+<div class=pswp__counter></div>
+<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+<div class=pswp__preloader>
+<div class=pswp__preloader__icn>
+<div class=pswp__preloader__cut>
+<div class=pswp__preloader__donut></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+<div class=pswp__share-tooltip></div>
+</div>
+<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+</button>
+<div class=pswp__caption>
+<div class=pswp__caption__center></div>
+</div>
+</div>
+</div>
+</div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous>
+</main>
+<aside class="sidebar right-sidebar sticky">
+<section class="widget archives">
+<div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+</div>
+<h2 class="widget-title section-title">目录</h2>
+<div class=widget--toc>
+<nav id=TableOfContents>
+<ol>
+<li><a href=#项目链接>项目链接</a></li>
+<li><a href=#安装-tinytex>安装 TinyTex</a>
+<ol>
+<li><a href=#从-r-语言终端安装>从 R 语言终端安装</a></li>
+<li><a href=#从脚本安装>从脚本安装</a></li>
+<li><a href=#添加环境变量>添加环境变量</a></li>
+</ol>
+</li>
+<li><a href=#中文常用软件包配置>中文常用软件包配置</a></li>
+<li><a href=#vscode-配置>VSCode 配置</a></li>
+</ol>
+</nav>
+</div>
+</section>
+</aside>
+</div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const a=document.createElement('link');a.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",a.type="text/css",a.rel="stylesheet",document.head.appendChild(a)})()</script>
+</body>
+</html>

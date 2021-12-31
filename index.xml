@@ -2614,4 +2614,112 @@ my_laptop ⟵ Tunnel &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/s
 &lt;blockquote>
 &lt;p>&lt;a class="link" href="https://wallhaven.cc/w/ymz1qx" target="_blank" rel="noopener"
 >Banner Artwork&lt;/a>&lt;/p>
-&lt;/blockquote></description></item></channel></rss>
+&lt;/blockquote></description></item><item><title>[归档] TinyTeX + VSCode</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/</link><pubDate>Wed, 26 Dec 2018 18:26:33 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/banner.png" alt="Featured image of post [归档] TinyTeX + VSCode" />&lt;p>&lt;code>TinyTeX&lt;/code> 是 yihui 制作的一款基于 TeX Live 的轻量级、跨平台、简单易用的 LaTeX 发行版。与安装占用空间庞大的完整版相比，TinyTex 按需所取、大幅精简，用 &lt;code>tlmgr&lt;/code> 包管理器安装所需依赖即可基本使用。&lt;/p>
+&lt;h2 id="项目链接">项目链接&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/yihui/tinytex" target="_blank" rel="noopener"
+>Github&lt;/a> |
+&lt;a class="link" href="https://yihui.name/tinytex/" target="_blank" rel="noopener"
+>文档&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装-tinytex">安装 TinyTex&lt;/h2>
+&lt;h3 id="从-r-语言终端安装">从 R 语言终端安装&lt;/h3>
+&lt;p>初始化 R 语言环境设置，主要是修改软件源方便后续下载，这部分参考 &lt;a class="link" href="https://wiki.archlinux.org/index.php/R" target="_blank" rel="noopener"
+>Arch Wiki&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo pacman -S r
+$ touch ~/.Renviron ~/.Rprofile &lt;span class="c1"># 创建两配置文件内容如下&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>.Renviron&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="na">R_HOME_USER&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">/path/to/your/r/directory # 设置你自己的目标路径，下同&lt;/span>
+&lt;span class="na">R_PROFILE_USER&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">${HOME}/.config/r/.Rprofile&lt;/span>
+&lt;span class="na">R_LIBS_USER&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">/path/to/your/r/library&lt;/span>
+&lt;span class="na">R_HISTFILE&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">/path/to/your/filename.Rhistory # Do not forget to append the .Rhistory&lt;/span>
+&lt;span class="na">MYSQL_HOME&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">/var/lib/mysql&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>.Rprofile&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="c1"># The .First function is called after everything else in .Rprofile is executed&lt;/span>
+&lt;span class="n">.First&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">function&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># Print a welcome message&lt;/span>
+&lt;span class="nf">message&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Welcome back &amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">Sys.getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;USER&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>&lt;span class="s">&amp;#34;!\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;working directory is:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nf">getwd&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nf">options&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">digits&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="m">12&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># number of digits to print. Default is 7, max is 15&lt;/span>
+&lt;span class="nf">options&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stringsAsFactors&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">FALSE&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># Disable default conversion of character strings to factors&lt;/span>
+&lt;span class="nf">options&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">show.signif.stars&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">FALSE&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># Don&amp;#39;t show stars indicating statistical significance in model outputs&lt;/span>
+&lt;span class="n">error&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="nf">quote&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">dump.frames&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;${R_HOME_USER}/testdump&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">TRUE&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="c1"># post-mortem debugging facilities&lt;/span>
+&lt;span class="nf">options&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;repos&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">c&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CRAN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;https://mirrors.tuna.tsinghua.edu.cn/CRAN/&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="c1"># 换用 tuna 源&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果不在配置文件中修改源的话，接下来在交互模式内，第一次安装包的时候也会出现一个窗口需要你来选择源。由于弹出窗口是 &lt;code>tk&lt;/code> 实现的，所以需手动安装其作为依赖。如果第一次安装选择错误，那么可以进入交互模式后输入 &lt;code>chooseCRANmirror()&lt;/code> 来修改，如提示所言，退出交互模式为 &lt;code>q()&lt;/code>，并且会问你是否保存会话。&lt;/p>
+&lt;p>在命令行输入 R，进入交互模式&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="o">$&lt;/span> &lt;span class="n">R&lt;/span>
+&lt;span class="n">R&lt;/span> &lt;span class="n">version&lt;/span> &lt;span class="m">3.5.2&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="m">2018-12-20&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">--&lt;/span> &lt;span class="s">&amp;#34;Eggshell Igloo&amp;#34;&lt;/span>
+&lt;span class="nf">Copyright &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">C&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="m">2018&lt;/span> &lt;span class="n">The&lt;/span> &lt;span class="n">R&lt;/span> &lt;span class="n">Foundation&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">Statistical&lt;/span> &lt;span class="n">Computing&lt;/span>
+&lt;span class="n">Platform&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">x86_64&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">pc&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">linux&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nf">gnu &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">64&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">bit&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="n">R&lt;/span> &lt;span class="n">is&lt;/span> &lt;span class="n">free&lt;/span> &lt;span class="n">software&lt;/span> &lt;span class="n">and&lt;/span> &lt;span class="n">comes&lt;/span> &lt;span class="n">with&lt;/span> &lt;span class="n">ABSOLUTELY&lt;/span> &lt;span class="n">NO&lt;/span> &lt;span class="n">WARRANTY.&lt;/span>
+&lt;span class="n">You&lt;/span> &lt;span class="n">are&lt;/span> &lt;span class="n">welcome&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">redistribute&lt;/span> &lt;span class="n">it&lt;/span> &lt;span class="n">under&lt;/span> &lt;span class="n">certain&lt;/span> &lt;span class="n">conditions.&lt;/span>
+&lt;span class="n">Type&lt;/span> &lt;span class="s">&amp;#39;license()&amp;#39;&lt;/span> &lt;span class="n">or&lt;/span> &lt;span class="s">&amp;#39;licence()&amp;#39;&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">distribution&lt;/span> &lt;span class="n">details.&lt;/span>
+&lt;span class="n">Natural&lt;/span> &lt;span class="n">language&lt;/span> &lt;span class="n">support&lt;/span> &lt;span class="n">but&lt;/span> &lt;span class="n">running&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="n">an&lt;/span> &lt;span class="n">English&lt;/span> &lt;span class="n">locale&lt;/span>
+&lt;span class="n">R&lt;/span> &lt;span class="n">is&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="n">collaborative&lt;/span> &lt;span class="n">project&lt;/span> &lt;span class="n">with&lt;/span> &lt;span class="n">many&lt;/span> &lt;span class="n">contributors.&lt;/span>
+&lt;span class="n">Type&lt;/span> &lt;span class="s">&amp;#39;contributors()&amp;#39;&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">more&lt;/span> &lt;span class="n">information&lt;/span> &lt;span class="n">and&lt;/span>
+&lt;span class="s">&amp;#39;citation()&amp;#39;&lt;/span> &lt;span class="n">on&lt;/span> &lt;span class="n">how&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">cite&lt;/span> &lt;span class="n">R&lt;/span> &lt;span class="n">or&lt;/span> &lt;span class="n">R&lt;/span> &lt;span class="n">packages&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="n">publications.&lt;/span>
+&lt;span class="n">Type&lt;/span> &lt;span class="s">&amp;#39;demo()&amp;#39;&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">some&lt;/span> &lt;span class="n">demos&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#39;help()&amp;#39;&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">on&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">line&lt;/span> &lt;span class="n">help&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">or&lt;/span>
+&lt;span class="s">&amp;#39;help.start()&amp;#39;&lt;/span> &lt;span class="n">for&lt;/span> &lt;span class="n">an&lt;/span> &lt;span class="n">HTML&lt;/span> &lt;span class="n">browser&lt;/span> &lt;span class="n">interface&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">help.&lt;/span>
+&lt;span class="n">Type&lt;/span> &lt;span class="s">&amp;#39;q()&amp;#39;&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">quit&lt;/span> &lt;span class="n">R.&lt;/span>
+&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nf">install.packages&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#39;tinytex&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 安装 tinytex&lt;/span>
+&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">tinytex&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="nf">install_tinytex&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果使用非管理员权限安装的话，会出现以下提示，输入 &lt;code>yes&lt;/code> 即将写入目录置于用户家目录下。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nf">install.packages&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#39;tinytex&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="n">Warning&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="nf">install.packages&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;tinytex&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">:&lt;/span>
+&lt;span class="s">&amp;#39;lib = &amp;#34;/usr/lib/R/library&amp;#34;&amp;#39;&lt;/span> &lt;span class="n">is&lt;/span> &lt;span class="n">not&lt;/span> &lt;span class="n">writable&lt;/span>
+&lt;span class="n">Would&lt;/span> &lt;span class="n">you&lt;/span> &lt;span class="n">like&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">use&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="n">personal&lt;/span> &lt;span class="n">library&lt;/span> &lt;span class="n">instead&lt;/span>&lt;span class="o">?&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">yes&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">No&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">cancel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果你看的是&lt;a class="link" href="https://yihui.name/tinytex/cn/" target="_blank" rel="noopener"
+>中文文档&lt;/a>的话，其中默认使用了 &lt;code>devtools&lt;/code> 这个包，你需要自己先手动安装，即 &lt;code>install.packages('devtools')&lt;/code>，无特殊需求则等待安装结束。&lt;/p>
+&lt;h3 id="从脚本安装">从脚本安装&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">wget -qO- &lt;span class="s2">&amp;#34;https://yihui.name/gh/tinytex/tools/install-unx.sh&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> sh
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="添加环境变量">添加环境变量&lt;/h3>
+&lt;p>安装完成之后会在 &lt;code>$HOME&lt;/code> 目录下出现一个 &lt;code>.TinyTeX&lt;/code> 的文件夹，并且将其中的二进制软链接到了 &lt;code>$HOME/bin&lt;/code>，你需要将这个文件夹添加到自己的 &lt;code>$PATH&lt;/code> 中才可正常使用 &lt;code>tlmgr&lt;/code> 等一系列工具。环境变量生效之后，TinyTeX 安装部分至此结束。&lt;/p>
+&lt;h2 id="中文常用软件包配置">中文常用软件包配置&lt;/h2>
+&lt;p>对于中文用户常用的包有 &lt;code>ctex&lt;/code>、&lt;code>xecjk&lt;/code>、&lt;code>cjk&lt;/code>、&lt;code>cjkpunct&lt;/code>、&lt;code>fandol&lt;/code> 等，如果是直接用脚本安装的话可能需要手动装更多依赖，如果不确定要装什么包的话可以先找个简单的示例文档进行编译和预览，再根据报错提示来安装缺失的依赖包。&lt;/p>
+&lt;p>&lt;code>tlmgr --gui&lt;/code> 提供了一个简易的图形界面用于软件包安装和配置。&lt;/p>
+&lt;p>&lt;figure
+class="gallery-image"
+style="
+flex-grow: 98;
+flex-basis: 235px"
+>
+&lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager.png" data-size="753x767">
+&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager.png"
+width="753"
+height="767"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager_hu3d77905170a70818a291540747ec6718_71748_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/manager_hu3d77905170a70818a291540747ec6718_71748_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="texLiveManager">
+&lt;/a>
+&lt;figcaption>texLiveManager&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;p>也使用 R 语言提供的交互式命令行安装：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="nf">tlmgr_install&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#39;PackageName&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>或直接在命令行安装：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="n">tlmgr&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="s">&amp;#39;PackageName&amp;#39;&lt;/span> &lt;span class="c1"># 安装&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vscode-配置">VSCode 配置&lt;/h2>
+&lt;p>&lt;a class="link" href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop" target="_blank" rel="noopener"
+>LaTeX Workshop&lt;/a> 插件提供 LaTeX 渲染、高亮和补全支持，可以在扩展商店中搜索安装。&lt;/p>
+&lt;p>&lt;figure
+class="gallery-image"
+style="
+flex-grow: 130;
+flex-basis: 313px"
+>
+&lt;a href="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview.png" data-size="1057x808">
+&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview.png"
+width="1057"
+height="808"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview_hu181cf4fa8d2506633d4cf13cb20a64de_95522_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-tinytex-vscode/texpreview_hu181cf4fa8d2506633d4cf13cb20a64de_95522_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="texpreview">
+&lt;/a>
+&lt;figcaption>texpreview&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;p>预览效果如上，其默认编译器的 &lt;code>pdflatex&lt;/code> 对 &lt;code>ctex&lt;/code> 中文包支持不是很好，建议参考照官方文档说明，在文档中添加 &lt;code>% !TEX program = xelatex&lt;/code> ( Magic comment)，使用 xelatex 作为指定编译器。&lt;/p>
+&lt;p>其余 LaTeX 具体书写语法可参见 &lt;a class="link" href="https://tuna.moe/assets/slides/latex-talk-v2.0.pdf" target="_blank" rel="noopener"
+>TUNA 的演示文档&lt;/a>。&lt;/p></description></item></channel></rss>
