@@ -27,8 +27,8 @@ params:
     customText: Ariel AxionL's Blog
 
   dateFormat:
-    published: "Jan 02, 2006"
-    lastUpdated: "Jan 02, 2006 15:04 MST"
+    published: "Jan 02, 2022"
+    lastUpdated: "Jan 02, 2022 15:04 MST"
 
   sidebar:
     emoji: "\U0001F431"
