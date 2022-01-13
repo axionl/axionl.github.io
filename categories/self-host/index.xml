@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Self-host on 初等記憶體</title><link>https://axionl.me/categories/self-host/</link><description>Recent content in Self-host on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 10 Jan 2022 22:15:41 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/self-host/index.xml" rel="self" type="application/rss+xml"/><item><title>Maddy 自建邮件服务</title><link>https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/</link><pubDate>Mon, 10 Jan 2022 22:15:41 +0800</pubDate><guid>https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/</guid><description>从白嫖 Yandex 域名邮箱到 FastMail 付费托管邮箱，一直在找适合自己的域名邮件服务，传统的自建方式模块过于分散，上手难度较大，后在 NickCao 老师推荐下尝试了 Maddy。Maddy 目前只提供了命令行运行的 Linux 服务端，WebUI 或者本地客户端需自行选择，仅需手动配置一下 POP3/IMAP（收） 和 SMTP（发） 服务端地址即可。我目前使用的是 Thunderbird （电脑）和 K-9 Mail（Android）。
+下载：Github | 上游服务器 文档：maddy.email
+服务器 部分 VPS 提供商会为了防止广告等原因会禁用 25 号 TCP 端口的 SMTP 端口，但多数情况下（比如 Google Cloud 就不允许）也可以开工单说明邮箱用途和性质，对于个人性质的域名邮箱来说一般不会有太多限制。如果机器本身或者 VPS 提供商还配有防火墙，请打开对应端口（25,465,993）。
+使用邮件服务需要关闭 CDN 代理，故存在机器 IP 暴露风险，在选择机器时候注意避开其它敏感数据服务。
+配置 可以从 docker 拉取，但这里以 binary + 自己配置方式为主。
+maddy.conf 完整版配置
+一般放在 /etc/maddy/maddy.conf
+# 预设了三个变量，方便后续使用 $(hostname) = mail.example.com $(primary_domain) = example.com $(local_domains) = $(primary_domain) # 如果要使用 nginx 反代，这里可以选择 tls off，但如此一来没法生成 dkim 密钥对 # 在之后检查时日志内会有安全警告，故推荐直接用 maddy 管理 # tls off tls file /etc/letsencrypt/live/$(local_domains)/fullchain.</description></item></channel></rss>

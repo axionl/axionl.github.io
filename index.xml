@@ -1,4 +1,267 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>初等記憶體</title><link>https://axionl.me/</link><description>Recent content on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 10 Jan 2022 22:15:41 +0800</lastBuildDate><atom:link href="https://axionl.me/index.xml" rel="self" type="application/rss+xml"/><item><title>Maddy 自建邮件服务</title><link>https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/</link><pubDate>Mon, 10 Jan 2022 22:15:41 +0800</pubDate><guid>https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/</guid><description>&lt;img src="https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/banner.png" alt="Featured image of post Maddy 自建邮件服务" />&lt;p>从白嫖 Yandex 域名邮箱到 FastMail 付费托管邮箱，一直在找适合自己的域名邮件服务，传统的自建方式模块过于分散，上手难度较大，后在 NickCao 老师推荐下尝试了 Maddy。Maddy 目前只提供了命令行运行的 Linux 服务端，WebUI 或者本地客户端需自行选择，仅需手动配置一下 POP3/IMAP（收） 和 SMTP（发） 服务端地址即可。我目前使用的是 &lt;a class="link" href="https://www.thunderbird.net/" target="_blank" rel="noopener"
+>Thunderbird&lt;/a> （电脑）和 &lt;a class="link" href="https://k9mail.app/" target="_blank" rel="noopener"
+>K-9 Mail&lt;/a>（Android）。&lt;/p>
+&lt;blockquote>
+&lt;p>下载：&lt;a class="link" href="https://github.com/foxcpp/maddy/releases" target="_blank" rel="noopener"
+>Github&lt;/a> | &lt;a class="link" href="https://maddy.email/builds/" target="_blank" rel="noopener"
+>上游服务器&lt;/a>
+文档：&lt;a class="link" href="https://maddy.email" target="_blank" rel="noopener"
+>maddy.email&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="服务器">服务器&lt;/h2>
+&lt;p>部分 VPS 提供商会为了防止广告等原因会禁用 25 号 TCP 端口的 SMTP 端口，但多数情况下（比如 Google Cloud 就不允许）也可以开工单说明邮箱用途和性质，对于个人性质的域名邮箱来说一般不会有太多限制。如果机器本身或者 VPS 提供商还配有防火墙，请打开对应端口（&lt;code>25&lt;/code>,&lt;code>465&lt;/code>,&lt;code>993&lt;/code>）。&lt;/p>
+&lt;p>使用邮件服务需要关闭 CDN 代理，故存在机器 IP 暴露风险，在选择机器时候注意&lt;strong>避开其它敏感数据服务&lt;/strong>。&lt;/p>
+&lt;h2 id="配置">配置&lt;/h2>
+&lt;p>可以从 docker 拉取，但这里以 binary + 自己配置方式为主。&lt;/p>
+&lt;h3 id="maddyconf">maddy.conf&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/foxcpp/maddy/blob/master/maddy.conf" target="_blank" rel="noopener"
+>完整版配置&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>一般放在 &lt;code>/etc/maddy/maddy.conf&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-nginx" data-lang="nginx">&lt;span class="c1"># 预设了三个变量，方便后续使用
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="k">$(hostname)&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">mail.example.com&lt;/span>
+$&lt;span class="s">(primary_domain)&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">example.com&lt;/span>
+$&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">=&lt;/span> $&lt;span class="s">(primary_domain)&lt;/span>
+&lt;span class="c1"># 如果要使用 nginx 反代，这里可以选择 tls off，但如此一来没法生成 dkim 密钥对
+&lt;/span>&lt;span class="c1"># 在之后检查时日志内会有安全警告，故推荐直接用 maddy 管理
+&lt;/span>&lt;span class="c1"># tls off
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="s">tls&lt;/span> &lt;span class="s">file&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&lt;/span>$&lt;span class="s">(local_domains)/fullchain.pem&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&lt;/span>$&lt;span class="s">(local_domains)/privkey.pem&lt;/span>
+&lt;span class="c1"># 数据用 SQLite3 存储较为简单、轻量
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="s">auth.pass_table&lt;/span> &lt;span class="s">local_authdb&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">table&lt;/span> &lt;span class="s">sql_table&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">driver&lt;/span> &lt;span class="s">sqlite3&lt;/span>
+&lt;span class="s">dsn&lt;/span> &lt;span class="s">credentials.db&lt;/span>
+&lt;span class="s">table_name&lt;/span> &lt;span class="s">passwords&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">storage.imapsql&lt;/span> &lt;span class="s">local_mailboxes&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">driver&lt;/span> &lt;span class="s">sqlite3&lt;/span>
+&lt;span class="s">dsn&lt;/span> &lt;span class="s">imapsql.db&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="c1"># ----------------------------------------------------------------------------
+&lt;/span>&lt;span class="c1"># SMTP endpoints + message routing
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="s">hostname&lt;/span> $&lt;span class="s">(hostname)&lt;/span>
+&lt;span class="s">table.chain&lt;/span> &lt;span class="s">local_rewrites&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">optional_step&lt;/span> &lt;span class="s">regexp&lt;/span> &lt;span class="s">&amp;#34;(.+)\+(.+)@(.+)&amp;#34;&lt;/span> &lt;span class="s">&amp;#34;&lt;/span>&lt;span class="nv">$1@$3&amp;#34;&lt;/span>
+&lt;span class="s">optional_step&lt;/span> &lt;span class="s">static&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">entry&lt;/span> &lt;span class="s">postmaster&lt;/span> &lt;span class="s">postmaster@&lt;/span>$&lt;span class="s">(primary_domain)&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">optional_step&lt;/span> &lt;span class="s">file&lt;/span> &lt;span class="s">/etc/maddy/aliases&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">msgpipeline&lt;/span> &lt;span class="s">local_routing&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">destination&lt;/span> &lt;span class="s">postmaster&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">modify&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">replace_rcpt&lt;/span> &lt;span class="s">&amp;amp;local_rewrites&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">deliver_to&lt;/span> &lt;span class="s">&amp;amp;local_mailboxes&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_destination&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">reject&lt;/span> &lt;span class="mi">550&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="s">.1.1&lt;/span> &lt;span class="s">&amp;#34;User&lt;/span> &lt;span class="s">doesn&amp;#39;t&lt;/span> &lt;span class="s">exist&amp;#34;&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="c1"># smtp 使用 25 号端口发送邮件
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="s">smtp&lt;/span> &lt;span class="s">tcp://[::]:25&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># tls self_signed
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">limits&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># Up to 20 msgs/sec across max. 10 SMTP connections.
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">all&lt;/span> &lt;span class="s">rate&lt;/span> &lt;span class="mi">20&lt;/span> &lt;span class="s">1s&lt;/span>
+&lt;span class="s">all&lt;/span> &lt;span class="s">concurrency&lt;/span> &lt;span class="mi">10&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">dmarc&lt;/span> &lt;span class="s">yes&lt;/span>
+&lt;span class="s">check&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">require_mx_record&lt;/span>
+&lt;span class="s">dkim&lt;/span> &lt;span class="c1"># 若无则不检查
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="s">spf&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">source&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">reject&lt;/span> &lt;span class="mi">501&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="s">.1.8&lt;/span> &lt;span class="s">&amp;#34;Use&lt;/span> &lt;span class="s">Submission&lt;/span> &lt;span class="s">for&lt;/span> &lt;span class="s">outgoing&lt;/span> &lt;span class="s">SMTP&amp;#34;&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_source&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">destination&lt;/span> &lt;span class="s">postmaster&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">deliver_to&lt;/span> &lt;span class="s">&amp;amp;local_routing&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_destination&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">reject&lt;/span> &lt;span class="mi">550&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="s">.1.1&lt;/span> &lt;span class="s">&amp;#34;User&lt;/span> &lt;span class="s">doesn&amp;#39;t&lt;/span> &lt;span class="s">exist&amp;#34;&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="c1"># 如果使用 nginx 反代则这里监听到本地端口即可 tcp://127.0.0.1:587
+&lt;/span>&lt;span class="c1"># 不使用则邮件客户端以 SSL/TLS 方式直接访问该地址
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="s">submission&lt;/span> &lt;span class="s">tls://[::]:465&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">limits&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># Up to 50 msgs/sec across any amount of SMTP connections.
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">all&lt;/span> &lt;span class="s">rate&lt;/span> &lt;span class="mi">50&lt;/span> &lt;span class="s">1s&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">auth&lt;/span> &lt;span class="s">&amp;amp;local_authdb&lt;/span>
+&lt;span class="s">source&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">check&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">authorize_sender&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">prepare_email&lt;/span> &lt;span class="s">&amp;amp;local_rewrites&lt;/span>
+&lt;span class="s">user_to_email&lt;/span> &lt;span class="s">identity&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">destination&lt;/span> &lt;span class="s">postmaster&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">deliver_to&lt;/span> &lt;span class="s">&amp;amp;local_routing&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_destination&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">modify&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">dkim&lt;/span> $&lt;span class="s">(primary_domain)&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="s">default&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">deliver_to&lt;/span> &lt;span class="s">&amp;amp;remote_queue&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_source&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">reject&lt;/span> &lt;span class="mi">501&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="s">.1.8&lt;/span> &lt;span class="s">&amp;#34;Non-local&lt;/span> &lt;span class="s">sender&lt;/span> &lt;span class="s">domain&amp;#34;&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">target.remote&lt;/span> &lt;span class="s">outbound_delivery&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">limits&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># Up to 20 msgs/sec across max. 10 SMTP connections
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="c1"># for each recipient domain.
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">destination&lt;/span> &lt;span class="s">rate&lt;/span> &lt;span class="mi">20&lt;/span> &lt;span class="s">1s&lt;/span>
+&lt;span class="s">destination&lt;/span> &lt;span class="s">concurrency&lt;/span> &lt;span class="mi">10&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">mx_auth&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">dane&lt;/span>
+&lt;span class="s">mtasts&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">cache&lt;/span> &lt;span class="s">fs&lt;/span>
+&lt;span class="s">fs_dir&lt;/span> &lt;span class="s">mtasts_cache/&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">local_policy&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">min_tls_level&lt;/span> &lt;span class="s">encrypted&lt;/span>
+&lt;span class="s">min_mx_level&lt;/span> &lt;span class="s">none&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">target.queue&lt;/span> &lt;span class="s">remote_queue&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">target&lt;/span> &lt;span class="s">&amp;amp;outbound_delivery&lt;/span>
+&lt;span class="s">autogenerated_msg_domain&lt;/span> $&lt;span class="s">(primary_domain)&lt;/span>
+&lt;span class="s">bounce&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">destination&lt;/span> &lt;span class="s">postmaster&lt;/span> $&lt;span class="s">(local_domains)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">deliver_to&lt;/span> &lt;span class="s">&amp;amp;local_routing&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="s">default_destination&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">reject&lt;/span> &lt;span class="mi">550&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="s">.0.0&lt;/span> &lt;span class="s">&amp;#34;Refusing&lt;/span> &lt;span class="s">to&lt;/span> &lt;span class="s">send&lt;/span> &lt;span class="s">DSNs&lt;/span> &lt;span class="s">to&lt;/span> &lt;span class="s">non-local&lt;/span> &lt;span class="s">addresses&amp;#34;&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;span class="c1"># ----------------------------------------------------------------------------
+&lt;/span>&lt;span class="c1"># IMAP endpoints
+&lt;/span>&lt;span class="c1"># 同上，使用 nginx 反代则改为监听本地端口 tcp://127.0.0.1:143
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="s">imap&lt;/span> &lt;span class="s">tls://[::]:993&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">auth&lt;/span> &lt;span class="s">&amp;amp;local_authdb&lt;/span>
+&lt;span class="s">storage&lt;/span> &lt;span class="s">&amp;amp;local_mailboxes&lt;/span>
+&lt;span class="err">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="nginx-config可选">Nginx Config（可选）&lt;/h3>
+&lt;p>如果是由 Maddy 自身直接处理 TLS 则不需要该项配置&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-nginx" data-lang="nginx">&lt;span class="k">upstream&lt;/span> &lt;span class="s">maddy_imaps&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># 指向本地 Maddy IMAP 监听服务端口
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">server&lt;/span> &lt;span class="n">127.0.0.1&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">143&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">upstream&lt;/span> &lt;span class="s">maddy_smtps&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># 指向本地 Maddy SMTP 服务监听端口
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">server&lt;/span> &lt;span class="n">127.0.0.1&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">587&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">listen&lt;/span> &lt;span class="mi">993&lt;/span> &lt;span class="s">ssl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">proxy_pass&lt;/span> &lt;span class="s">maddy_imaps&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_certificate&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&amp;lt;example.com&amp;gt;/fullchain.pem&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 换成自己的域名证书
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">ssl_certificate_key&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&amp;lt;example.com&amp;gt;/privkey.pem&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 换成自己的域名证书
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">ssl_protocols&lt;/span> &lt;span class="s">SSLv3&lt;/span> &lt;span class="s">TLSv1.1&lt;/span> &lt;span class="s">TLSv1.2&lt;/span> &lt;span class="s">TLSv1.3&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_ciphers&lt;/span> &lt;span class="s">HIGH:!aNULL:!MD5&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_session_timeout&lt;/span> &lt;span class="s">4h&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_handshake_timeout&lt;/span> &lt;span class="s">30s&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="kn">listen&lt;/span> &lt;span class="mi">465&lt;/span> &lt;span class="s">ssl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">proxy_pass&lt;/span> &lt;span class="s">maddy_smtps&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_certificate&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&amp;lt;example.com&amp;gt;/fullchain.pem&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># managed by Certbot
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">ssl_certificate_key&lt;/span> &lt;span class="s">/etc/letsencrypt/live/&amp;lt;example.com&amp;gt;/privkey.pem&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># managed by Certbot
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kn">ssl_protocols&lt;/span> &lt;span class="s">SSLv3&lt;/span> &lt;span class="s">TLSv1.1&lt;/span> &lt;span class="s">TLSv1.2&lt;/span> &lt;span class="s">TLSv1.3&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_ciphers&lt;/span> &lt;span class="s">HIGH:!aNULL:!MD5&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_session_timeout&lt;/span> &lt;span class="s">4h&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kn">ssl_handshake_timeout&lt;/span> &lt;span class="s">30s&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="注册账户">注册账户&lt;/h3>
+&lt;p>maddy 的 systemd service 正常启动后可以使用：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo -u maddy -s &lt;span class="c1"># 切换到 maddy 用户&lt;/span>
+$ maddyctl creds create &amp;lt;username@example.com&amp;gt; --password &amp;lt;YourPassword&amp;gt;
+$ maddyctl creds list &lt;span class="c1"># 查看你刚创建的用户名&lt;/span>
+$ maddyctl imap-acct create &amp;lt;username@example.com&amp;gt; &lt;span class="c1"># 创建一个邮件储存账户&lt;/span>
+$ maddyctl imap-acct list &lt;span class="c1"># 查看刚创建的 imap 储存账户&lt;/span>
+$ maddyctl imap-mboxes list &amp;lt;username@example.com&amp;gt; &lt;span class="c1"># 可以看到该账户下有哪些分类&lt;/span>
+$ maddyctl imap-msgs list &amp;lt;username@example.com&amp;gt; &amp;lt;INBOX&amp;gt; &lt;span class="c1"># 可以查看当前账户对应分类接收到的邮件，一般收件在 INBOX 中&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dns-设置">DNS 设置&lt;/h2>
+&lt;p>这里以 Cloudflare 托管 DNS 服务为例，其它应该也能找到对应 DNS 设置面板。使用了子域名 &lt;code>mail.example.com&lt;/code> 作为邮件服务专用。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">类型&lt;/th>
+&lt;th style="text-align:center">名称&lt;/th>
+&lt;th style="text-align:center">内容&lt;/th>
+&lt;th>代理状态&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">A&lt;/td>
+&lt;td style="text-align:center">mail&lt;/td>
+&lt;td style="text-align:center">服务器实际 IPv4 地址&lt;/td>
+&lt;td>仅限 DNS&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">AAAA&lt;/td>
+&lt;td style="text-align:center">mail&lt;/td>
+&lt;td style="text-align:center">服务器实际 IPv6 地址（如果有）&lt;/td>
+&lt;td>仅限 DNS&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">MX&lt;/td>
+&lt;td style="text-align:center">@&lt;/td>
+&lt;td style="text-align:center">mail.example.com&lt;/td>
+&lt;td>仅限 DNS&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">TXT&lt;/td>
+&lt;td style="text-align:center">mail&lt;/td>
+&lt;td style="text-align:center">v=spf1 mx ~all&lt;/td>
+&lt;td>仅限 DNS&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>spf 值这里推荐使用仅允许 mx，若有其他来源也可以添加。&lt;/p>
+&lt;h2 id="reverse-dns">Reverse DNS&lt;/h2>
+&lt;p>为了避免拒收，进一步提高邮件投递率，需要配置 rDNS 以便收信方邮件服务商溯源。&lt;/p>
+&lt;p>以 Vultr 为例，其 Reverse DNS 页面在 &lt;code>机器详情 &amp;gt; Settings &amp;gt; IPv4 / IPv6&lt;/code> 选项卡内，在 Reverse DNS 中填入自己的邮件服务域名即可，如 mail.example.com，如果存在多条公共 IP 地址，则都需要填写。&lt;/p>
+&lt;h2 id="客户端">客户端&lt;/h2>
+&lt;p>客户端有诸多选择，不变的是手动设置方式：&lt;/p>
+&lt;ul>
+&lt;li>IMAP 和 SMTP 服务器地址都设置为 &lt;code>mail.example.com&lt;/code>，连接方式均为 &lt;code>SSL/TLS&lt;/code>，用户名和密码均为先前所设置，认证方式均为 &lt;code>Normal Password&lt;/code>。&lt;/li>
+&lt;li>IMAP 端口为 &lt;code>993&lt;/code>，&lt;/li>
+&lt;li>SMTP 端口为 &lt;code>465&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>&lt;figure
+class="gallery-image"
+style="
+flex-grow: 100;
+flex-basis: 240px"
+>
+&lt;a href="https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/oh_my_yandex.jpg" data-size="300x300">
+&lt;img src="https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/oh_my_yandex.jpg"
+width="300"
+height="300"
+srcset="https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/oh_my_yandex_hu01f01a67232b7fa6f27a9ebc9f5bf054_12968_480x0_resize_q75_box.jpg 480w, https://axionl.me/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/oh_my_yandex_hu01f01a67232b7fa6f27a9ebc9f5bf054_12968_1024x0_resize_q75_box.jpg 1024w"
+loading="lazy"
+alt="Oh My Yandex">
+&lt;/a>
+&lt;figcaption>Oh My Yandex&lt;/figcaption>
+&lt;/figure>&lt;/p>
+&lt;p>可以写一些稍微正经的内容，发送到 &lt;a class="link" href="https://www.mail-tester.com" target="_blank" rel="noopener"
+>https://www.mail-tester.com&lt;/a> 内所给的邮件地址，来测试自己的邮箱评分。&lt;/p>
+&lt;p>虽然说自建邮箱可能还是存在邮件投递到垃圾箱里的问题，但有了 Maddy 后搭建一个自己的域名邮箱确实变成了相对简单的工作。&lt;/p></description></item><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
 &lt;blockquote>
 &lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
 >axionl/OhMyQt&lt;/a>&lt;/p>
