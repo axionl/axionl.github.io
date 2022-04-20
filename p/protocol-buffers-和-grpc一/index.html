@@ -1,439 +1,191 @@
-<!doctype html><html lang=en-us>
-<head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前言  官方网站
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前言  官方网站
  gRPC Protocol Buffers   通俗易懂的说明  introduction 
 以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。
 有点复杂的介绍 RPC(Remote Procedure Call) 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
-公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><title>Protocol Buffers 和 gRPC（一）</title>
-<link rel=canonical href=https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/>
-<link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="Protocol Buffers 和 gRPC（一）">
-<meta property="og:description" content="前言  官方网站
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><title>Protocol Buffers 和 gRPC（一）</title><link rel=canonical href=https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/><link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="Protocol Buffers 和 gRPC（一）"><meta property="og:description" content="前言  官方网站
  gRPC Protocol Buffers   通俗易懂的说明  introduction 
 以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。
 有点复杂的介绍 RPC(Remote Procedure Call) 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
-公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 .">
-<meta property="og:url" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/">
-<meta property="og:site_name" content="初等記憶體">
-<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="RPC"><meta property="article:published_time" content="2021-01-03T23:46:51+08:00"><meta property="article:modified_time" content="2021-01-03T23:46:51+08:00"><meta property="og:image" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg">
-<meta name=twitter:site content="@ArielAxionL">
-<meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="Protocol Buffers 和 gRPC（一）">
-<meta name=twitter:description content="前言  官方网站
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><meta property="og:url" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/"><meta property="og:site_name" content="初等記憶體"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="RPC"><meta property="article:published_time" content="2021-01-03T23:46:51+08:00"><meta property="article:modified_time" content="2021-01-03T23:46:51+08:00"><meta property="og:image" content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg"><meta name=twitter:site content="@ArielAxionL"><meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="Protocol Buffers 和 gRPC（一）"><meta name=twitter:description content="前言  官方网站
  gRPC Protocol Buffers   通俗易懂的说明  introduction 
 以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。
 有点复杂的介绍 RPC(Remote Procedure Call) 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。
 虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
  流程示意图 
 一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang	或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
-公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg">
-<link rel="shortcut icon" href=/img/favicon.ico>
-</head>
-<body class="article-page has-toc">
-<script>(function(){const a='StackColorScheme';localStorage.getItem(a)||localStorage.setItem(a,"dark")})()</script><script>(function(){const b='StackColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.scheme='dark':document.documentElement.dataset.scheme='light'})()</script>
-<div class=main-container-background>
-<div class="container main-container flex
-extended">
-<div id=article-toolbar>
-<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
-<span>返回</span>
-</a>
-</div>
-<main class="main full-width">
-<article class="has-image main-article">
-<header class=article-header>
-<div class=article-image>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/>
-<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_800x0_resize_q75_box.jpg srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_800x0_resize_q75_box.jpg 800w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_1600x0_resize_q75_box.jpg 1600w" width=800 height=450 loading=lazy alt="Featured image of post Protocol Buffers 和 gRPC（一）">
-</a>
-</div>
-<div class=article-details>
-<header class=article-category>
-<a href=/categories/develop/ style=background-color:#2a9d8f;color:#fff>
-Develop
-</a>
-</header>
-<h2 class=article-title>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/>Protocol Buffers 和 gRPC（一）</a>
-</h2>
-<footer class=article-time>
-<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
-<time class=article-time--published>Jan 03, 3033</time>
-</div>
-<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>
-阅读时长: 3 分钟
-</time>
-</div>
-</footer>
-</div>
-</header>
-<section class=article-content>
-<h2 id=前言>前言</h2>
-<blockquote>
-<p>官方网站</p>
-<ul>
-<li><a class=link href=https://grpc.io target=_blank rel=noopener>gRPC</a></li>
-<li><a class=link href=https://developers.google.com/protocol-buffers target=_blank rel=noopener>Protocol Buffers</a></li>
-</ul>
-</blockquote>
-<h3 id=通俗易懂的说明>通俗易懂的说明</h3>
-<p><figure class=gallery-image style=flex-grow:157;flex-basis:379px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png data-size=916x580>
-<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png width=916 height=580 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w" loading=lazy alt=introduction>
-</a>
-<figcaption>introduction</figcaption>
-</figure></p>
-<p>以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。</p>
-<h3 id=有点复杂的介绍>有点复杂的介绍</h3>
-<p><a class=link href=https://en.wikipedia.org/wiki/Remote_procedure_call target=_blank rel=noopener>RPC(Remote Procedure Call)</a> 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。</p>
-<p>虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。</p>
-<p><figure class=gallery-image style=flex-grow:218;flex-basis:523px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png data-size=1019x467>
-<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png width=1019 height=467 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w" loading=lazy alt=流程示意图>
-</a>
-<figcaption>流程示意图</figcaption>
-</figure></p>
-<h3 id=一个简单的例子>一个简单的例子</h3>
-<p>以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 <code>golang</code> 或者 <code>java</code> 等语言来说 <code>proto3</code> 支持以 <code>option</code> 的方式产生适合其代码引入的包封装 (<a class=link href=https://developers.google.com/protocol-buffers/docs/tutorials target=_blank rel=noopener>详见</a>)。</p>
-<h4 id=公共协议>公共协议</h4>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>option</span> <span class=n>go_package</span> <span class=o>=</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=kd>message</span> <span class=nc>HelloMessage</span> <span class=p>{}</span> <span class=c1>// 公共消息体，未包含任何字段
-</span><span class=c1></span><span class=err>
-</span><span class=err></span><span class=cm>/* 通讯服务声明，类似于我们常说的接口 */</span><span class=err>
-</span><span class=err></span><span class=kd>service</span> <span class=n>Greeter</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>  <span class=k>rpc</span> <span class=n>SayHello</span><span class=p>(</span><span class=n>HelloMessage</span><span class=p>)</span> <span class=k>returns</span> <span class=p>(</span><span class=n>HelloMessage</span><span class=p>);</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span></code></pre></div><p>使用 protocol buffers 第一步便是在 <code>proto</code> 文件中定于需要序列化的数据结构：这是一个以 <code>.proto</code> 为扩展名的普通文本文件。数据被构造为消息（<code>message</code>），其中每条消息包含数量不等的键值对（也可以为空），下面简单举例，传输到接收方可以直接从结构体中取出想要的数据，而从结构体到序列化压缩传输，再到还原成结构体这一过程对程序员来说是透明的，由 <code>protobuf</code> 生成的库文件自动完成。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=kd>message</span> <span class=nc>Person</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>  <span class=kt>string</span> <span class=n>name</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
-</span><span class=err></span>  <span class=kt>int32</span> <span class=n>id</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
-</span><span class=err></span>  <span class=kt>bool</span> <span class=n>has_ponycopter</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span></code></pre></div><h4 id=golang-客户端>golang 客户端</h4>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=kn>import</span> <span class=p>(</span>
-	<span class=o>...</span>
-	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
-<span class=p>)</span>
-
-<span class=c1>// 具体方法实现
-</span><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>g</span> <span class=o>*</span><span class=nx>Greeter</span><span class=p>)</span> <span class=nf>sayHello</span><span class=p>()</span> <span class=p>{</span>
-    <span class=c1>// 生成上下文
-</span><span class=c1></span>	<span class=nx>ctx</span><span class=p>,</span> <span class=nx>cancel</span> <span class=o>:=</span> <span class=nx>context</span><span class=p>.</span><span class=nf>WithTimeout</span><span class=p>(</span><span class=nx>context</span><span class=p>.</span><span class=nf>Background</span><span class=p>(),</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>)</span>
-	<span class=k>defer</span> <span class=nf>cancel</span><span class=p>()</span>
-
-    <span class=c1>// 获取服务端响应，在执行这条指令后可以看到进入了服务端对应的方法
-</span><span class=c1></span>	<span class=nx>response</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>g</span><span class=p>.</span><span class=nx>client</span><span class=p>.</span><span class=nf>SayHello</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>{})</span>
-	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Failed to get the response: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
-    <span class=p>}</span>
-	<span class=k>if</span> <span class=nx>response</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Hello Server&#34;</span><span class=p>)</span>
-	<span class=p>}</span>
-<span class=p>}</span>
-
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-    <span class=c1>// 本地临时创建一个不安全的链接(socks5)
-</span><span class=c1></span>    <span class=kd>const</span> <span class=nx>Address</span> <span class=p>=</span> <span class=s>&#34;localhost:50051&#34;</span>
-	<span class=nx>conn</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>Dial</span><span class=p>(</span><span class=nx>Address</span><span class=p>,</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>WithInsecure</span><span class=p>(),</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>WithBlock</span><span class=p>())</span>
-	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Failed to connect: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
-	<span class=p>}</span>
-	<span class=k>defer</span> <span class=nx>conn</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
-
-	<span class=kd>var</span> <span class=nx>client</span> <span class=p>=</span> <span class=nx>pb</span><span class=p>.</span><span class=nf>NewGreeterClient</span><span class=p>(</span><span class=nx>conn</span><span class=p>)</span>
-	<span class=nx>greeter</span> <span class=o>:=</span> <span class=nx>Greeter</span><span class=p>{</span><span class=nx>client</span><span class=p>:</span> <span class=nx>client</span><span class=p>}</span>
-	<span class=nx>greeter</span><span class=p>.</span><span class=nf>sayHello</span><span class=p>()</span> <span class=c1>// 调用方法
-</span><span class=c1></span><span class=p>}</span>
-</code></pre></div><h4 id=golang-服务端>golang 服务端</h4>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=kn>import</span> <span class=p>(</span>
-	<span class=o>...</span>
-	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
-<span class=p>)</span>
-
-<span class=kd>type</span> <span class=nx>server</span> <span class=kd>struct</span> <span class=p>{</span>
-	<span class=nx>pb</span><span class=p>.</span><span class=nx>UnimplementedGreeterServer</span>
-<span class=p>}</span>
-
-<span class=c1>// 方法具体实现
-</span><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>s</span> <span class=o>*</span><span class=nx>server</span><span class=p>)</span> <span class=nf>SayHello</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>message</span> <span class=o>*</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>)</span> <span class=p>(</span><span class=o>*</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-    <span class=c1>// 请求陷入该方法后输出字符串，表示服务器已经收到该指令
-</span><span class=c1></span>	<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Hello Client!&#34;</span><span class=p>)</span>
-
-    <span class=c1>// 返回响应
-</span><span class=c1></span>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>{},</span> <span class=kc>nil</span>
-<span class=p>}</span>
-
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-    <span class=c1>// 监听一个本地端口
-</span><span class=c1></span>	<span class=nx>lis</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>net</span><span class=p>.</span><span class=nf>Listen</span><span class=p>(</span><span class=s>&#34;tcp&#34;</span><span class=p>,</span> <span class=s>&#34;0.0.0.0:50051&#34;</span><span class=p>)</span>
-	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;failed to listen: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
-	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-		<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Listen on: %v...&#34;</span><span class=p>,</span> <span class=nx>Address</span><span class=p>)</span>
-	<span class=p>}</span>
-
-    <span class=c1>// 创建服务端
-</span><span class=c1></span>	<span class=nx>s</span> <span class=o>:=</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>NewServer</span><span class=p>()</span>
-	<span class=nx>pb</span><span class=p>.</span><span class=nf>RegisterGreeterServer</span><span class=p>(</span><span class=nx>s</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>server</span><span class=p>{})</span>
-
-	<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>s</span><span class=p>.</span><span class=nf>Serve</span><span class=p>(</span><span class=nx>lis</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;failed to serve: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
-	<span class=p>}</span>
-<span class=p>}</span>
-
-</code></pre></div><p>可以看到，在基本不需要涉及底层网络开发和同步协定的情况下实现了两个程序之间的通讯，其关键在于服务端重写方法的实现和客户端上下文的获取。在后续的介绍中还会就具体操作过程作详细说明。</p>
-<h2 id=protocol-buffers-简要>Protocol Buffers 简要</h2>
-<h3 id=跨语言类型的桥梁>跨语言类型的桥梁</h3>
-<blockquote>
-<p><a class=link href=https://developers.google.com/protocol-buffers target=_blank rel=noopener>Protocol Buffers</a></p>
-</blockquote>
-<p>作为一种语言中立的协议，其在多种语言中都有对应的变量类型转换，需要特别注意是否在转换过程中出现精度丢失现象，或者并非预期类型的现象，比如 <code>bytes</code> 对应到 <code>C++</code> 的类型为 <code>string</code>，需要自己适当转换。</p>
-<p><figure class=gallery-image style=flex-grow:110;flex-basis:264px>
-<a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png data-size=862x782>
-<img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png width=862 height=782 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w" loading=lazy alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/overview#scalar)">
-</a>
-<figcaption>变量类型对应表 (<a href=https://developers.google.com/protocol-buffers/docs/overview#scalar>https://developers.google.com/protocol-buffers/docs/overview#scalar</a>)</figcaption>
-</figure></p>
-<p>此外支持通过嵌套类型，实现结构体形式的信息的传输和还原。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=kd>message</span> <span class=nc>PersonalInfo</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>    <span class=kt>int32</span> <span class=n>id</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=err>
-</span><span class=err></span>    <span class=kt>string</span> <span class=n>name</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
-</span><span class=err></span>    <span class=kt>int32</span> <span class=n>score</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span><span class=err>
-</span><span class=err></span>    <span class=kd>enum</span> <span class=n>Hobby</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>        <span class=n>GAMES</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
-</span><span class=err></span>        <span class=n>MUSIC</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
-</span><span class=err></span>    <span class=p>}</span><span class=err>
-</span><span class=err></span>    <span class=n>Hobby</span> <span class=n>hobby</span> <span class=o>=</span> <span class=mi>4</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=kd>message</span> <span class=nc>PersonalResponse</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>	<span class=kt>string</span> <span class=n>msg</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=kd>message</span> <span class=nc>ClassInfo</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>	<span class=k>repeated</span> <span class=n>PersonalInfo</span> <span class=n>c_info</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=kd>service</span> <span class=n>SearchInfo</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>	<span class=k>rpc</span> <span class=n>Add</span><span class=p>(</span><span class=n>stream</span> <span class=n>PersonalInfo</span><span class=p>)</span> <span class=k>returns</span> <span class=p>(</span><span class=n>PersonalResponse</span><span class=p>);</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span></code></pre></div><p>更多语法说明可以参考<a class=link href=https://developers.google.com/protocol-buffers/docs/proto3 target=_blank rel=noopener>官方文档</a>。</p>
-<h3 id=生成库文件>生成库文件</h3>
-<blockquote>
-<p><a class=link href=https://github.com/protocolbuffers/protobuf/releases/latest target=_blank rel=noopener>Protobuf Github Release 下载 (含 protoc)</a></p>
-</blockquote>
-<p>生成所需要用到两个工具，一个是 <code>protoc</code> 其本身，另一个是用于生成对应其他语言文件的插件，后者可能有些发行版已经将对应语言的插件打包到了 <code>grpc</code> 包内一起，视具体情况而定，比如 <code>protoc-gen-go-grpc</code> 正好没有，那就找到<a class=link href=https://github.com/grpc/grpc-go target=_blank rel=noopener>上游项目</a>自己安装一个并添加到环境变量中（方便输入）。</p>
-<ul>
-<li>命令行方式</li>
-</ul>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>protoc <span class=na>--plugin</span><span class=o>=</span>protoc-gen-go-grpc <span class=na>--go_out</span><span class=o>=</span>. <span class=na>--go-grpc_out</span><span class=o>=</span>. <span class=na>-I</span><span class=o>=</span>. <span class=nf>info</span>.proto
-</code></pre></div><p>然后生成了 <code>info.pb.go</code> 和 <code>info_grpc.pb.go</code> 两个文件，大体上看前者管定义，后者管实现，属于同一个包。其他语言主要是将二进制插件和输出参数替换成对应语言的。</p>
-<ul>
-<li>cmake 包办</li>
-</ul>
-<p>可以参考如下 <code>.cmake</code> 文件，自行在 <code>CMakeLists.txt</code> 引入库文件和生成的头文件。</p>
-<p><code>protobuf.cmake</code></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=c># Find Protobuf
-</span><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>Protobuf</span> <span class=s>REQUIRED</span><span class=p>)</span> <span class=c># 如果没有需要自行安装
-</span><span class=c></span><span class=err>
-</span><span class=err></span><span class=c># Find Generator Executable # 找到两个用于生成库文件的可执行文件
-</span><span class=c></span><span class=nb>find_program</span><span class=p>(</span><span class=s>PROTOBUF_PROTOC_EXECUTABLE</span> <span class=s>protoc</span><span class=p>)</span><span class=err>
-</span><span class=err></span><span class=nb>find_program</span><span class=p>(</span><span class=s>GRPC_CC_PLUGIN_EXECUTABLE</span> <span class=s>grpc_cpp_plugin</span><span class=p>)</span> <span class=c># 对应所需要生成的语言
-</span><span class=c></span><span class=err>
-</span><span class=err></span><span class=c># Set Proto File Name
-</span><span class=c></span><span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_NAME_LISTS</span>
-    <span class=s2>&#34;api&#34;</span>
-    <span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=c># Generate gRPC and protobuf Sources
-</span><span class=c></span><span class=nb>foreach</span><span class=p>(</span><span class=s>PROTO_NAME</span> <span class=o>${</span><span class=nv>PROTO_NAME_LISTS</span><span class=o>}</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_DIR</span> <span class=s2>&#34;${CMAKE_SOURCE_DIR}/misc/&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_FILE</span> <span class=s2>&#34;${PROTO_DIR}/${PROTO_NAME}.proto&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span>    <span class=nb>add_custom_command</span><span class=p>(</span>
-        <span class=s>OUTPUT</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span> <span class=s2>&#34;${PB_HEADER}&#34;</span>
-        <span class=s>COMMAND</span> <span class=s2>&#34;${PROTOBUF_PROTOC_EXECUTABLE}&#34;</span>
-        <span class=s>ARGS</span>
-            <span class=s>--grpc_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
-            <span class=s>--cpp_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
-            <span class=s>-I=</span><span class=s2>&#34;${PROTO_DIR}&#34;</span>
-            <span class=s>--plugin=protoc-gen-grpc=</span><span class=s2>&#34;${GRPC_CC_PLUGIN_EXECUTABLE}&#34;</span>
-            <span class=s2>&#34;${PROTO_FILE}&#34;</span>
-        <span class=s>DEPENDS</span> <span class=s2>&#34;${PROTO_FILE}&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_HEADERS</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_SOURCES</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err>
-</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_HEADERS</span> <span class=s2>&#34;${PB_HEADER}&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_SOURCES</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span><span class=p>)</span><span class=err>
-</span><span class=err></span><span class=nb>endforeach</span><span class=p>()</span><span class=err>
-</span></code></pre></div><h3 id=一个综合的案例>一个综合的案例</h3>
-<p><a class=link href=https://github.com/v2fly/v2ray-core/blob/master/config.proto target=_blank rel=noopener>v2ray config.proto</a></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=kn>package</span> <span class=nn>v2ray</span><span class=o>.</span><span class=n>core</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>option</span> <span class=n>csharp_namespace</span> <span class=o>=</span> <span class=s>&#34;V2Ray.Core&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>option</span> <span class=n>go_package</span> <span class=o>=</span> <span class=s>&#34;v2ray.com/core&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>option</span> <span class=n>java_package</span> <span class=o>=</span> <span class=s>&#34;com.v2ray.core&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>option</span> <span class=n>java_multiple_files</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span><span class=err>
-</span><span class=err>
-</span><span class=err></span><span class=k>import</span> <span class=s>&#34;common/serial/typed_message.proto&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=k>import</span> <span class=s>&#34;transport/config.proto&#34;</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=o>...</span><span class=err>
-</span></code></pre></div><p>可以看到首先引入了两个子 <code>proto</code> 文件，其中包含一些自己项目具体定义的消息类型，以 <code>typed_message.proto</code> 为例子，其中只包含了两种类型的两个字段。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=kd>message</span> <span class=nc>TypedMessage</span> <span class=p>{</span><span class=err>
-</span><span class=err></span>  <span class=c1>// The name of the message type, retrieved from protobuf API.
-</span><span class=c1></span>  <span class=kt>string</span> <span class=n>type</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
-</span><span class=err></span>  <span class=c1>// Serialized proto message.
-</span><span class=c1></span>  <span class=kt>bytes</span> <span class=n>value</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
-</span><span class=err></span><span class=p>}</span><span class=err>
-</span></code></pre></div><p>最终通过层层嵌套构成了一个综合的信息结构体，一并打包发送。</p>
-<blockquote>
-<p><a class=link href=https://wallhaven.cc/w/6k293l target=_blank rel=noopener>Banner Artwork</a></p>
-</blockquote>
-</section>
-<footer class=article-footer>
-<section class=article-tags>
-<a href=/tags/rpc/>RPC</a>
-</section>
-<section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
-<span>Licensed under CC BY-NC-SA 4.0</span>
-</section>
-</footer>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-</article>
-<aside class=related-contents--wrapper>
-<h2 class=section-title>相关文章</h2>
-<div class=related-contents>
-<div class="flex article-list--tile">
-<article class=has-image>
-<a href=/p/the-wayland-protocol/>
-<div class=article-image>
-<img src=/p/the-wayland-protocol/wayland.2a9f76dee0fd08ca9e145ff26e79fb22_hu0adbd50c5ecec4ec41a5eaa3a1a2a25b_328685_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post The Wayland Protocol" data-hash="md5-Kp923uD9CMqeFF/ybnn7Ig==">
-</div>
-<div class=article-details>
-<h2 class=article-title>The Wayland Protocol</h2>
-</div>
-</a>
-</article>
-<article class=has-image>
-<a href=/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/>
-<div class=article-image>
-<img src=/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/banner.3bb9b7127e40f1150a9ae348d4a65ee4_hu4f5eb48d6a6112537f077a0440a251a0_96293_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [新手篇] 如何写一个简单的上膛机器人" data-hash="md5-O7m3En5A8RUKmuNI1KZe5A==">
-</div>
-<div class=article-details>
-<h2 class=article-title>[新手篇] 如何写一个简单的上膛机器人</h2>
-</div>
-</a>
-</article>
-</div>
-</div>
-</aside>
-<div class=disqus-container>
-<div id=disqus_thread></div>
-<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//axionl.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style>
-<script>window.addEventListener('onColorSchemeChange',a=>{DISQUS&&DISQUS.reset({reload:!0})})</script>
-<footer class=site-footer>
-<section class=copyright>
-&copy;
+公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 ."><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg"><link rel="shortcut icon" href=/img/favicon.ico></head><body class="article-page has-toc"><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class=main-container-background><div class="container main-container flex
+extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg><span>返回</span></a></div><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_800x0_resize_q75_box.jpg srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_800x0_resize_q75_box.jpg 800w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner_hu84ccfb793eb153d5f929caaf8b63424a_357988_1600x0_resize_q75_box.jpg 1600w" width=800 height=450 loading=lazy alt="Featured image of post Protocol Buffers 和 gRPC（一）"></a></div><div class=article-details><header class=article-category><a href=/categories/develop/ style=background-color:#2a9d8f;color:#fff>Develop</a></header><h2 class=article-title><a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/>Protocol Buffers 和 gRPC（一）</a></h2><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Jan 03, 3033</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 3 分钟</time></div></footer></div></header><section class=article-content><h2 id=前言>前言</h2><blockquote><p>官方网站</p><ul><li><a class=link href=https://grpc.io target=_blank rel=noopener>gRPC</a></li><li><a class=link href=https://developers.google.com/protocol-buffers target=_blank rel=noopener>Protocol Buffers</a></li></ul></blockquote><h3 id=通俗易懂的说明>通俗易懂的说明</h3><p><figure class=gallery-image style=flex-grow:157;flex-basis:379px><a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png data-size=916x580><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png width=916 height=580 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w" loading=lazy alt=introduction></a><figcaption>introduction</figcaption></figure></p><p>以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。</p><h3 id=有点复杂的介绍>有点复杂的介绍</h3><p><a class=link href=https://en.wikipedia.org/wiki/Remote_procedure_call target=_blank rel=noopener>RPC(Remote Procedure Call)</a> 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。</p><p>虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。</p><p><figure class=gallery-image style=flex-grow:218;flex-basis:523px><a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png data-size=1019x467><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png width=1019 height=467 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w" loading=lazy alt=流程示意图></a><figcaption>流程示意图</figcaption></figure></p><h3 id=一个简单的例子>一个简单的例子</h3><p>以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 <code>golang</code> 或者 <code>java</code> 等语言来说 <code>proto3</code> 支持以 <code>option</code> 的方式产生适合其代码引入的包封装 (<a class=link href=https://developers.google.com/protocol-buffers/docs/tutorials target=_blank rel=noopener>详见</a>)。</p><h4 id=公共协议>公共协议</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=line><span class=cl><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>option</span> <span class=n>go_package</span> <span class=o>=</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kd>message</span> <span class=nc>HelloMessage</span> <span class=p>{}</span> <span class=c1>// 公共消息体，未包含任何字段
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=cm>/* 通讯服务声明，类似于我们常说的接口 */</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kd>service</span> <span class=n>Greeter</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=k>rpc</span> <span class=n>SayHello</span><span class=p>(</span><span class=n>HelloMessage</span><span class=p>)</span> <span class=k>returns</span> <span class=p>(</span><span class=n>HelloMessage</span><span class=p>);</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span></code></pre></div><p>使用 protocol buffers 第一步便是在 <code>proto</code> 文件中定于需要序列化的数据结构：这是一个以 <code>.proto</code> 为扩展名的普通文本文件。数据被构造为消息（<code>message</code>），其中每条消息包含数量不等的键值对（也可以为空），下面简单举例，传输到接收方可以直接从结构体中取出想要的数据，而从结构体到序列化压缩传输，再到还原成结构体这一过程对程序员来说是透明的，由 <code>protobuf</code> 生成的库文件自动完成。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-proto data-lang=proto><span class=line><span class=cl><span class=kd>message</span> <span class=nc>Person</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=kt>string</span> <span class=n>name</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=kt>int32</span> <span class=n>id</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=kt>bool</span> <span class=n>has_ponycopter</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span></code></pre></div><h4 id=golang-客户端>golang 客户端</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=o>...</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 具体方法实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>g</span> <span class=o>*</span><span class=nx>Greeter</span><span class=p>)</span> <span class=nf>sayHello</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 生成上下文
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>ctx</span><span class=p>,</span> <span class=nx>cancel</span> <span class=o>:=</span> <span class=nx>context</span><span class=p>.</span><span class=nf>WithTimeout</span><span class=p>(</span><span class=nx>context</span><span class=p>.</span><span class=nf>Background</span><span class=p>(),</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nf>cancel</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取服务端响应，在执行这条指令后可以看到进入了服务端对应的方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>response</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>g</span><span class=p>.</span><span class=nx>client</span><span class=p>.</span><span class=nf>SayHello</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Failed to get the response: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>response</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>fmt</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;Hello Server&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 本地临时创建一个不安全的链接(socks5)
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>const</span> <span class=nx>Address</span> <span class=p>=</span> <span class=s>&#34;localhost:50051&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>conn</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>Dial</span><span class=p>(</span><span class=nx>Address</span><span class=p>,</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>WithInsecure</span><span class=p>(),</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>WithBlock</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Failed to connect: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>defer</span> <span class=nx>conn</span><span class=p>.</span><span class=nf>Close</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>client</span> <span class=p>=</span> <span class=nx>pb</span><span class=p>.</span><span class=nf>NewGreeterClient</span><span class=p>(</span><span class=nx>conn</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>greeter</span> <span class=o>:=</span> <span class=nx>Greeter</span><span class=p>{</span><span class=nx>client</span><span class=p>:</span> <span class=nx>client</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>greeter</span><span class=p>.</span><span class=nf>sayHello</span><span class=p>()</span> <span class=c1>// 调用方法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></div><h4 id=golang-服务端>golang 服务端</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=o>...</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pb</span> <span class=s>&#34;example.com/user/grpcGoExample&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>server</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pb</span><span class=p>.</span><span class=nx>UnimplementedGreeterServer</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 方法具体实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>s</span> <span class=o>*</span><span class=nx>server</span><span class=p>)</span> <span class=nf>SayHello</span><span class=p>(</span><span class=nx>ctx</span> <span class=nx>context</span><span class=p>.</span><span class=nx>Context</span><span class=p>,</span> <span class=nx>message</span> <span class=o>*</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>)</span> <span class=p>(</span><span class=o>*</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 请求陷入该方法后输出字符串，表示服务器已经收到该指令
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Hello Client!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 返回响应
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>pb</span><span class=p>.</span><span class=nx>HelloMessage</span><span class=p>{},</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 监听一个本地端口
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>lis</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>net</span><span class=p>.</span><span class=nf>Listen</span><span class=p>(</span><span class=s>&#34;tcp&#34;</span><span class=p>,</span> <span class=s>&#34;0.0.0.0:50051&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;failed to listen: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Listen on: %v...&#34;</span><span class=p>,</span> <span class=nx>Address</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建服务端
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>s</span> <span class=o>:=</span> <span class=nx>grpc</span><span class=p>.</span><span class=nf>NewServer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pb</span><span class=p>.</span><span class=nf>RegisterGreeterServer</span><span class=p>(</span><span class=nx>s</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>server</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>s</span><span class=p>.</span><span class=nf>Serve</span><span class=p>(</span><span class=nx>lis</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;failed to serve: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>可以看到，在基本不需要涉及底层网络开发和同步协定的情况下实现了两个程序之间的通讯，其关键在于服务端重写方法的实现和客户端上下文的获取。在后续的介绍中还会就具体操作过程作详细说明。</p><h2 id=protocol-buffers-简要>Protocol Buffers 简要</h2><h3 id=跨语言类型的桥梁>跨语言类型的桥梁</h3><blockquote><p><a class=link href=https://developers.google.com/protocol-buffers target=_blank rel=noopener>Protocol Buffers</a></p></blockquote><p>作为一种语言中立的协议，其在多种语言中都有对应的变量类型转换，需要特别注意是否在转换过程中出现精度丢失现象，或者并非预期类型的现象，比如 <code>bytes</code> 对应到 <code>C++</code> 的类型为 <code>string</code>，需要自己适当转换。</p><p><figure class=gallery-image style=flex-grow:110;flex-basis:264px><a href=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png data-size=862x782><img src=/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png width=862 height=782 srcset="/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, /p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w" loading=lazy alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/overview#scalar)"></a><figcaption>变量类型对应表 (<a class=link href=https://developers.google.com/protocol-buffers/docs/overview#scalar target=_blank rel=noopener>https://developers.google.com/protocol-buffers/docs/overview#scalar</a>)</figcaption></figure></p><p>此外支持通过嵌套类型，实现结构体形式的信息的传输和还原。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=line><span class=cl><span class=kd>message</span> <span class=nc>PersonalInfo</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=kt>int32</span> <span class=n>id</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=kt>string</span> <span class=n>name</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=kt>int32</span> <span class=n>score</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=kd>enum</span> <span class=n>Hobby</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=n>GAMES</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>        <span class=n>MUSIC</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=p>}</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=n>Hobby</span> <span class=n>hobby</span> <span class=o>=</span> <span class=mi>4</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kd>message</span> <span class=nc>PersonalResponse</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>	<span class=kt>string</span> <span class=n>msg</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kd>message</span> <span class=nc>ClassInfo</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>	<span class=k>repeated</span> <span class=n>PersonalInfo</span> <span class=n>c_info</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kd>service</span> <span class=n>SearchInfo</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>	<span class=k>rpc</span> <span class=n>Add</span><span class=p>(</span><span class=n>stream</span> <span class=n>PersonalInfo</span><span class=p>)</span> <span class=k>returns</span> <span class=p>(</span><span class=n>PersonalResponse</span><span class=p>);</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span></code></pre></div><p>更多语法说明可以参考<a class=link href=https://developers.google.com/protocol-buffers/docs/proto3 target=_blank rel=noopener>官方文档</a>。</p><h3 id=生成库文件>生成库文件</h3><blockquote><p><a class=link href=https://github.com/protocolbuffers/protobuf/releases/latest target=_blank rel=noopener>Protobuf Github Release 下载 (含 protoc)</a></p></blockquote><p>生成所需要用到两个工具，一个是 <code>protoc</code> 其本身，另一个是用于生成对应其他语言文件的插件，后者可能有些发行版已经将对应语言的插件打包到了 <code>grpc</code> 包内一起，视具体情况而定，比如 <code>protoc-gen-go-grpc</code> 正好没有，那就找到<a class=link href=https://github.com/grpc/grpc-go target=_blank rel=noopener>上游项目</a>自己安装一个并添加到环境变量中（方便输入）。</p><ul><li>命令行方式</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=line><span class=cl><span class=nv>$ </span>protoc <span class=na>--plugin</span><span class=o>=</span>protoc-gen-go-grpc <span class=na>--go_out</span><span class=o>=</span>. <span class=na>--go-grpc_out</span><span class=o>=</span>. <span class=na>-I</span><span class=o>=</span>. <span class=nf>info</span>.proto
+</span></span></code></pre></div><p>然后生成了 <code>info.pb.go</code> 和 <code>info_grpc.pb.go</code> 两个文件，大体上看前者管定义，后者管实现，属于同一个包。其他语言主要是将二进制插件和输出参数替换成对应语言的。</p><ul><li>cmake 包办</li></ul><p>可以参考如下 <code>.cmake</code> 文件，自行在 <code>CMakeLists.txt</code> 引入库文件和生成的头文件。</p><p><code>protobuf.cmake</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cmake data-lang=cmake><span class=line><span class=cl><span class=c># Find Protobuf
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>find_package</span><span class=p>(</span><span class=s>Protobuf</span> <span class=s>REQUIRED</span><span class=p>)</span> <span class=c># 如果没有需要自行安装
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=c># Find Generator Executable # 找到两个用于生成库文件的可执行文件
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>find_program</span><span class=p>(</span><span class=s>PROTOBUF_PROTOC_EXECUTABLE</span> <span class=s>protoc</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=nb>find_program</span><span class=p>(</span><span class=s>GRPC_CC_PLUGIN_EXECUTABLE</span> <span class=s>grpc_cpp_plugin</span><span class=p>)</span> <span class=c># 对应所需要生成的语言
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=c># Set Proto File Name
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_NAME_LISTS</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;api&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=c># Generate gRPC and protobuf Sources
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>foreach</span><span class=p>(</span><span class=s>PROTO_NAME</span> <span class=o>${</span><span class=nv>PROTO_NAME_LISTS</span><span class=o>}</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>GRPC_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_SOURCE</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PB_HEADER</span> <span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_DIR</span> <span class=s2>&#34;${CMAKE_SOURCE_DIR}/misc/&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>set</span><span class=p>(</span><span class=s>PROTO_FILE</span> <span class=s2>&#34;${PROTO_DIR}/${PROTO_NAME}.proto&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>add_custom_command</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s>OUTPUT</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span> <span class=s2>&#34;${PB_HEADER}&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>COMMAND</span> <span class=s2>&#34;${PROTOBUF_PROTOC_EXECUTABLE}&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>ARGS</span>
+</span></span><span class=line><span class=cl>            <span class=s>--grpc_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s>--cpp_out=</span><span class=s2>&#34;${CMAKE_CURRENT_BINARY_DIR}&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s>-I=</span><span class=s2>&#34;${PROTO_DIR}&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s>--plugin=protoc-gen-grpc=</span><span class=s2>&#34;${GRPC_CC_PLUGIN_EXECUTABLE}&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;${PROTO_FILE}&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>DEPENDS</span> <span class=s2>&#34;${PROTO_FILE}&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_HEADERS</span> <span class=s2>&#34;${GRPC_HEADER}&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>GRPC_SOURCES</span> <span class=s2>&#34;${GRPC_SOURCE}&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_HEADERS</span> <span class=s2>&#34;${PB_HEADER}&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>    <span class=nb>list</span><span class=p>(</span><span class=s>APPEND</span> <span class=s>PROTO_SOURCES</span> <span class=s2>&#34;${PB_SOURCE}&#34;</span><span class=p>)</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=nb>endforeach</span><span class=p>()</span><span class=err>
+</span></span></span></code></pre></div><h3 id=一个综合的案例>一个综合的案例</h3><p><a class=link href=https://github.com/v2fly/v2ray-core/blob/master/config.proto target=_blank rel=noopener>v2ray config.proto</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=line><span class=cl><span class=n>syntax</span> <span class=o>=</span> <span class=s>&#34;proto3&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=kn>package</span> <span class=nn>v2ray</span><span class=o>.</span><span class=n>core</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>option</span> <span class=n>csharp_namespace</span> <span class=o>=</span> <span class=s>&#34;V2Ray.Core&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>option</span> <span class=n>go_package</span> <span class=o>=</span> <span class=s>&#34;v2ray.com/core&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>option</span> <span class=n>java_package</span> <span class=o>=</span> <span class=s>&#34;com.v2ray.core&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>option</span> <span class=n>java_multiple_files</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>import</span> <span class=s>&#34;common/serial/typed_message.proto&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=k>import</span> <span class=s>&#34;transport/config.proto&#34;</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=o>...</span><span class=err>
+</span></span></span></code></pre></div><p>可以看到首先引入了两个子 <code>proto</code> 文件，其中包含一些自己项目具体定义的消息类型，以 <code>typed_message.proto</code> 为例子，其中只包含了两种类型的两个字段。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-protobuf data-lang=protobuf><span class=line><span class=cl><span class=kd>message</span> <span class=nc>TypedMessage</span> <span class=p>{</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=c1>// The name of the message type, retrieved from protobuf API.
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kt>string</span> <span class=n>type</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span>  <span class=c1>// Serialized proto message.
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kt>bytes</span> <span class=n>value</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span><span class=err>
+</span></span></span><span class=line><span class=cl><span class=err></span><span class=p>}</span><span class=err>
+</span></span></span></code></pre></div><p>最终通过层层嵌套构成了一个综合的信息结构体，一并打包发送。</p><blockquote><p><a class=link href=https://wallhaven.cc/w/6k293l target=_blank rel=noopener>Banner Artwork</a></p></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/rpc/>RPC</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script></article><aside class=related-contents--wrapper><h2 class=section-title>相关文章</h2><div class=related-contents><div class="flex article-list--tile"><article class=has-image><a href=/p/the-wayland-protocol/><div class=article-image><img src=/p/the-wayland-protocol/wayland.2a9f76dee0fd08ca9e145ff26e79fb22_hu0adbd50c5ecec4ec41a5eaa3a1a2a25b_328685_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post The Wayland Protocol" data-hash="md5-Kp923uD9CMqeFF/ybnn7Ig=="></div><div class=article-details><h2 class=article-title>The Wayland Protocol</h2></div></a></article><article class=has-image><a href=/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/><div class=article-image><img src=/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/banner.3bb9b7127e40f1150a9ae348d4a65ee4_hu4f5eb48d6a6112537f077a0440a251a0_96293_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [新手篇] 如何写一个简单的上膛机器人" data-hash="md5-O7m3En5A8RUKmuNI1KZe5A=="></div><div class=article-details><h2 class=article-title>[新手篇] 如何写一个简单的上膛机器人</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//axionl.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{DISQUS&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
 2020 -
-2022 初等記憶體
-</section>
-<section class=powerby>
-Ariel AxionL's Blog <br>
-Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
-</section>
-</footer>
-<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
-<div class=pswp__bg></div>
-<div class=pswp__scroll-wrap>
-<div class=pswp__container>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-</div>
-<div class="pswp__ui pswp__ui--hidden">
-<div class=pswp__top-bar>
-<div class=pswp__counter></div>
-<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+2022 初等記憶體</section><section class=powerby>Ariel AxionL's Blog<br>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-<div class=pswp__preloader>
-<div class=pswp__preloader__icn>
-<div class=pswp__preloader__cut>
-<div class=pswp__preloader__donut></div>
-</div>
-</div>
-</div>
-</div>
-<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-<div class=pswp__share-tooltip></div>
-</div>
-<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-</button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-</button>
-<div class=pswp__caption>
-<div class=pswp__caption__center></div>
-</div>
-</div>
-</div>
-</div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous>
-</main>
-<aside class="sidebar right-sidebar sticky">
-<section class="widget archives">
-<div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
-</div>
-<h2 class="widget-title section-title">目录</h2>
-<div class=widget--toc>
-<nav id=TableOfContents>
-<ol>
-<li><a href=#前言>前言</a>
-<ol>
-<li><a href=#通俗易懂的说明>通俗易懂的说明</a></li>
-<li><a href=#有点复杂的介绍>有点复杂的介绍</a></li>
-<li><a href=#一个简单的例子>一个简单的例子</a>
-<ol>
-<li><a href=#公共协议>公共协议</a></li>
-<li><a href=#golang-客户端>golang 客户端</a></li>
-<li><a href=#golang-服务端>golang 服务端</a></li>
-</ol>
-</li>
-</ol>
-</li>
-<li><a href=#protocol-buffers-简要>Protocol Buffers 简要</a>
-<ol>
-<li><a href=#跨语言类型的桥梁>跨语言类型的桥梁</a></li>
-<li><a href=#生成库文件>生成库文件</a></li>
-<li><a href=#一个综合的案例>一个综合的案例</a></li>
-</ol>
-</li>
-</ol>
-</nav>
-</div>
-</section>
-</aside>
-</div>
-</div>
-<script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
-<script>(function(){const a=document.createElement('link');a.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",a.type="text/css",a.rel="stylesheet",document.head.appendChild(a)})()</script>
-</body>
-</html>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#前言>前言</a><ol><li><a href=#通俗易懂的说明>通俗易懂的说明</a></li><li><a href=#有点复杂的介绍>有点复杂的介绍</a></li><li><a href=#一个简单的例子>一个简单的例子</a><ol><li><a href=#公共协议>公共协议</a></li><li><a href=#golang-客户端>golang 客户端</a></li><li><a href=#golang-服务端>golang 服务端</a></li></ol></li></ol></li><li><a href=#protocol-buffers-简要>Protocol Buffers 简要</a><ol><li><a href=#跨语言类型的桥梁>跨语言类型的桥梁</a></li><li><a href=#生成库文件>生成库文件</a></li><li><a href=#一个综合的案例>一个综合的案例</a></li></ol></li></ol></nav></div></section></aside></div></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

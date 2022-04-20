@@ -1,289 +1,48 @@
-<!doctype html><html lang=en-us>
-<head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
  .xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1  以恢复读取该文件中环境变量的行为，并非长久之计。  参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
 介绍 配置文件目录如下：
  ~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment  其写法如下：
  环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH   apps.conf 
 由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
 ~/.config/fish/conf.d/env_init.fish
-if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments"><title>Linux 用户环境变量设置</title>
-<link rel=canonical href=https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/>
-<link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="Linux 用户环境变量设置">
-<meta property="og:description" content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
+if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments"><title>Linux 用户环境变量设置</title><link rel=canonical href=https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/><link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="Linux 用户环境变量设置"><meta property="og:description" content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
  .xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1  以恢复读取该文件中环境变量的行为，并非长久之计。  参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
 介绍 配置文件目录如下：
  ~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment  其写法如下：
  环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH   apps.conf 
 由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
 ~/.config/fish/conf.d/env_init.fish
-if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments">
-<meta property="og:url" content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/">
-<meta property="og:site_name" content="初等記憶體">
-<meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Linux"><meta property="article:published_time" content="2021-02-23T20:35:26+08:00"><meta property="article:modified_time" content="2021-02-23T20:35:26+08:00"><meta property="og:image" content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg">
-<meta name=twitter:site content="@ArielAxionL">
-<meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="Linux 用户环境变量设置">
-<meta name=twitter:description content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
+if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments"><meta property="og:url" content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/"><meta property="og:site_name" content="初等記憶體"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Linux"><meta property="article:published_time" content="2021-02-23T20:35:26+08:00"><meta property="article:modified_time" content="2021-02-23T20:35:26+08:00"><meta property="og:image" content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg"><meta name=twitter:site content="@ArielAxionL"><meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="Linux 用户环境变量设置"><meta name=twitter:description content="序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
  .xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1  以恢复读取该文件中环境变量的行为，并非长久之计。  参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
 介绍 配置文件目录如下：
  ~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment  其写法如下：
  环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH   apps.conf 
 由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
 ~/.config/fish/conf.d/env_init.fish
-if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments"><meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg">
-<link rel="shortcut icon" href=/img/favicon.ico>
-</head>
-<body class="article-page has-toc">
-<script>(function(){const a='StackColorScheme';localStorage.getItem(a)||localStorage.setItem(a,"dark")})()</script><script>(function(){const b='StackColorScheme',a=localStorage.getItem(b),c=window.matchMedia('(prefers-color-scheme: dark)').matches===!0;a=='dark'||a==='auto'&&c?document.documentElement.dataset.scheme='dark':document.documentElement.dataset.scheme='light'})()</script>
-<div class=main-container-background>
-<div class="container main-container flex
-extended">
-<div id=article-toolbar>
-<a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
-<span>返回</span>
-</a>
-</div>
-<main class="main full-width">
-<article class="has-image main-article">
-<header class=article-header>
-<div class=article-image>
-<a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/>
-<img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_800x0_resize_q75_box.jpg srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_800x0_resize_q75_box.jpg 800w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_1600x0_resize_q75_box.jpg 1600w" width=800 height=575 loading=lazy alt="Featured image of post Linux 用户环境变量设置">
-</a>
-</div>
-<div class=article-details>
-<header class=article-category>
-<a href=/categories/tutorial/ style=background-color:#2a9d8f;color:#fff>
-Tutorial
-</a>
-<a href=/categories/linux/ style=background-color:#2a9d8f;color:#fff>
-Linux
-</a>
-</header>
-<h2 class=article-title>
-<a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/>Linux 用户环境变量设置</a>
-</h2>
-<footer class=article-time>
-<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
-<time class=article-time--published>Feb 23, 232323</time>
-</div>
-<div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>
-阅读时长: 1 分钟
-</time>
-</div>
-</footer>
-</div>
-</header>
-<section class=article-content>
-<h2 id=序言>序言</h2>
-<p>Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。</p>
-<ul>
-<li>.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。</li>
-<li>.pam_environment 由于提权漏洞频出（如：<a class=link href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4708" target=_blank rel=noopener>CVE-2010-4708</a>、<a class=link href=https://nvd.nist.gov/vuln/detail/CVE-2011-3148 target=_blank rel=noopener>CVE-2011-3148</a>），<strong>已经被上游遗弃</strong>，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 <code>session required pam_env.so user_readenv=1 </code> 以恢复读取该文件中环境变量的行为，并非长久之计。</li>
-</ul>
-<p>参考了依云的 <a class=link href=https://blog.lilydjwg.me/2020/7/22/linux-environment-variables.215496.html target=_blank rel=noopener>Linux 的环境变量怎么设</a> 一文，遂选用 systemd 的 <a class=link href=https://www.freedesktop.org/software/systemd/man/environment.d.html target=_blank rel=noopener>environment.d</a> 作为用户环境变量配置方案。</p>
-<h2 id=介绍>介绍</h2>
-<p>配置文件目录如下：</p>
-<ul>
-<li>~/.config/environment.d/*.conf [✓]</li>
-<li>/run/environment.d/*.conf</li>
-<li>/etc/environment.d/*.conf</li>
-<li>/usr/lib/environment.d/*.conf</li>
-<li>/etc/environment</li>
-</ul>
-<p>其写法如下：</p>
-<ul>
-<li>环境变量=值</li>
-<li>环境变量=${值:-如果为空的默认值}</li>
-<li>环境变量=${值:+添加值}</li>
-<li>可以读取 <code>$HOME</code>, <code>$PATH</code> 等原有的环境变量，如：<code>PATH=~/.local/bin:$PATH</code></li>
-</ul>
-<p><figure class=gallery-image style=flex-grow:152;flex-basis:366px>
-<a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png data-size=1100x721>
-<img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png width=1100 height=721 srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_3.png 480w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_3.png 1024w" loading=lazy alt=apps.conf>
-</a>
-<figcaption>apps.conf</figcaption>
-</figure></p>
-<p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。</p>
-<p><code>~/.config/fish/conf.d/env_init.fish</code></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=k>if</span> <span class=k>not</span> <span class=nb>contains</span> <span class=nv>$USER</span> <span class=nv>$PATH</span>
-    <span class=nf>export</span> <span class=o>(</span>/usr/lib/systemd/user-environment-generators/<span class=m>30</span>-systemd-environment-d-generator<span class=o>)</span>
-<span class=k>end</span>
-</code></pre></div><p><figure class=gallery-image style=flex-grow:152;flex-basis:366px>
-<a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png data-size=1100x721>
-<img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png width=1100 height=721 srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_3.png 480w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_3.png 1024w" loading=lazy alt="show environments">
-</a>
-<figcaption>show environments</figcaption>
-</figure></p>
-<h2 id=关于-kdeplasma-的补充>关于 KDE/Plasma 的补充</h2>
-<blockquote>
-<p><a class=link href=https://blog.davidedmundson.co.uk/blog/plasma-and-the-systemd-startup/ target=_blank rel=noopener>Plasma and the systemd startup</a></p>
-</blockquote>
-<p>在 Plasma 5.21 和 Systemd 246 以及后续更新版本中，可以使用 systemd 来启动和管理 KDE 服务。</p>
-<p>其中一个好处在于：其环境变量可直接继承自 <code>environment.d</code> 而无需再手动设置 <code>systemd-environment-d-generator</code> 生成的环境变量。</p>
-<p>启用后重启生效。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>kwriteconfig5 <span class=na>--file</span> startkderc <span class=na>--group</span> General <span class=na>--key</span> systemdBoot true
-</code></pre></div><p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=nv>$ </span>systemctl <span class=na>--user</span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=nv>MemoryMax</span><span class=o>=</span>1500M <span class=nv>MemoryLimit</span><span class=o>=</span>1G
-<span class=nv>$ </span>systemctl <span class=na>--user</span> <span class=nb>status </span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
-  ● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=na>- Telegram</span> Desktop
-      <span class=nf>Loaded</span>: loaded <span class=o>(</span>/usr/share/applications/telegramdesktop.desktop<span class=p>;</span> <span class=nf>transient</span><span class=o>)</span>
-    <span class=nf>Transient</span>: yes
-      <span class=nf>Drop-In</span>: /run/user/<span class=m>1000</span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
-              └─<span class=m>50</span>-MemoryLimit.conf, <span class=m>50</span>-MemoryMax.conf
-      <span class=nf>Active</span>: active <span class=o>(</span><span class=nf>running</span><span class=o>)</span> since Tue <span class=m>2021</span>-<span class=m>02</span>-<span class=m>23</span> <span class=m>21</span>:<span class=m>02</span>:<span class=m>37</span> CST<span class=p>;</span> <span class=nf>5min</span> ago
-      <span class=nf>Tasks</span>: <span class=m>44</span> <span class=o>(</span><span class=nf>limit</span>: <span class=m>18425</span><span class=o>)</span>
-      <span class=nf>Memory</span>: <span class=m>351</span>.0M <span class=o>(</span><span class=nf>max</span>: <span class=m>1</span>.4G limit: <span class=m>1</span>.0G<span class=o>)</span>
-      <span class=nf>CPU</span>: <span class=m>20</span>.056s
-      <span class=nf>CGroup</span>: /user.slice/user-<span class=m>1000</span>.slice/user@<span class=m>1000</span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
-              └─<span class=m>15363</span> /usr/bin/telegram-desktop <span class=na>--
-</span></code></pre></div>
-</section>
-<footer class=article-footer>
-<section class=article-tags>
-<a href=/tags/linux/>Linux</a>
-</section>
-<section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
-<span>Licensed under CC BY-NC-SA 4.0</span>
-</section>
-</footer>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-</article>
-<aside class=related-contents--wrapper>
-<h2 class=section-title>相关文章</h2>
-<div class=related-contents>
-<div class="flex article-list--tile">
-<article class=has-image>
-<a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/>
-<div class=article-image>
-<img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.6c13d53e882032ddb45706dd2bca5954_hud6f9c8919d070f75481ccdcf5e8a2ef3_499154_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" data-hash="md5-bBPVPoggMt20VwbdK8pZVA==">
-</div>
-<div class=article-details>
-<h2 class=article-title>[归档] 用 Chezmoi 管理配置文件</h2>
-</div>
-</a>
-</article>
-<article class=has-image>
-<a href=/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/>
-<div class=article-image>
-<img src=/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/preview.b9b9d5f5b012c02abaf5bea0d34721c5_hud7b98d8f2b15df53359a72384550edee_2355505_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post 在 QEMU/KVM 虚拟机上安装 NixOS 发行版" data-hash="md5-ubnV9bASwCq69b6g00chxQ==">
-</div>
-<div class=article-details>
-<h2 class=article-title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</h2>
-</div>
-</a>
-</article>
-<article class=has-image>
-<a href=/p/teleport-%E5%B0%8F%E8%AE%B0/>
-<div class=article-image>
-<img src=/p/teleport-%E5%B0%8F%E8%AE%B0/banner.9100dbef2b0d22cdd64d2a9d20307e5d_hu1e0fdfd11adc7a773716bb21146059e6_715126_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Teleport 小记" data-hash="md5-kQDb7ysNIs3WTSqdIDB+XQ==">
-</div>
-<div class=article-details>
-<h2 class=article-title>Teleport 小记</h2>
-</div>
-</a>
-</article>
-<article class=has-image>
-<a href=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/>
-<div class=article-image>
-<img src=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/banner.8929fb7793b112a2406ae57335f99dc9_hu4ea74c24f3c75b3077d8f2e58314c6d9_4687092_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post Maddy 自建邮件服务" data-hash="md5-iSn7d5OxEqJAauVzNfmdyQ==">
-</div>
-<div class=article-details>
-<h2 class=article-title>Maddy 自建邮件服务</h2>
-</div>
-</a>
-</article>
-<article class=has-image>
-<a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/>
-<div class=article-image>
-<img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] _00__搭建环境" data-hash="md5-kgGUncNnKiOnd9vCr8rhwg==">
-</div>
-<div class=article-details>
-<h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2>
-</div>
-</a>
-</article>
-</div>
-</div>
-</aside>
-<div class=disqus-container>
-<div id=disqus_thread></div>
-<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//axionl.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style>
-<script>window.addEventListener('onColorSchemeChange',a=>{DISQUS&&DISQUS.reset({reload:!0})})</script>
-<footer class=site-footer>
-<section class=copyright>
-&copy;
+if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end  show environments"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg"><link rel="shortcut icon" href=/img/favicon.ico></head><body class="article-page has-toc"><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class=main-container-background><div class="container main-container flex
+extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg><span>返回</span></a></div><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/><img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_800x0_resize_q75_box.jpg srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_800x0_resize_q75_box.jpg 800w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l_huf5720345d1f95701fdc400deb49d5893_1019259_1600x0_resize_q75_box.jpg 1600w" width=800 height=575 loading=lazy alt="Featured image of post Linux 用户环境变量设置"></a></div><div class=article-details><header class=article-category><a href=/categories/tutorial/ style=background-color:#2a9d8f;color:#fff>Tutorial</a>
+<a href=/categories/linux/ style=background-color:#2a9d8f;color:#fff>Linux</a></header><h2 class=article-title><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/>Linux 用户环境变量设置</a></h2><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Feb 23, 232323</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 1 分钟</time></div></footer></div></header><section class=article-content><h2 id=序言>序言</h2><p>Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。</p><ul><li>.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。</li><li>.pam_environment 由于提权漏洞频出（如：<a class=link href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4708" target=_blank rel=noopener>CVE-2010-4708</a>、<a class=link href=https://nvd.nist.gov/vuln/detail/CVE-2011-3148 target=_blank rel=noopener>CVE-2011-3148</a>），<strong>已经被上游遗弃</strong>，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 <code>session required pam_env.so user_readenv=1</code> 以恢复读取该文件中环境变量的行为，并非长久之计。</li></ul><p>参考了依云的 <a class=link href=https://blog.lilydjwg.me/2020/7/22/linux-environment-variables.215496.html target=_blank rel=noopener>Linux 的环境变量怎么设</a> 一文，遂选用 systemd 的 <a class=link href=https://www.freedesktop.org/software/systemd/man/environment.d.html target=_blank rel=noopener>environment.d</a> 作为用户环境变量配置方案。</p><h2 id=介绍>介绍</h2><p>配置文件目录如下：</p><ul><li>~/.config/environment.d/*.conf [✓]</li><li>/run/environment.d/*.conf</li><li>/etc/environment.d/*.conf</li><li>/usr/lib/environment.d/*.conf</li><li>/etc/environment</li></ul><p>其写法如下：</p><ul><li>环境变量=值</li><li>环境变量=${值:-如果为空的默认值}</li><li>环境变量=${值:+添加值}</li><li>可以读取 <code>$HOME</code>, <code>$PATH</code> 等原有的环境变量，如：<code>PATH=~/.local/bin:$PATH</code></li></ul><p><figure class=gallery-image style=flex-grow:152;flex-basis:366px><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png data-size=1100x721><img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png width=1100 height=721 srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_3.png 480w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_3.png 1024w" loading=lazy alt=apps.conf></a><figcaption>apps.conf</figcaption></figure></p><p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。</p><p><code>~/.config/fish/conf.d/env_init.fish</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=line><span class=cl><span class=k>if</span> <span class=k>not</span> <span class=nb>contains</span> <span class=nv>$USER</span> <span class=nv>$PATH</span>
+</span></span><span class=line><span class=cl>    <span class=nf>export</span> <span class=o>(</span>/usr/lib/systemd/user-environment-generators/<span class=m>30</span>-systemd-environment-d-generator<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></div><p><figure class=gallery-image style=flex-grow:152;flex-basis:366px><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png data-size=1100x721><img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png width=1100 height=721 srcset="/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_3.png 480w, /p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_3.png 1024w" loading=lazy alt="show environments"></a><figcaption>show environments</figcaption></figure></p><h2 id=关于-kdeplasma-的补充>关于 KDE/Plasma 的补充</h2><blockquote><p><a class=link href=https://blog.davidedmundson.co.uk/blog/plasma-and-the-systemd-startup/ target=_blank rel=noopener>Plasma and the systemd startup</a></p></blockquote><p>在 Plasma 5.21 和 Systemd 246 以及后续更新版本中，可以使用 systemd 来启动和管理 KDE 服务。</p><p>其中一个好处在于：其环境变量可直接继承自 <code>environment.d</code> 而无需再手动设置 <code>systemd-environment-d-generator</code> 生成的环境变量。</p><p>启用后重启生效。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=line><span class=cl><span class=nv>$ </span>kwriteconfig5 <span class=na>--file</span> startkderc <span class=na>--group</span> General <span class=na>--key</span> systemdBoot true
+</span></span></code></pre></div><p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fish data-lang=fish><span class=line><span class=cl><span class=nv>$ </span>systemctl <span class=na>--user</span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=nv>MemoryMax</span><span class=o>=</span>1500M <span class=nv>MemoryLimit</span><span class=o>=</span>1G
+</span></span><span class=line><span class=cl><span class=nv>$ </span>systemctl <span class=na>--user</span> <span class=nb>status </span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+</span></span><span class=line><span class=cl>  ● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope <span class=na>- Telegram</span> Desktop
+</span></span><span class=line><span class=cl>      <span class=nf>Loaded</span>: loaded <span class=o>(</span>/usr/share/applications/telegramdesktop.desktop<span class=p>;</span> <span class=nf>transient</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>Transient</span>: yes
+</span></span><span class=line><span class=cl>      <span class=nf>Drop-In</span>: /run/user/<span class=m>1000</span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
+</span></span><span class=line><span class=cl>              └─<span class=m>50</span>-MemoryLimit.conf, <span class=m>50</span>-MemoryMax.conf
+</span></span><span class=line><span class=cl>      <span class=nf>Active</span>: active <span class=o>(</span><span class=nf>running</span><span class=o>)</span> since Tue <span class=m>2021</span>-<span class=m>02</span>-<span class=m>23</span> <span class=m>21</span>:<span class=m>02</span>:<span class=m>37</span> CST<span class=p>;</span> <span class=nf>5min</span> ago
+</span></span><span class=line><span class=cl>      <span class=nf>Tasks</span>: <span class=m>44</span> <span class=o>(</span><span class=nf>limit</span>: <span class=m>18425</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>      <span class=nf>Memory</span>: <span class=m>351</span>.0M <span class=o>(</span><span class=nf>max</span>: <span class=m>1</span>.4G limit: <span class=m>1</span>.0G<span class=o>)</span>
+</span></span><span class=line><span class=cl>      <span class=nf>CPU</span>: <span class=m>20</span>.056s
+</span></span><span class=line><span class=cl>      <span class=nf>CGroup</span>: /user.slice/user-<span class=m>1000</span>.slice/user@<span class=m>1000</span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+</span></span><span class=line><span class=cl>              └─<span class=m>15363</span> /usr/bin/telegram-desktop <span class=na>--
+</span></span></span></code></pre></div></section><footer class=article-footer><section class=article-tags><a href=/tags/linux/>Linux</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script></article><aside class=related-contents--wrapper><h2 class=section-title>相关文章</h2><div class=related-contents><div class="flex article-list--tile"><article class=has-image><a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/><div class=article-image><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.6c13d53e882032ddb45706dd2bca5954_hud6f9c8919d070f75481ccdcf5e8a2ef3_499154_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" data-hash="md5-bBPVPoggMt20VwbdK8pZVA=="></div><div class=article-details><h2 class=article-title>[归档] 用 Chezmoi 管理配置文件</h2></div></a></article><article class=has-image><a href=/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/><div class=article-image><img src=/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/preview.b9b9d5f5b012c02abaf5bea0d34721c5_hud7b98d8f2b15df53359a72384550edee_2355505_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post 在 QEMU/KVM 虚拟机上安装 NixOS 发行版" data-hash="md5-ubnV9bASwCq69b6g00chxQ=="></div><div class=article-details><h2 class=article-title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</h2></div></a></article><article class=has-image><a href=/p/teleport-%E5%B0%8F%E8%AE%B0/><div class=article-image><img src=/p/teleport-%E5%B0%8F%E8%AE%B0/banner.9100dbef2b0d22cdd64d2a9d20307e5d_hu1e0fdfd11adc7a773716bb21146059e6_715126_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Teleport 小记" data-hash="md5-kQDb7ysNIs3WTSqdIDB+XQ=="></div><div class=article-details><h2 class=article-title>Teleport 小记</h2></div></a></article><article class=has-image><a href=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/><div class=article-image><img src=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/banner.8929fb7793b112a2406ae57335f99dc9_hu4ea74c24f3c75b3077d8f2e58314c6d9_4687092_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post Maddy 自建邮件服务" data-hash="md5-iSn7d5OxEqJAauVzNfmdyQ=="></div><div class=article-details><h2 class=article-title>Maddy 自建邮件服务</h2></div></a></article><article class=has-image><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/><div class=article-image><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] _00__搭建环境" data-hash="md5-kgGUncNnKiOnd9vCr8rhwg=="></div><div class=article-details><h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//axionl.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{DISQUS&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
 2020 -
-2022 初等記憶體
-</section>
-<section class=powerby>
-Ariel AxionL's Blog <br>
-Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> <br>
-Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a>
-</section>
-</footer>
-<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
-<div class=pswp__bg></div>
-<div class=pswp__scroll-wrap>
-<div class=pswp__container>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-</div>
-<div class="pswp__ui pswp__ui--hidden">
-<div class=pswp__top-bar>
-<div class=pswp__counter></div>
-<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+2022 初等記憶體</section><section class=powerby>Ariel AxionL's Blog<br>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-<div class=pswp__preloader>
-<div class=pswp__preloader__icn>
-<div class=pswp__preloader__cut>
-<div class=pswp__preloader__donut></div>
-</div>
-</div>
-</div>
-</div>
-<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-<div class=pswp__share-tooltip></div>
-</div>
-<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-</button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-</button>
-<div class=pswp__caption>
-<div class=pswp__caption__center></div>
-</div>
-</div>
-</div>
-</div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous>
-</main>
-<aside class="sidebar right-sidebar sticky">
-<section class="widget archives">
-<div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
-</div>
-<h2 class="widget-title section-title">目录</h2>
-<div class=widget--toc>
-<nav id=TableOfContents>
-<ol>
-<li><a href=#序言>序言</a></li>
-<li><a href=#介绍>介绍</a></li>
-<li><a href=#关于-kdeplasma-的补充>关于 KDE/Plasma 的补充</a></li>
-</ol>
-</nav>
-</div>
-</section>
-</aside>
-</div>
-</div>
-<script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
-<script>(function(){const a=document.createElement('link');a.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",a.type="text/css",a.rel="stylesheet",document.head.appendChild(a)})()</script>
-</body>
-</html>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#序言>序言</a></li><li><a href=#介绍>介绍</a></li><li><a href=#关于-kdeplasma-的补充>关于 KDE/Plasma 的补充</a></li></ol></nav></div></section></aside></div></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
