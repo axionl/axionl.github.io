@@ -259,6 +259,26 @@ spf 值这里推荐使用仅允许 mx，若有其他来源也可以添加。
 
 以 Vultr 为例，其 Reverse DNS 页面在 `机器详情 > Settings > IPv4 / IPv6` 选项卡内，在 Reverse DNS 中填入自己的邮件服务域名即可，如 mail.example.com，如果存在多条公共 IP 地址，则都需要填写。
 
+
+## 多域名配置 (如无可跳过)
+1. 在 `local_domains` 后面加上新的域名
+
+```nginx
+$(primary_domain) = example.com
+$(secondary_domain) = example.org
+$(local_domains) = $(primary_domain) $(secondary_domain)
+```
+
+2. 在 tls file 后面添加对应的证书，如果用 nginx 反代的话则添加对应的 host 路由和域名。
+
+```nginx
+tls file /etc/letsencrypt/live/$(primary_domain)/fullchain.pem /etc/letsencrypt/live/$(primary_domain)/privkey.pem /etc/letsencrypt/live/$(secondary_domain)/fullchain.pem /etc/letsencrypt/live/$(secondary_domain)/privkey.pem
+```
+
+3. 将新域名的 dkim 密钥内容也添加到 DNS 的 TXT 记录中
+
+4. dmarc 和 rDNS 同理
+
 ## 客户端
 
 客户端有诸多选择，不变的是手动设置方式：
