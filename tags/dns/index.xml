@@ -1,10 +1,132 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNS on 初等記憶體</title><link>https://axionl.me/tags/dns/</link><description>Recent content in DNS on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 02 Jan 2021 09:41:20 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>[归档] SmartDNS 一个智能分流的 DNS 服务</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sat, 02 Jan 2021 09:41:20 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</guid><description>介绍 项目地址
-DNS 域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。
-SmartDNS SmartDNS 集成了多种出栈请求协议，包括常用的 UDP 和较为现代的 DNS-Over-Https 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。
-structure
-配置 默认配置文件
-推荐项目：dnsmasq-china-list
-作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 CN 源 里安装 smartdns-china-list-git 以获取自动更新。
-生成对应的配置文件操作如下，具体参考，可见其生成形式为 nameserver /&amp;lt;域名&amp;gt;/&amp;lt;组名&amp;gt;，后面的组名就是对应我们后来需要的匹配规则而制定的。
-$ cd dnsmasq-china-list $ make smartdns SERVER=china 默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。
-# （可选）引入额外的规则列表，用绝对路径conf-file /etc/smartdns/accelerated-domains.china.smartdns.confconf-file /etc/smartdns/apple.china.smartdns.confconf-file /etc/smartdns/google.china.smartdns.conf# 本地监听端口bind [::]:53# 缓存大小cache-size 4096# 重启时读取之前的缓存cache-persist yes# 缓存文件存放位置cache-file /var/cache/smartdns.cache# 传统 UDP 协议（以阿里 DNS 为例）server 223.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DNS on 初等記憶體</title><link>https://axionl.me/tags/dns/</link><description>Recent content in DNS on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 02 Jan 2021 09:41:20 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/dns/index.xml" rel="self" type="application/rss+xml"/><item><title>[归档] SmartDNS 一个智能分流的 DNS 服务</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</link><pubDate>Sat, 02 Jan 2021 09:41:20 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-smartdns-%E4%B8%80%E4%B8%AA%E6%99%BA%E8%83%BD%E5%88%86%E6%B5%81%E7%9A%84-dns-%E6%9C%8D%E5%8A%A1/banner.jpg" alt="Featured image of post [归档] SmartDNS 一个智能分流的 DNS 服务" />&lt;h2 id="介绍">介绍&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/pymumu/smartdns" target="_blank" rel="noopener"
+>项目地址&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="dns">DNS&lt;/h3>
+&lt;p>域名系统（英语：Domain Name System，缩写：DNS）是互联网的一项服务。它作为将域名和 IP 地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。通常情况下本地的解析请求会发送到离你最近的 DNS 服务器，它可能是你的无线路由器、宿舍楼梯下的服务器或者运营商的地区性服务器等，但由于各种原因导致解析效果不理想，延迟高等问题，这时可以考虑换一个网络质量好的域名解析服务，错峰出行，减少拥堵。&lt;/p>
+&lt;h3 id="smartdns">SmartDNS&lt;/h3>
+&lt;p>SmartDNS 集成了多种出栈请求协议，包括常用的 &lt;code>UDP&lt;/code> 和较为现代的 &lt;code>DNS-Over-Https&lt;/code> 等，能够在给定的规则列表中挑选出一个延迟最低的域名解析服务，并向其发送请求。同时其内部也提供 DNS 缓存，如果缓存能够命中则直接从本地缓存中返回对应 IP 地址，如未能查找到则继续向上级 DNS 服务传播请求。&lt;/p>
+&lt;p>&lt;img src="https://github.com/pymumu/smartdns/raw/master/doc/architecture.png"
+loading="lazy"
+alt="structure"
+>&lt;/p>
+&lt;h2 id="配置">配置&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/pymumu/smartdns/blob/master/etc/smartdns/smartdns.conf" target="_blank" rel="noopener"
+>默认配置文件&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>推荐项目：&lt;a class="link" href="https://github.com/felixonmars/dnsmasq-china-list" target="_blank" rel="noopener"
+>dnsmasq-china-list&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>作者肥猫在其项目中提供了几个较为常用的匹配规则列表，对于非 Arch Linux 用户而言可以把项目克隆到本地然后构建对应的配置文件，而 Arch 用户可以从 &lt;a class="link" href="https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/" target="_blank" rel="noopener"
+>CN 源&lt;/a> 里安装 &lt;code>smartdns-china-list-git&lt;/code> 以获取自动更新。&lt;/p>
+&lt;p>生成对应的配置文件操作如下，&lt;a class="link" href="https://github.com/archlinuxcn/repo/blob/c2fe2e155a35da76a879b6a9d0fe21975413bce2/archlinuxcn/dnsmasq-china-list-git/PKGBUILD#L22" target="_blank" rel="noopener"
+>具体参考&lt;/a>，可见其生成形式为 &lt;code>nameserver /&amp;lt;域名&amp;gt;/&amp;lt;组名&amp;gt;&lt;/code>，后面的组名就是对应我们后来需要的匹配规则而制定的。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>cd dnsmasq-china-list
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>make smartdns &lt;span class="nv">SERVER&lt;/span>&lt;span class="o">=&lt;/span>china
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认的配置文件中有很多不常用的项目，作为自己的配置文件一般精简到自己需要的功能配置即可。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># （可选）引入额外的规则列表，用绝对路径&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/accelerated-domains.china.smartdns.conf&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/apple.china.smartdns.conf&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">conf-file /etc/smartdns/google.china.smartdns.conf&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># 本地监听端口&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">bind [::]:53&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># 缓存大小&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">cache-size 4096&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># 重启时读取之前的缓存&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">cache-persist yes&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># 缓存文件存放位置&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">cache-file /var/cache/smartdns.cache&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># 传统 UDP 协议（以阿里 DNS 为例）&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">server 223.5.5.5&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># DNS Over TLS （以 CloudFlare DNS 为例）&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">server-tls 1.0.0.1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># DNS Over Https (以烧饼 DNS 为例)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">server-https https://doh.dns.sb/dns-query -group china -group example&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>更多 DNS 服务地址：&lt;a class="link" href="https://dnscrypt.info/public-servers/" target="_blank" rel="noopener"
+>dnscrypt.info&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>如果有多个分组需求，可以自定义规则配置文件，服务配置后面再添加 &lt;code>-group [组名]&lt;/code>。&lt;/p>
+&lt;p>被 &lt;code>-exclude-default-group&lt;/code> 标记为排除在默认组之内的服务需至少在一个组才可能被访问到。&lt;/p>
+&lt;h2 id="启动">启动&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># smartdns -c smartdns.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="k">or&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># systemctl enable --now smartdns.service
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认在后台运行，推荐使用自带的 &lt;a class="link" href="https://github.com/pymumu/smartdns/blob/master/systemd/smartdns.service.in" target="_blank" rel="noopener"
+>&lt;code>systemd service&lt;/code>&lt;/a> 来进行管理，如果 &lt;code>/ect/resolv.conf&lt;/code> 没有被更改成监听本地的话可以检查一下文件是否有特殊标志位(&lt;code>lsattr&lt;/code>)，手动修改即可(&lt;code>chattr&lt;/code> )。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>cat /etc/resolv.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># DNS managed by SmartDNS
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nf">nameserver&lt;/span> &lt;span class="m">127&lt;/span>.&lt;span class="m">0&lt;/span>.&lt;span class="m">0&lt;/span>.&lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://wallhaven.cc/w/0qx3x7" target="_blank" rel="noopener"
+>Banner Artwork&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

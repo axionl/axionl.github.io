@@ -1,27 +1,1671 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 初等記憶體</title><link>https://axionl.me/categories/linux/</link><description>Recent content in Linux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
-.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1 以恢复读取该文件中环境变量的行为，并非长久之计。 参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
-介绍 配置文件目录如下：
-~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment 其写法如下：
-环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH apps.conf
-由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
-~/.config/fish/conf.d/env_init.fish
-if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end show environments</description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>前言 项目地址：twpayne/chezmoi
-早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。
-【譯】使用 GNU stow 管理你的點文件
-相比之下，其有如下缺点促使我切换到 Chezmoi:
-需要手动创建目录结构，而不是根据现有配置文件来生成 需要手动建立版本管理，本身不提供备份和恢复等功能 2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 dot- 前缀 隐私数据加密 安装 https://www.chezmoi.io/docs/install/
-多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。
-$ curl -sfL https://git.io/chezmoi | sh 快速上手 初始化 $ chezmoi init --apply 这会在 ~/.local/share/chezmoi 中创建一个目录权限为 700 的 git 仓库，用于保存配置文件。
-$ chezmoi source-path 可以列出其路径 $ chezmoi cd 可以直接进入到该目录 --apply 参数意为仓库创建后自动添加配置文件，默认为不创建 $ chezmoi init &amp;lt;git_repo&amp;gt; 可在新设备上初始化上传的配置仓库 若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。</description></item><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
-本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近
-QEMU/KVM 虚拟机配置 ArchLinux Wiki: KVM | QEMU | Libvirt
-0. 检测硬件是否支持 KVM 一般情况下需要进入到 BIOS 对应页面打开虚拟化支持，常见对应设置项如下：
-AMD: SVM Support Intel: Intel Virtual Technology 开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：
-$ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
-$ zgrep CONFIG_KVM /proc/config.gz CONFIG_KVM_GUEST=y CONFIG_KVM_MMIO=y CONFIG_KVM_ASYNC_PF=y CONFIG_KVM_VFIO=y CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y CONFIG_KVM_COMPAT=y CONFIG_KVM_XFER_TO_GUEST_WORK=y CONFIG_KVM=m CONFIG_KVM_INTEL=m CONFIG_KVM_AMD=m # 可以看到有该模块 CONFIG_KVM_AMD_SEV=y CONFIG_KVM_MMU_AUDIT=y 查看这些内核模块是否已自动加载：</description></item><item><title>Teleport 小记</title><link>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</link><pubDate>Sun, 06 Dec 2020 23:04:45 +0800</pubDate><guid>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</guid><description>简介 常用于跨平台集群管理，提供多设备认证、远程操作和反向代理。
-项目地址：github.com/gravitational/teleport
-官方网站：goteleport.com
-安装 有以下几种方式，单个可执行文件内已经包含 web 管理平台、服务端和客户端功能。(Windows 目前仅支持客户端)
-可执行文件下载 Docker 下载 编译安装 快速配置 服务端及 Web 管理平台 teleport:data_dir:/var/lib/teleport# 数据存放目录auth_service:enabled:truecluster_name:&amp;#34;demo_cluster&amp;#34;listen_addr:0.0.0.0:3025# 认证监听地址tokens:- proxy,node,app:&amp;lt;nodes_auth_token&amp;gt;# 节点认证密令ssh_service:enabled:truelabels:env:stagingapp_service:enabled:truedebug_app:falseproxy_service:enabled:truelisten_addr:0.0.0.0:3023# 反向代理监听地址web_listen_addr:0.0.0.0:3080# web 管理页面地址tunnel_listen_addr:0.0.0.0:3024# 隧道监听地址public_addr:&amp;lt;https://example.domain.org:3025&amp;gt;# 反向代理公共地址https_keypairs:# 本地测试时可不设置证书- key_file:&amp;lt;key_file_path&amp;gt;- cert_file:&amp;lt;cert_file_path&amp;gt;可由如下命令启用服务端进行测试，要点如下:
-在本地测试时即便没有填写 https_keypairs 也仍然需要在监听的 web 地址前面加上 https://，或者使用 --insecure-no-tls 命令行参数对 http:// 进行访问。 如果配置中含有非对应权限目录或者证书文件，则调整到对应权限，如 /var/lib/teleport 仅限 root 权限访问，则需要调整到对应的权限再启动命令。 所有的登陆行文均在 web_listen_addr 所指示的地址发生。 注意证书所对应的域名与可访问的相同 $ teleport start --config teleport.yaml tctl 是 teleport 的一个命令行管理工具，在 teleport 服务运行时，可以由它对用户、节点、密令等进行动态管理。
-# 创建一个初始用户 $ tctl users add &amp;lt;username&amp;gt; &amp;lt;login_user, login_group&amp;gt; --config teleport.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 初等記憶體</title><link>https://axionl.me/categories/linux/</link><description>Recent content in Linux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg" alt="Featured image of post Linux 用户环境变量设置" />&lt;h2 id="序言">序言&lt;/h2>
+&lt;p>Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。&lt;/p>
+&lt;ul>
+&lt;li>.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。&lt;/li>
+&lt;li>.pam_environment 由于提权漏洞频出（如：&lt;a class="link" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4708" target="_blank" rel="noopener"
+>CVE-2010-4708&lt;/a>、&lt;a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2011-3148" target="_blank" rel="noopener"
+>CVE-2011-3148&lt;/a>），&lt;strong>已经被上游遗弃&lt;/strong>，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 &lt;code>session required pam_env.so user_readenv=1 &lt;/code> 以恢复读取该文件中环境变量的行为，并非长久之计。&lt;/li>
+&lt;/ul>
+&lt;p>参考了依云的 &lt;a class="link" href="https://blog.lilydjwg.me/2020/7/22/linux-environment-variables.215496.html" target="_blank" rel="noopener"
+>Linux 的环境变量怎么设&lt;/a> 一文，遂选用 systemd 的 &lt;a class="link" href="https://www.freedesktop.org/software/systemd/man/environment.d.html" target="_blank" rel="noopener"
+>environment.d&lt;/a> 作为用户环境变量配置方案。&lt;/p>
+&lt;h2 id="介绍">介绍&lt;/h2>
+&lt;p>配置文件目录如下：&lt;/p>
+&lt;ul>
+&lt;li>~/.config/environment.d/*.conf [✓]&lt;/li>
+&lt;li>/run/environment.d/*.conf&lt;/li>
+&lt;li>/etc/environment.d/*.conf&lt;/li>
+&lt;li>/usr/lib/environment.d/*.conf&lt;/li>
+&lt;li>/etc/environment&lt;/li>
+&lt;/ul>
+&lt;p>其写法如下：&lt;/p>
+&lt;ul>
+&lt;li>环境变量=值&lt;/li>
+&lt;li>环境变量=${值:-如果为空的默认值}&lt;/li>
+&lt;li>环境变量=${值:+添加值}&lt;/li>
+&lt;li>可以读取 &lt;code>$HOME&lt;/code>, &lt;code>$PATH&lt;/code> 等原有的环境变量，如：&lt;code>PATH=~/.local/bin:$PATH&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png"
+width="1100"
+height="721"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="apps.conf"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="366px"
+>&lt;/p>
+&lt;p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。&lt;/p>
+&lt;p>&lt;code>~/.config/fish/conf.d/env_init.fish&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">not&lt;/span> &lt;span class="nb">contains&lt;/span> &lt;span class="nv">$USER&lt;/span> &lt;span class="nv">$PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">export&lt;/span> &lt;span class="o">(&lt;/span>/usr/lib/systemd/user-environment-generators/&lt;span class="m">30&lt;/span>-systemd-environment-d-generator&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png"
+width="1100"
+height="721"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="show environments"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="366px"
+>&lt;/p>
+&lt;h2 id="关于-kdeplasma-的补充">关于 KDE/Plasma 的补充&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://blog.davidedmundson.co.uk/blog/plasma-and-the-systemd-startup/" target="_blank" rel="noopener"
+>Plasma and the systemd startup&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>在 Plasma 5.21 和 Systemd 246 以及后续更新版本中，可以使用 systemd 来启动和管理 KDE 服务。&lt;/p>
+&lt;p>其中一个好处在于：其环境变量可直接继承自 &lt;code>environment.d&lt;/code> 而无需再手动设置 &lt;code>systemd-environment-d-generator&lt;/code> 生成的环境变量。&lt;/p>
+&lt;p>启用后重启生效。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>kwriteconfig5 &lt;span class="na">--file&lt;/span> startkderc &lt;span class="na">--group&lt;/span> General &lt;span class="na">--key&lt;/span> systemdBoot true
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> &lt;span class="nb">status &lt;/span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="na">- Telegram&lt;/span> Desktop
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Loaded&lt;/span>: loaded &lt;span class="o">(&lt;/span>/usr/share/applications/telegramdesktop.desktop&lt;span class="p">;&lt;/span> &lt;span class="nf">transient&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Transient&lt;/span>: yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Drop-In&lt;/span>: /run/user/&lt;span class="m">1000&lt;/span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └─&lt;span class="m">50&lt;/span>-MemoryLimit.conf, &lt;span class="m">50&lt;/span>-MemoryMax.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Active&lt;/span>: active &lt;span class="o">(&lt;/span>&lt;span class="nf">running&lt;/span>&lt;span class="o">)&lt;/span> since Tue &lt;span class="m">2021&lt;/span>-&lt;span class="m">02&lt;/span>-&lt;span class="m">23&lt;/span> &lt;span class="m">21&lt;/span>:&lt;span class="m">02&lt;/span>:&lt;span class="m">37&lt;/span> CST&lt;span class="p">;&lt;/span> &lt;span class="nf">5min&lt;/span> ago
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Tasks&lt;/span>: &lt;span class="m">44&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="nf">limit&lt;/span>: &lt;span class="m">18425&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Memory&lt;/span>: &lt;span class="m">351&lt;/span>.0M &lt;span class="o">(&lt;/span>&lt;span class="nf">max&lt;/span>: &lt;span class="m">1&lt;/span>.4G limit: &lt;span class="m">1&lt;/span>.0G&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">CPU&lt;/span>: &lt;span class="m">20&lt;/span>.056s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">CGroup&lt;/span>: /user.slice/user-&lt;span class="m">1000&lt;/span>.slice/user@&lt;span class="m">1000&lt;/span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └─&lt;span class="m">15363&lt;/span> /usr/bin/telegram-desktop &lt;span class="na">--
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.jpg" alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址：&lt;a class="link" href="https://github.com/twpayne/chezmoi" target="_blank" rel="noopener"
+>twpayne/chezmoi&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://farseerfc.me/using-gnu-stow-to-manage-your-dotfiles.html" target="_blank" rel="noopener"
+>【譯】使用 GNU stow 管理你的點文件 &lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>相比之下，其有如下缺点促使我切换到 Chezmoi:&lt;/p>
+&lt;ul>
+&lt;li>需要手动创建目录结构，而不是根据现有配置文件来生成&lt;/li>
+&lt;li>需要手动建立版本管理，本身不提供备份和恢复等功能&lt;/li>
+&lt;li>2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 &lt;code>dot-&lt;/code> 前缀&lt;/li>
+&lt;li>隐私数据加密&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/install/" target="_blank" rel="noopener"
+>https://www.chezmoi.io/docs/install/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>curl &lt;span class="na">-sfL&lt;/span> https://git.io/chezmoi &lt;span class="o">|&lt;/span> &lt;span class="nf">sh&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="快速上手">快速上手&lt;/h2>
+&lt;h3 id="初始化">初始化&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi init &lt;span class="na">--apply&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这会在 &lt;code>~/.local/share/chezmoi&lt;/code> 中创建一个目录权限为 &lt;code>700&lt;/code> 的 git 仓库，用于保存配置文件。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>$ chezmoi source-path&lt;/code> 可以列出其路径&lt;/li>
+&lt;li>&lt;code>$ chezmoi cd&lt;/code> 可以直接进入到该目录&lt;/li>
+&lt;li>&lt;code>--apply&lt;/code> 参数意为仓库创建后自动添加配置文件，默认为不创建&lt;/li>
+&lt;li>&lt;code>$ chezmoi init &amp;lt;git_repo&amp;gt;&lt;/code> 可在新设备上初始化上传的配置仓库&lt;/li>
+&lt;/ul>
+&lt;p>若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi completion &lt;span class="nb">fish&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> ~/.config/&lt;span class="nb">fish&lt;/span>/completions/chezmoi.&lt;span class="nb">fish&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>-o &amp;lt;filename&amp;gt;&lt;/code> 输出到文件，默认为标准输出&lt;/li>
+&lt;/ul>
+&lt;h3 id="添加文件或目录">添加文件或目录&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add .nanorc &lt;span class="c"># 添加文件
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-x&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span>/ &lt;span class="c"># 添加文件夹
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-xa&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span> &lt;span class="c"># 递归添加文件夹和子目录下的全部内容
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-T&lt;/span> .xprofile &lt;span class="c"># 添加临时内容
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add .tmux.conf &lt;span class="na">--follow&lt;/span> &lt;span class="c"># 添加软链接对应的原始内容，而不是软链接符号
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi managed &lt;span class="c"># 列出所管理的内容路径
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编辑和应用">编辑和应用&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi edit ~/.bashrc &lt;span class="na">--apply&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>其默认不带 &lt;code>--apply&lt;/code> 参数，所以编辑完成后也不会直接作用于源文件，&lt;code>--dry-run&lt;/code> 参数可以空运行而不改变目标文件&lt;/li>
+&lt;li>&lt;code>$EDITOR&lt;/code> 环境变量决定所使用的编辑器。&lt;/li>
+&lt;li>&lt;code>$ chezmoi diff&lt;/code> 以查看改动&lt;/li>
+&lt;li>&lt;code>$ chezmoi -v apply&lt;/code> 应用改动&lt;/li>
+&lt;/ul>
+&lt;h3 id="同步与合并">同步与合并&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>pull &lt;span class="na">-- --rebase&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nf">chezmoi&lt;/span> diff
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi apply &lt;span class="na">--verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其同步操作与 git 本身无异，通过 &lt;code>--&lt;/code> 可以传递所需参数。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>add .nanorc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>commit &lt;span class="na">-- -m&lt;/span> &lt;span class="s2">&amp;#34;Initial commit&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>支持自动提交，但考虑到用户可能意外添加&lt;strong>敏感数据&lt;/strong>的情况下不建议开启，配置文件的介绍将在稍后提到。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">sourceVCS&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">autoCommit&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">autoPush&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也可以一次打包成压缩包放 U 盘上硬件备份&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi archive &lt;span class="na">--output&lt;/span>&lt;span class="o">=&lt;/span>dotfiles.tar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="小结">小结&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png"
+width="1048"
+height="826"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="doctor"
+class="gallery-image"
+data-flex-grow="126"
+data-flex-basis="304px"
+>&lt;/p>
+&lt;p>其还提供了一个名为 &lt;code>secret&lt;/code> 的参数，是各种加密存储管理软件命令行客户端的包装 (cli wrapper)，&lt;code>chezmoi doctor&lt;/code> 可以检测机器中对应可执行文件的安装状态，此部分内容和应用会在后面的数据模板中提及。&lt;/p>
+&lt;p>至此，快速上手基本功能已介绍完毕，初次使用发现它像是一个功能丰富的 wrapper，提供了诸多自动化的帮助，包括编辑、冲突合并、同步和导出备份等。可以注意到一个与其他以软链接形式的 dotfiles manager 不同，由于在设计之初就考虑到了多设备、跨平台的兼容方案，chezmoi 并没有选择以软链接的形式来替换源文档所在路径，一方面提供了改动与应用之间的缓冲，另一方面规避了多平台的兼容性问题。&lt;/p>
+&lt;h2 id="数据模板">数据模板&lt;/h2>
+&lt;p>以 &lt;a class="link" href="https://gohugo.io/templates/" target="_blank" rel="noopener"
+>Hugo&lt;/a> 作为博客或者使用过 &lt;a class="link" href="https://pkg.go.dev/text/template" target="_blank" rel="noopener"
+>go template&lt;/a> 的朋友一定不会对此感到陌生，得益于 &lt;code>golang&lt;/code> 的实现，chezmoi 不仅做到了单文件、跨平台使用，还继承了其强大的数据模板功能，可以对于不同的设备实现不同的数据配置，比如配置不同的 &lt;code>ssh key&lt;/code>，这也是与诸多的 dotfiles manager 的不同之处。&lt;/p>
+&lt;h3 id="创建模板">创建模板&lt;/h3>
+&lt;p>以 &lt;code>.gitconfig&lt;/code> 为例，原文如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了在不同的设备电脑上使用不同的 git 账户这一需求，要将其中的用户信息数据与配置文件进行绑定，而原文件将作为 &lt;code>.tmpl&lt;/code> 为后缀的模板文件保存。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.local/share/chezmoi/dot_gitconfig.tmpl&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .name }}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .email }}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>模板文件如上，&lt;code>{{ }}&lt;/code> 是 go template 的数据变量标记符，&lt;code>.&lt;/code> 代表了当前变量，即在非循环体内，&lt;code>.&lt;/code> 就代表了传入的那个变量。一般的变量定义可由赋值表达式定义 &lt;code>{{ $variable := Balabala }}&lt;/code>，不过这里 chezmoi 会根据配置文件自动生成和对应。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--autotemplate&lt;/span> ~/.gitconfig
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>chezmoi 提供了自动生成模板的功能，但是聪明的生成器未必懂你心意，正如我的 hostname 恰好等于 username 而在其他机器上未必如此。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png"
+width="544"
+height="143"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="dot_gitconfig.tmpl"
+class="gallery-image"
+data-flex-grow="380"
+data-flex-basis="913px"
+>&lt;/p>
+&lt;p>此时重新 &lt;code>$ chezmoi edit ~/.gitconfig&lt;/code> 对应编辑的就是模板文件（就不要图快加上 &lt;code>--apply&lt;/code> 了，以免产生不必要的手滑）。&lt;code>$ chezmoi data&lt;/code> 的内容便是其妄加猜测的根源，对应变量也可以手动添加使用，如下，根据系统类型来判断模板中的内容是否作用于该机器，&lt;code>-&lt;/code> 符号用于移除前或者后的空格，更多语法可去 &lt;a class="link" href="https://golang.org/pkg/text/template/" target="_blank" rel="noopener"
+>go template&lt;/a> 参阅。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">eq&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;linux&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[core]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> editor = nvim
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">else&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[core]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> editor = &lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.editor&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于大量需要编辑内容的配置文件，也可根据不同机器直接做多份同名文件，并对应进行切换。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># symlink_dot_bashrc.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将会创建一个 &lt;code>~/.bashrc&lt;/code> 的软链接到对应的配置文件, 若不希望以软链接形式，&lt;code>{{ include &amp;quot;.bashrc_linux&amp;quot; }}&lt;/code> 可以直接替换为文件。&lt;code>.chezmoiignore&lt;/code> 用于确保对应的系统安装对应的文件，意为如果不匹配，则忽略对应的配置文件，此外还有 &lt;code>.chezmoiremove&lt;/code> 等，详见 &lt;a class="link" href="https://www.chezmoi.io/docs/reference/#chezmoiignore" target="_blank" rel="noopener"
+>reference&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># .chezmoiignore
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ne&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;darwin&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_darwin
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ne&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;linux&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_linux
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在配置文件内写入对应的数据，TOML 语法可去 &lt;a class="link" href="https://toml.io/" target="_blank" rel="noopener"
+>toml.io&lt;/a> 快速上手，大有（声）裨（安）益（利）。除此之外，chezmoi 还支持由 &lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
+>github.com/spf13/viper&lt;/a> 的 &lt;code>json&lt;/code>, &lt;code>hcl&lt;/code>, &lt;code>yaml&lt;/code> 等格式，均以 chezmoi 加不同扩展名命名，将会使用第一个被找到的配置文件。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/reference/#configuration-file" target="_blank" rel="noopener"
+>配置文件模板&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">github&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">editor&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;nano&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如下命令可临时调试时，脱离模板文件查看变量值是否正确。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">nano&lt;/span>⏎
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编辑配置">编辑配置&lt;/h3>
+&lt;p>相比于自动创建模板的南辕北辙，通过智能人工从模板中自动生成 TOML 配置则显得较为靠谱。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/test.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{-&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">:=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">promptString&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[data]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> email = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过 &lt;code>promptString&lt;/code> 这个函数解析等下从命令行中传入的参数，并传入到配置文件中。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">[&lt;/span>data&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">email&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl@example.com&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="管理私有数据">管理私有数据&lt;/h3>
+&lt;p>chezmoi 通过检测原有目录和文件权限来判断是否属于私有，通常以 &lt;code>private_&lt;/code> 为前缀， &lt;code>0644&lt;/code> 为权限，&lt;code>~/.local/share/chezmoi&lt;/code> 则为 &lt;code>700&lt;/code> 权限，并且运行时会检查该文件夹权限是否正确。&lt;/p>
+&lt;p>以下面三种方式为例，介绍 chezmoi 的加密部分：&lt;/p>
+&lt;ul>
+&lt;li>GPG&lt;/li>
+&lt;li>Gnome Keyring&lt;/li>
+&lt;li>KeepassXC&lt;/li>
+&lt;/ul>
+&lt;p>其余还有 Lastpass, OnePassword 等&lt;a class="link" href="https://www.chezmoi.io/docs/how-to/" target="_blank" rel="noopener"
+>用法&lt;/a>。&lt;/p>
+&lt;h4 id="gpg">GPG&lt;/h4>
+&lt;p>支持对称和非对称密钥加密两种方式。&lt;/p>
+&lt;p>非对称加密方式中，可用如下命令查看接受方名称，所用 shell 支持的话也可以 &lt;code>$ gpg --recipient &amp;lt;Tab&amp;gt;&lt;/code> 进行补全。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>gpg &lt;span class="na">--list-public-keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">pub&lt;/span> ed25519 &lt;span class="m">2019&lt;/span>-&lt;span class="m">07&lt;/span>-&lt;span class="m">04&lt;/span> &lt;span class="o">[&lt;/span>SC&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>expires: &lt;span class="m">2024&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">07&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">02&lt;/span>&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">1FDBDCE2D26BD8F100EE2E73B1B9AAD8BE7E7326&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">uid&lt;/span> &lt;span class="o">[&lt;/span>ultimate&lt;span class="o">]&lt;/span> ArielAxionL &lt;span class="o">&amp;lt;&lt;/span>i@axionl.me&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以接受方竟是我自己为例，在配置文件 &lt;code>chezmoi.toml&lt;/code> 中填入：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recipient&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;ArielAxionL&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将文件加密并添加，chezmoi 默认使用了 &lt;code>gpg --armor&lt;/code> 参数使得加密文件可读，可以通过配置中，的 &lt;code>command&lt;/code> 字段来定义 gpg 的其他参数。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--encrypt&lt;/span> test.toml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png"
+width="903"
+height="643"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="加密内容"
+class="gallery-image"
+data-flex-grow="140"
+data-flex-basis="337px"
+> &lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png"
+width="1064"
+height="643"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="解密内容"
+class="gallery-image"
+data-flex-grow="165"
+data-flex-basis="397px"
+>&lt;/p>
+&lt;p>对称加密：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">symmetric&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="gnome-keyring">Gnome Keyring&lt;/h4>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/zalando/go-keyring" target="_blank" rel="noopener"
+>github.com/zalando/go-keyring&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>Linux 中环境下，keyring 的实现目前还只支持 gnome-keyring，希望以后也能提供 kwallet 版本的接口。macOS 则支持 Keychain 存储帐号密码。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github-user&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">Password&lt;/span>: &lt;span class="o">&amp;lt;&lt;/span>github-token&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将 &lt;code>set&lt;/code> 替换成 &lt;code>get&lt;/code> 从命令行拿到所存密令，或者使用 &lt;a class="link" href="https://wiki.gnome.org/Apps/Seahorse" target="_blank" rel="noopener"
+>Seahorse&lt;/a> 客户端查看。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png"
+width="829"
+height="663"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Seahorse 是一个管理 gnome-keyring 的软件"
+class="gallery-image"
+data-flex-grow="125"
+data-flex-basis="300px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[github]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> user = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> token = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">keyring&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;github&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>chezmoi.toml&lt;/code> 配置文件中写明用户名，模板中便可自动取用 gnome-keyring 先前所存 token，keyring 一般会在用户登陆时自动解锁 &lt;a class="link" href="https://wiki.archlinux.org/index.php/GNOME/Keyring" target="_blank" rel="noopener"
+>GNOME/Keyring&lt;/a>。&lt;/p>
+&lt;h3 id="keepassxc">KeepassXC&lt;/h3>
+&lt;p>配置文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">keepassxc&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">args&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;--key-file&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/key&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">database&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/kdbx&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认字段有 &lt;code>Notes&lt;/code>, &lt;code>Password&lt;/code>, &lt;code>URL&lt;/code>, &lt;code>Username&lt;/code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
+&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png"
+width="970"
+height="761"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="KeepassXC Entry Attributes"
+class="gallery-image"
+data-flex-grow="127"
+data-flex-basis="305px"
+>&lt;/p>
+&lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="结束">结束&lt;/h2>
+&lt;p>得益于数据模板的引入，chezmoi 作为一款 dotfiles manager，其配置管理功能相较之下更加强大，也有更多新的功能和应用场景可以发掘。&lt;/p></description></item><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/preview.png" alt="Featured image of post 在 QEMU/KVM 虚拟机上安装 NixOS 发行版" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>2019 年 1 月的时候知道了这个发行版，当时 &lt;code>@NixOS_zh&lt;/code> 群刚建立（&lt;del>后来这群凉了&lt;/del>），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。&lt;/p>
+&lt;p>&lt;strong>本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近&lt;/strong>&lt;/p>
+&lt;h2 id="qemukvm-虚拟机配置">QEMU/KVM 虚拟机配置&lt;/h2>
+&lt;blockquote>
+&lt;p>ArchLinux Wiki: &lt;a class="link" href="https://wiki.archlinux.org/index.php/KVM" target="_blank" rel="noopener"
+>KVM&lt;/a>
+| &lt;a class="link" href="https://wiki.archlinux.org/index.php/QEMU" target="_blank" rel="noopener"
+>QEMU&lt;/a>
+| &lt;a class="link" href="https://wiki.archlinux.org/index.php/Libvirt" target="_blank" rel="noopener"
+>Libvirt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="0-检测硬件是否支持-kvm">0. 检测硬件是否支持 KVM&lt;/h3>
+&lt;p>一般情况下需要进入到 &lt;code>BIOS&lt;/code> 对应页面打开虚拟化支持，常见对应设置项如下：&lt;/p>
+&lt;ul>
+&lt;li>AMD: SVM Support&lt;/li>
+&lt;li>Intel: Intel Virtual Technology&lt;/li>
+&lt;/ul>
+&lt;p>开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">LC_ALL&lt;/span>&lt;span class="o">=&lt;/span>C lscpu &lt;span class="p">|&lt;/span> grep Virtualization
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Virtualization: AMD-V
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 &lt;code>core/linux&lt;/code> 则已经包含了对应的 kvm 模块（&lt;code>kvm&lt;/code>、&lt;code>kvm_amd&lt;/code>或&lt;code>kvm_intel&lt;/code>）:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ zgrep CONFIG_KVM /proc/config.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_GUEST&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_MMIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_ASYNC_PF&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_VFIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_COMPAT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_XFER_TO_GUEST_WORK&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_INTEL&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_AMD&lt;/span>&lt;span class="o">=&lt;/span>m &lt;span class="c1"># 可以看到有该模块&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_AMD_SEV&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_MMU_AUDIT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>查看这些内核模块是否已自动加载：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ lsmod &lt;span class="p">|&lt;/span>grep kvm
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kvm_amd &lt;span class="m">114688&lt;/span> &lt;span class="m">8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ccp &lt;span class="m">118784&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kvm &lt;span class="m">933888&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">irqbypass &lt;span class="m">16384&lt;/span> &lt;span class="m">1&lt;/span> kvm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果没有自动加载则手动：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo modprobe kvm
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo modprobe kvm_amd &lt;span class="c1"># 对应你的 CPU 类型&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="1-准虚拟化使用-virtio">1. 准虚拟化（使用 VIRTIO）&lt;/h3>
+&lt;p>检测 VIRTIO 模块是否可用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ zgrep VIRTIO /proc/config.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_BLK_MQ_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VSOCKETS&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VSOCKETS_COMMON&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_NET_9P_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_BLK&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_SCSI_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_NET&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_CONSOLE&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_HW_RANDOM_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_DRM_VIRTIO_GPU&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MENU&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PCI&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PCI_LEGACY&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VDPA&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PMEM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_BALLOON&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MEM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_INPUT&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MMIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_DMA_SHARED_BUFFER&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_RPMSG_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_FS&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_CRYPTO_DEV_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>准虚拟化设备列表（主要确保以下几个模块有对应开启，若未开启则手动用 &lt;code>modprobe&lt;/code> 命令开启）：&lt;/p>
+&lt;ul>
+&lt;li>网络设备 (virtio-net)&lt;/li>
+&lt;li>硬盘设备 (virtio-blk)&lt;/li>
+&lt;li>控制器设备 (virtio-scsi)&lt;/li>
+&lt;/ul>
+&lt;h3 id="2-安装-qemu">2. 安装 QEMU&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qemu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>Arch Wiki: &lt;a class="link" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#Setting_up_IOMMU" target="_blank" rel="noopener"
+>PCI 直通&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>如果需要启用 PCI 直通功能则需要在内核参数中添加 &lt;code>intel_iommu=on&lt;/code> 或者 &lt;code>amd_iommu=on&lt;/code>，同时可以在其后添加 &lt;code>iommu=pt&lt;/code>，以防前者失效，以下命令检测是否开启成功，由于本人所用 &lt;code>AMD Ryzen 5 4600U&lt;/code> 支持方面还有些问题，故此不做展示。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo dmesg &lt;span class="p">|&lt;/span> grep -i -e DMAR -e IOMMU
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-安装-libvirt">3. 安装 libvirt&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S libvirt virt-manager dnsmasq edk2-ovmf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了避免每次都需要询问 &lt;code>root&lt;/code> 密码，建议将自己的用户添加到 &lt;code>libvirt&lt;/code> 组：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo usermod -aG libvirt &amp;lt;YourUserName&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编辑服务端配置文件 &lt;code>/etc/libvirt/libvirtd.conf&lt;/code>，取消如下几行的注释：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">unix_sock_group = &amp;#34;libvirt&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">unix_sock_ro_perms = &amp;#34;0777&amp;#34; # set to 0770 to deny on-group libvirt users
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">unix_sock_rw_perms = &amp;#34;0770&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">auth_unix_ro = &amp;#34;none&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">auth_unix_rw = &amp;#34;none&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>同时添加 ipv4 的内核转发参数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo &lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;net.ipv4.ip_forward = 1&amp;#39;&lt;/span> &amp;gt;&amp;gt; /etc/sysctl.d/00-network.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>设置开机启动和运行服务。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl &lt;span class="nb">enable&lt;/span> --now libvirtd.service
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="4-配置-virt-manager">4. 配置 virt-manager&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection.png"
+width="799"
+height="264"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加连接"
+class="gallery-image"
+data-flex-grow="302"
+data-flex-basis="726px"
+>&lt;/p>
+&lt;p>建议重启以应用之前的设置，此时在 &lt;code>Virtual Machine Manager&lt;/code> 的界面应该可以看到一些已经连接上的服务端，如果没有则在菜单栏自行添加，推荐初次连接系统级服务来创建虚拟机。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm.png"
+width="547"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加虚拟机"
+class="gallery-image"
+data-flex-grow="96"
+data-flex-basis="230px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://nixos.org/download.html#nixos-iso" target="_blank" rel="noopener"
+>NixOS 镜像下载&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>将下载到的镜像文件&lt;strong>所在目录&lt;/strong>创建为文件系统池，随后在其中选择镜像文件进行加载。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool.png"
+width="544"
+height="469"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加镜像池"
+class="gallery-image"
+data-flex-grow="115"
+data-flex-basis="278px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image.png"
+width="790"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="选择镜像"
+class="gallery-image"
+data-flex-grow="138"
+data-flex-basis="333px"
+>&lt;/p>
+&lt;p>设置合适的系统资源和网络配置等（初次使用推荐用 &lt;code>NAT&lt;/code> 模式较为简单，&lt;code>Bridge&lt;/code> 模式之后会提到如何配置）。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus.png"
+width="540"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="虚拟机能用的内存和CPU核心数量设置"
+class="gallery-image"
+data-flex-grow="94"
+data-flex-basis="227px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage.png"
+width="540"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="存储空间设置"
+class="gallery-image"
+data-flex-grow="94"
+data-flex-basis="227px"
+>&lt;/p>
+&lt;p>如果你的宿主机支持的话，推荐使用 &lt;code>UEFI&lt;/code> 模式启动（由 &lt;code>extra/edk2-ovmf&lt;/code> 这个提供，中途安装的话要重启 &lt;code>libvirtd&lt;/code> 服务以生效）。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="EFI Firmware"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;p>调整镜像到启动优先级最高，最后启动工具栏上的 Begin Install 就可以安装了。
+&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="更改启动优先级"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;h2 id="nixos-系统安装">NixOS 系统安装&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://nixos.org/manual/nixos/stable/" target="_blank" rel="noopener"
+>NixOS 使用手册&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="0-进入引导界面">0. 进入引导界面&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub.png"
+width="768"
+height="525"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="ISO Grub"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="351px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="NixOS 镜像启动"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;p>由于我下载的是最小化镜像，所以并没有图形界面，如果下载的是带 &lt;code>Gnome&lt;/code> 或者 &lt;code>KDE&lt;/code> 的镜像的话应该可以看到界面了，稍后我也会以最小化镜像的方式开始安装图形界面。&lt;/p>
+&lt;h3 id="1-磁盘分区">1. 磁盘分区&lt;/h3>
+&lt;p>查看当前块设备状态，可以看到我们之前分配的盘 &lt;code>vda&lt;/code> 还未被挂载&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk.png"
+width="449"
+height="152"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="lsblk"
+class="gallery-image"
+data-flex-grow="295"
+data-flex-basis="708px"
+>&lt;/p>
+&lt;p>建议使用 GPT 分区表，按照可以按照图中对 &lt;code>boot&lt;/code>、&lt;code>swap&lt;/code>(可选)和 &lt;code>root&lt;/code> 分区进行创建，注意下方 &lt;code>Type&lt;/code> 选择对应的分区类型，&lt;code>Write&lt;/code> 写入后退出。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo cfdisk /dev/vda
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk.png"
+width="1025"
+height="759"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="cfdisk"
+class="gallery-image"
+data-flex-grow="135"
+data-flex-basis="324px"
+>&lt;/p>
+&lt;p>格式化分区，可以看到格式化后效果如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo mkfs.fat -F32 /dev/vda1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkswap /dev/vda2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo swapon
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkfs.xfs -L root /dev/vda3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label.png"
+width="1058"
+height="236"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="mkfs check"
+class="gallery-image"
+data-flex-grow="448"
+data-flex-basis="1075px"
+>&lt;/p>
+&lt;h3 id="2-分区挂载">2. 分区挂载&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo mount /dev/vda3 /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkdir -p /mnt/boot
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mount /dev/vda1 /mnt/boot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>挂载后可以检查是否挂载成功，不要重复挂载。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount.png"
+width="563"
+height="236"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="挂载"
+class="gallery-image"
+data-flex-grow="238"
+data-flex-basis="572px"
+>&lt;/p>
+&lt;h3 id="3-系统配置">3. 系统配置&lt;/h3>
+&lt;p>由命令生成默认的配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-generate-config --root /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo nano /mnt/etc/nixos/configuration.nix
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到已经有了 &lt;code>systemd-boot&lt;/code> 作为 &lt;code>bootloader&lt;/code> 引导操作系统。其他一些基本配置，按照自己的需求取消注释并修改内容即可，注意创建用户 &lt;code>users.users.&amp;lt;YourUserName&amp;gt;&lt;/code> 及其对应的用户组，完成后 &lt;code>Ctrl + O&lt;/code> 保存。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config.png"
+width="1082"
+height="816"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="config"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="318px"
+>&lt;/p>
+&lt;p>如果网络情况欠佳的话可以设置 &lt;code>http_proxy&lt;/code> 或者更换更新频道到国内镜像站：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/nix/" target="_blank" rel="noopener"
+>TUNA Nix Help&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixos-20.09 nixos
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 &lt;code>sudo nixos-install&lt;/code> 进行安装并设置 &lt;code>root&lt;/code> 密码，完成之后取消挂载并重启（记得更改启动项顺序到虚拟硬盘）。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-install
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setting root password...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Enter new UNIX password: ***
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Retype new UNIX password: ***
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo umount -r /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev.png"
+width="1135"
+height="492"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="调整启动顺序"
+class="gallery-image"
+data-flex-grow="230"
+data-flex-basis="553px"
+>&lt;/p>
+&lt;h2 id="nixos-系统配置和使用">NixOS 系统配置和使用&lt;/h2>
+&lt;h3 id="0-检查引导状态">0. 检查引导状态&lt;/h3>
+&lt;p>重启登陆后可以查看引导状态：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo bootctl status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status.png"
+width="984"
+height="822"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="systemd-boot 状态"
+class="gallery-image"
+data-flex-grow="119"
+data-flex-basis="287px"
+>&lt;/p>
+&lt;h3 id="1-配置桌面环境">1. 配置桌面环境&lt;/h3>
+&lt;p>&lt;code>/etc/nixos/configuration.conf&lt;/code> 配置文件参考如下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-nix" data-lang="nix">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Edit this configuration file to define what should be installed on&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># your system. Help is available in the configuration.nix(5) man page&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># and in the NixOS manual (accessible by running ‘nixos-help’).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span> &lt;span class="n">config&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="o">...&lt;/span> &lt;span class="p">}:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">imports&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span> &lt;span class="c1"># Include the results of the hardware scan.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="sr">./hardware-configuration.nix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Use the systemd-boot EFI boot loader.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">loader&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">systemd-boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">loader&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">efi&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">canTouchEfiVariables&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hostName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置 hostname.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Set your time zone.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">timeZone&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Asia/Shanghai&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置时区&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># The global useDHCP flag is deprecated, therefore explicitly set to false here.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Per-interface useDHCP will be mandatory in the future, so this generated config&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># replicates the default behavior.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">useDHCP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">interfaces&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enp1s0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">useDHCP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">networkmanager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 启用 NetworkManager 替代默认的 DHCP&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Configure network proxy if necessary&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">proxy&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">default&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;http://192.168.122.1:8888&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置一个外部代理（可选）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.proxy.noProxy = &amp;#34;127.0.0.1,localhost,internal.domain&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Select internationalisation properties.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">i18n&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">defaultLocale&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;en_US.UTF-8&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 默认语言环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># console = {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># font = &amp;#34;Lat2-Terminus16&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># keyMap = &amp;#34;us&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># };&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Configure keymap in X11&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layout&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;us&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置键盘布局&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.xserver.xkbOptions = &amp;#34;eurosign:e&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable CUPS to print documents.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">printing&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 启用打印服务（不需要可禁止）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable sound.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">sound&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 允许声音&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">hardware&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pulseaudio&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable touchpad support (enabled default in most desktopManager).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">libinput&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 允许触摸板&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Define a user account. Don&amp;#39;t forget to set a password with ‘passwd’.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 创建用户并添加到用户组&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">users&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">users&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">axionl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">isNormalUser&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">extraGroups&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;wheel&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;networkmanager&amp;#34;&lt;/span> &lt;span class="p">];&lt;/span> &lt;span class="c1"># Enable ‘sudo’ for the user.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">shell&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">fish&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 指定终端（默认为 bash）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># List packages installed in system profile. To search, run:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># $ nix search wget&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 在系统层面安装软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">environment&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">systemPackages&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">with&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">htop&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">neofetch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">fish&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">spice-vdagent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">virglrenderer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Some programs need SUID wrappers, can be configured further or are&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># started in user sessions.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># programs.mtr.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># programs.gnupg.agent = {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># enableSSHSupport = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># };&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># List services that you want to enable:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable the OpenSSH daemon.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.openssh.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Open ports in the firewall.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.allowedTCPPorts = [ ... ];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.allowedUDPPorts = [ ... ];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Or disable the firewall altogether.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.enable = false;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># This value determines the NixOS release from which the default&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># settings for stateful data, like file locations and database versions&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># on your system were taken. It‘s perfectly fine and recommended to leave&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># this value at the release version of the first install of this system.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Before changing this value read the documentation for this option&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">system&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stateVersion&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;20.09&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># Did you read the comment?&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># X Windows Server&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 启动 X 显示服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.qemuGuest.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.spice-vdagentd.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 允许 SDDM 作为窗口管理器&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">displayManager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sddm&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 安装 Plasma KDE 作为桌面环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">desktopManager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">plasma5&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Packages&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 允许第三方闭源软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">allowUnfree&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>修改配置文件之后需要使用命令重建并推荐重启生效：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-rebuild switch --upgrade
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>日常使用的时候理论上可以多套配置（profile）兼容和切换，当配置过多的时候可用 &lt;code>nix-collect-garbage -d&lt;/code> 来完成，详见&lt;a class="link" href="https://nixos.org/guides/nix-pills/garbage-collector.html" target="_blank" rel="noopener"
+>文档&lt;/a>。&lt;/p>
+&lt;p>在用户层面安装软件包使用 &lt;code>nix&lt;/code> 包管理器进行搜索和安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ nix search &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 搜索&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -i &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 安装&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -qa &lt;span class="c1"># 列出可安装的包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -e &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 卸载软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env --rollback &lt;span class="c1"># 软件包回滚&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>更多用法可见&lt;a class="link" href="https://nixos.org/manual/nix/stable/" target="_blank" rel="noopener"
+>官方文档&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="2-截图">2. 截图&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final.png"
+width="1960"
+height="1120"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="预览"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="420px"
+>&lt;/p></description></item><item><title>Teleport 小记</title><link>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</link><pubDate>Sun, 06 Dec 2020 23:04:45 +0800</pubDate><guid>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</guid><description>&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/banner.jpg" alt="Featured image of post Teleport 小记" />&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>常用于跨平台集群管理，提供多设备认证、远程操作和反向代理。&lt;/p>
+&lt;blockquote>
+&lt;p>项目地址：&lt;a class="link" href="https://github.com/gravitational/teleport" target="_blank" rel="noopener"
+>github.com/gravitational/teleport&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>官方网站：&lt;a class="link" href="https://goteleport.com/teleport" target="_blank" rel="noopener"
+>goteleport.com&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>有以下几种方式，单个可执行文件内已经包含 web 管理平台、服务端和客户端功能。(&lt;em>Windows 目前仅支持客户端&lt;/em>)&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://gravitational.com/teleport/download/" target="_blank" rel="noopener"
+>可执行文件下载&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://quay.io/repository/gravitational/teleport?tab=tags" target="_blank" rel="noopener"
+>Docker 下载&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://goteleport.com/teleport/installing" target="_blank" rel="noopener"
+>编译安装&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="快速配置">快速配置&lt;/h2>
+&lt;h3 id="服务端及-web-管理平台">服务端及 Web 管理平台&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 数据存放目录&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">auth_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cluster_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;demo_cluster&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3025&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 认证监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tokens&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">proxy,node,app:&amp;lt;nodes_auth_token&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 节点认证密令&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">ssh_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">staging&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">app_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">debug_app&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">proxy_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3023&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 反向代理监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">web_listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3080&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># web 管理页面地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tunnel_listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3024&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 隧道监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">public_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;https://example.domain.org:3025&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 反向代理公共地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">https_keypairs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地测试时可不设置证书&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key_file&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;key_file_path&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">cert_file&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;cert_file_path&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;em>可由如下命令启用服务端进行测试，要点如下:&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>在本地测试时即便没有填写 &lt;code>https_keypairs&lt;/code> 也仍然需要在监听的 &lt;code>web&lt;/code> 地址前面加上 &lt;code>https://&lt;/code>，或者使用 &lt;code>--insecure-no-tls&lt;/code> 命令行参数对 &lt;code>http://&lt;/code> 进行访问。&lt;/li>
+&lt;li>如果配置中含有非对应权限目录或者证书文件，则调整到对应权限，如 &lt;code>/var/lib/teleport&lt;/code> 仅限 &lt;code>root&lt;/code> 权限访问，则需要调整到对应的权限再启动命令。&lt;/li>
+&lt;li>所有的登陆行文均在 &lt;code>web_listen_addr&lt;/code> 所指示的地址发生。&lt;/li>
+&lt;li>注意证书所对应的域名与可访问的相同&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ teleport start --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>tctl&lt;/code> 是 &lt;code>teleport&lt;/code> 的一个命令行管理工具，在 &lt;code>teleport&lt;/code> 服务运行时，可以由它对用户、节点、密令等进行动态管理。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 创建一个初始用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tctl users add &amp;lt;username&amp;gt; &amp;lt;login_user, login_group&amp;gt; --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>添加好用户后可访问提示的地址，输入账户密码，用手机两步验证器扫码后填入验证码即可初始化成功。配置文件中支持除 &lt;code>otp&lt;/code> 外还支持 &lt;code>github auth&lt;/code> 认证等方式。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png"
+width="884"
+height="734"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="注册界面"
+class="gallery-image"
+data-flex-grow="120"
+data-flex-basis="289px"
+> &lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login.png"
+width="700"
+height="705"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="登陆界面"
+class="gallery-image"
+data-flex-grow="99"
+data-flex-basis="238px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>常用的两步验客户端&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://authy.com/download/" target="_blank" rel="noopener"
+>Authy&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.google.com/landing/2step/" target="_blank" rel="noopener"
+>Google Authenticator&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.microsoft.com/en-us/account/authenticator" target="_blank" rel="noopener"
+>Microsoft Authenticator&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h3 id="子节点">子节点&lt;/h3>
+&lt;p>除了服务端平台自己可以作为节点外，还可以添加其他的子节点构成集群，大体上分为两类：&lt;/p>
+&lt;ul>
+&lt;li>子节点有公网可以访问&lt;/li>
+&lt;li>非公网节点需要反向代理(&lt;code>roles&lt;/code> 内需要含有 &lt;code>proxy&lt;/code>)。&lt;/li>
+&lt;/ul>
+&lt;h4 id="静态子节点">静态子节点&lt;/h4>
+&lt;p>静态子节点配置文件需要对应服务端里的地址和 &lt;code>&amp;lt;nodes_auth_token&amp;gt;&lt;/code>，随后直接在节点上运行即可。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">nodename&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;my_laptop&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport/&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">auth_token&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;nodes_auth_token&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">auth_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">&amp;lt;https://example.domain.org:3025&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 认证地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">proxy_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地子节点暂时无需启动反向代理服务端&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">ssh_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">local_node&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">auth_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地子节点暂时无需启动认证服务端&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="动态子节点">动态子节点&lt;/h4>
+&lt;p>动态子节点需要在服务端上进行添加，由以下命令生成一个临时的 &lt;code>token&lt;/code> 以添加子节点。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tctl nodes add --roles&lt;span class="o">=&lt;/span>node,proxy --ttl&lt;span class="o">=&lt;/span>5m --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>得到形如下方的命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ teleport start &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --roles&lt;span class="o">=&lt;/span>node,proxy &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --token&lt;span class="o">=&lt;/span>&amp;lt;random_token&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --auth-server&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>添加成功后可以在 &lt;code>web&lt;/code> 界面内看到所有的节点。
+&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png"
+width="822"
+height="181"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Server Page"
+class="gallery-image"
+data-flex-grow="454"
+data-flex-basis="1089px"
+>&lt;/p>
+&lt;h3 id="客户端">客户端&lt;/h3>
+&lt;p>安装包内自带一个名为 &lt;code>tsh&lt;/code> 的可执行文件，用于命令行认证和登陆&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh login --proxy&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt; --user&lt;span class="o">=&lt;/span>&amp;lt;username&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>登陆后可以使用 &lt;code>ls&lt;/code> 命令查看已添加的节点&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh ls
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Node Name Address Labels
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-------------- -------------- ----------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">demo_cluster 127.0.0.1:3022 &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>core_service
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">my_laptop ⟵ Tunnel &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>local_node
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 &lt;code>ssh&lt;/code> 来登陆节点终端&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh ssh &amp;lt;node_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="高级配置">高级配置&lt;/h2>
+&lt;h3 id="配合-k8s-管理服务">配合 K8S 管理服务&lt;/h3>
+&lt;p>TBC&amp;hellip;&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://wallhaven.cc/w/ymz1qx" target="_blank" rel="noopener"
+>Banner Artwork&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

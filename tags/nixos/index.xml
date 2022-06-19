@@ -1,7 +1,798 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS on 初等記憶體</title><link>https://axionl.me/tags/nixos/</link><description>Recent content in NixOS on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 07 Jan 2021 22:57:51 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/nixos/index.xml" rel="self" type="application/rss+xml"/><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>前言 2019 年 1 月的时候知道了这个发行版，当时 @NixOS_zh 群刚建立（后来这群凉了），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。
-本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近
-QEMU/KVM 虚拟机配置 ArchLinux Wiki: KVM | QEMU | Libvirt
-0. 检测硬件是否支持 KVM 一般情况下需要进入到 BIOS 对应页面打开虚拟化支持，常见对应设置项如下：
-AMD: SVM Support Intel: Intel Virtual Technology 开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：
-$ LC_ALL=C lscpu | grep Virtualization Virtualization: AMD-V 内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 core/linux 则已经包含了对应的 kvm 模块（kvm、kvm_amd或kvm_intel）:
-$ zgrep CONFIG_KVM /proc/config.gz CONFIG_KVM_GUEST=y CONFIG_KVM_MMIO=y CONFIG_KVM_ASYNC_PF=y CONFIG_KVM_VFIO=y CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y CONFIG_KVM_COMPAT=y CONFIG_KVM_XFER_TO_GUEST_WORK=y CONFIG_KVM=m CONFIG_KVM_INTEL=m CONFIG_KVM_AMD=m # 可以看到有该模块 CONFIG_KVM_AMD_SEV=y CONFIG_KVM_MMU_AUDIT=y 查看这些内核模块是否已自动加载：</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NixOS on 初等記憶體</title><link>https://axionl.me/tags/nixos/</link><description>Recent content in NixOS on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 07 Jan 2021 22:57:51 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/nixos/index.xml" rel="self" type="application/rss+xml"/><item><title>在 QEMU/KVM 虚拟机上安装 NixOS 发行版</title><link>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</link><pubDate>Thu, 07 Jan 2021 22:57:51 +0800</pubDate><guid>https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/</guid><description>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/preview.png" alt="Featured image of post 在 QEMU/KVM 虚拟机上安装 NixOS 发行版" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>2019 年 1 月的时候知道了这个发行版，当时 &lt;code>@NixOS_zh&lt;/code> 群刚建立（&lt;del>后来这群凉了&lt;/del>），就开虚拟机玩了一下，时隔多年发现又有不少人对其颇感兴趣，便决定重新写一下安装相关的教程。&lt;/p>
+&lt;p>&lt;strong>本文以 Arch Linux 作为宿主机，大体步骤与 Arch Wiki 相近&lt;/strong>&lt;/p>
+&lt;h2 id="qemukvm-虚拟机配置">QEMU/KVM 虚拟机配置&lt;/h2>
+&lt;blockquote>
+&lt;p>ArchLinux Wiki: &lt;a class="link" href="https://wiki.archlinux.org/index.php/KVM" target="_blank" rel="noopener"
+>KVM&lt;/a>
+| &lt;a class="link" href="https://wiki.archlinux.org/index.php/QEMU" target="_blank" rel="noopener"
+>QEMU&lt;/a>
+| &lt;a class="link" href="https://wiki.archlinux.org/index.php/Libvirt" target="_blank" rel="noopener"
+>Libvirt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="0-检测硬件是否支持-kvm">0. 检测硬件是否支持 KVM&lt;/h3>
+&lt;p>一般情况下需要进入到 &lt;code>BIOS&lt;/code> 对应页面打开虚拟化支持，常见对应设置项如下：&lt;/p>
+&lt;ul>
+&lt;li>AMD: SVM Support&lt;/li>
+&lt;li>Intel: Intel Virtual Technology&lt;/li>
+&lt;/ul>
+&lt;p>开启虚拟化后在宿主机上用命令行检测（比如我的是 AMD 的处理器）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">LC_ALL&lt;/span>&lt;span class="o">=&lt;/span>C lscpu &lt;span class="p">|&lt;/span> grep Virtualization
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Virtualization: AMD-V
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>内核支持检测，如果使用的是 ArchLinux 提供的官方内核，即 &lt;code>core/linux&lt;/code> 则已经包含了对应的 kvm 模块（&lt;code>kvm&lt;/code>、&lt;code>kvm_amd&lt;/code>或&lt;code>kvm_intel&lt;/code>）:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ zgrep CONFIG_KVM /proc/config.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_GUEST&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_MMIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_ASYNC_PF&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_VFIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_COMPAT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_XFER_TO_GUEST_WORK&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_INTEL&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_AMD&lt;/span>&lt;span class="o">=&lt;/span>m &lt;span class="c1"># 可以看到有该模块&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_AMD_SEV&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_KVM_MMU_AUDIT&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>查看这些内核模块是否已自动加载：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ lsmod &lt;span class="p">|&lt;/span>grep kvm
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kvm_amd &lt;span class="m">114688&lt;/span> &lt;span class="m">8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ccp &lt;span class="m">118784&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kvm &lt;span class="m">933888&lt;/span> &lt;span class="m">1&lt;/span> kvm_amd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">irqbypass &lt;span class="m">16384&lt;/span> &lt;span class="m">1&lt;/span> kvm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果没有自动加载则手动：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo modprobe kvm
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo modprobe kvm_amd &lt;span class="c1"># 对应你的 CPU 类型&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="1-准虚拟化使用-virtio">1. 准虚拟化（使用 VIRTIO）&lt;/h3>
+&lt;p>检测 VIRTIO 模块是否可用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ zgrep VIRTIO /proc/config.gz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_BLK_MQ_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VSOCKETS&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VSOCKETS_COMMON&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_NET_9P_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_BLK&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_SCSI_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_NET&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_CONSOLE&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_HW_RANDOM_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_DRM_VIRTIO_GPU&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MENU&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PCI&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PCI_LEGACY&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_VDPA&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_PMEM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_BALLOON&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MEM&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_INPUT&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MMIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES&lt;/span>&lt;span class="o">=&lt;/span>y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_DMA_SHARED_BUFFER&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_RPMSG_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_VIRTIO_FS&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONFIG_CRYPTO_DEV_VIRTIO&lt;/span>&lt;span class="o">=&lt;/span>m
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>准虚拟化设备列表（主要确保以下几个模块有对应开启，若未开启则手动用 &lt;code>modprobe&lt;/code> 命令开启）：&lt;/p>
+&lt;ul>
+&lt;li>网络设备 (virtio-net)&lt;/li>
+&lt;li>硬盘设备 (virtio-blk)&lt;/li>
+&lt;li>控制器设备 (virtio-scsi)&lt;/li>
+&lt;/ul>
+&lt;h3 id="2-安装-qemu">2. 安装 QEMU&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qemu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>Arch Wiki: &lt;a class="link" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#Setting_up_IOMMU" target="_blank" rel="noopener"
+>PCI 直通&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>如果需要启用 PCI 直通功能则需要在内核参数中添加 &lt;code>intel_iommu=on&lt;/code> 或者 &lt;code>amd_iommu=on&lt;/code>，同时可以在其后添加 &lt;code>iommu=pt&lt;/code>，以防前者失效，以下命令检测是否开启成功，由于本人所用 &lt;code>AMD Ryzen 5 4600U&lt;/code> 支持方面还有些问题，故此不做展示。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo dmesg &lt;span class="p">|&lt;/span> grep -i -e DMAR -e IOMMU
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-安装-libvirt">3. 安装 libvirt&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S libvirt virt-manager dnsmasq edk2-ovmf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了避免每次都需要询问 &lt;code>root&lt;/code> 密码，建议将自己的用户添加到 &lt;code>libvirt&lt;/code> 组：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo usermod -aG libvirt &amp;lt;YourUserName&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编辑服务端配置文件 &lt;code>/etc/libvirt/libvirtd.conf&lt;/code>，取消如下几行的注释：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">unix_sock_group = &amp;#34;libvirt&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">unix_sock_ro_perms = &amp;#34;0777&amp;#34; # set to 0770 to deny on-group libvirt users
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">unix_sock_rw_perms = &amp;#34;0770&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">auth_unix_ro = &amp;#34;none&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">auth_unix_rw = &amp;#34;none&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>同时添加 ipv4 的内核转发参数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo &lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;net.ipv4.ip_forward = 1&amp;#39;&lt;/span> &amp;gt;&amp;gt; /etc/sysctl.d/00-network.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>设置开机启动和运行服务。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl &lt;span class="nb">enable&lt;/span> --now libvirtd.service
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="4-配置-virt-manager">4. 配置 virt-manager&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection.png"
+width="799"
+height="264"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_connection_hua6b2f70857beea847a4e403761694cf4_45516_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加连接"
+class="gallery-image"
+data-flex-grow="302"
+data-flex-basis="726px"
+>&lt;/p>
+&lt;p>建议重启以应用之前的设置，此时在 &lt;code>Virtual Machine Manager&lt;/code> 的界面应该可以看到一些已经连接上的服务端，如果没有则在菜单栏自行添加，推荐初次连接系统级服务来创建虚拟机。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm.png"
+width="547"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/new_vm_hu8d65781e9df1dff7162eeaf71bdeb11e_38276_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加虚拟机"
+class="gallery-image"
+data-flex-grow="96"
+data-flex-basis="230px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://nixos.org/download.html#nixos-iso" target="_blank" rel="noopener"
+>NixOS 镜像下载&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>将下载到的镜像文件&lt;strong>所在目录&lt;/strong>创建为文件系统池，随后在其中选择镜像文件进行加载。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool.png"
+width="544"
+height="469"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/add_image_pool_hu970b1afb910bcaae4894d29acb9106cc_27256_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="添加镜像池"
+class="gallery-image"
+data-flex-grow="115"
+data-flex-basis="278px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image.png"
+width="790"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/select_image_hu2a8c4f1d1d239972d45bfa5118d53040_41702_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="选择镜像"
+class="gallery-image"
+data-flex-grow="138"
+data-flex-basis="333px"
+>&lt;/p>
+&lt;p>设置合适的系统资源和网络配置等（初次使用推荐用 &lt;code>NAT&lt;/code> 模式较为简单，&lt;code>Bridge&lt;/code> 模式之后会提到如何配置）。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus.png"
+width="540"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mems_and_cpus_hu3f94115c352a8224f9934a0cf4916735_29442_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="虚拟机能用的内存和CPU核心数量设置"
+class="gallery-image"
+data-flex-grow="94"
+data-flex-basis="227px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage.png"
+width="540"
+height="569"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/storage_hu2d0361517b02270d862594eb87061b93_34400_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="存储空间设置"
+class="gallery-image"
+data-flex-grow="94"
+data-flex-basis="227px"
+>&lt;/p>
+&lt;p>如果你的宿主机支持的话，推荐使用 &lt;code>UEFI&lt;/code> 模式启动（由 &lt;code>extra/edk2-ovmf&lt;/code> 这个提供，中途安装的话要重启 &lt;code>libvirtd&lt;/code> 服务以生效）。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/efi_hu9f899bb67943b59a1cb22147594f3a07_107289_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="EFI Firmware"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;p>调整镜像到启动优先级最高，最后启动工具栏上的 Begin Install 就可以安装了。
+&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_order_hu0104e4f34f9204d4af86754a01e3407e_89865_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="更改启动优先级"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;h2 id="nixos-系统安装">NixOS 系统安装&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://nixos.org/manual/nixos/stable/" target="_blank" rel="noopener"
+>NixOS 使用手册&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="0-进入引导界面">0. 进入引导界面&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub.png"
+width="768"
+height="525"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/iso_grub_hu9ae0ec0bcf0062785606d81bd30497db_8765_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="ISO Grub"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="351px"
+> &lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin.png"
+width="1064"
+height="878"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/nix_begin_huafbe3e8e1b72f2541b162b11814cfc21_22482_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="NixOS 镜像启动"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;p>由于我下载的是最小化镜像，所以并没有图形界面，如果下载的是带 &lt;code>Gnome&lt;/code> 或者 &lt;code>KDE&lt;/code> 的镜像的话应该可以看到界面了，稍后我也会以最小化镜像的方式开始安装图形界面。&lt;/p>
+&lt;h3 id="1-磁盘分区">1. 磁盘分区&lt;/h3>
+&lt;p>查看当前块设备状态，可以看到我们之前分配的盘 &lt;code>vda&lt;/code> 还未被挂载&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk.png"
+width="449"
+height="152"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_hu344fddbf0f37cde290abb7988bb0dc38_63573_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="lsblk"
+class="gallery-image"
+data-flex-grow="295"
+data-flex-basis="708px"
+>&lt;/p>
+&lt;p>建议使用 GPT 分区表，按照可以按照图中对 &lt;code>boot&lt;/code>、&lt;code>swap&lt;/code>(可选)和 &lt;code>root&lt;/code> 分区进行创建，注意下方 &lt;code>Type&lt;/code> 选择对应的分区类型，&lt;code>Write&lt;/code> 写入后退出。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo cfdisk /dev/vda
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk.png"
+width="1025"
+height="759"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/cfdisk_hu4fb32da0e060ded920f2416639508d64_12319_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="cfdisk"
+class="gallery-image"
+data-flex-grow="135"
+data-flex-basis="324px"
+>&lt;/p>
+&lt;p>格式化分区，可以看到格式化后效果如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo mkfs.fat -F32 /dev/vda1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkswap /dev/vda2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo swapon
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkfs.xfs -L root /dev/vda3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label.png"
+width="1058"
+height="236"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/lsblk_label_hu760cf4292d45bf36294e06e878beb773_15356_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="mkfs check"
+class="gallery-image"
+data-flex-grow="448"
+data-flex-basis="1075px"
+>&lt;/p>
+&lt;h3 id="2-分区挂载">2. 分区挂载&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo mount /dev/vda3 /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mkdir -p /mnt/boot
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo mount /dev/vda1 /mnt/boot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>挂载后可以检查是否挂载成功，不要重复挂载。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount.png"
+width="563"
+height="236"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/mount_hub30013d1b3472c1e3833db17bbd67cad_4425_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="挂载"
+class="gallery-image"
+data-flex-grow="238"
+data-flex-basis="572px"
+>&lt;/p>
+&lt;h3 id="3-系统配置">3. 系统配置&lt;/h3>
+&lt;p>由命令生成默认的配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-generate-config --root /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo nano /mnt/etc/nixos/configuration.nix
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到已经有了 &lt;code>systemd-boot&lt;/code> 作为 &lt;code>bootloader&lt;/code> 引导操作系统。其他一些基本配置，按照自己的需求取消注释并修改内容即可，注意创建用户 &lt;code>users.users.&amp;lt;YourUserName&amp;gt;&lt;/code> 及其对应的用户组，完成后 &lt;code>Ctrl + O&lt;/code> 保存。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config.png"
+width="1082"
+height="816"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/config_hucd270a1c19e44eafd2ee501c1b303a2d_19570_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="config"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="318px"
+>&lt;/p>
+&lt;p>如果网络情况欠佳的话可以设置 &lt;code>http_proxy&lt;/code> 或者更换更新频道到国内镜像站：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/nix/" target="_blank" rel="noopener"
+>TUNA Nix Help&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nix-channel --add https://mirrors.tuna.tsinghua.edu.cn/nix-channels/nixos-20.09 nixos
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 &lt;code>sudo nixos-install&lt;/code> 进行安装并设置 &lt;code>root&lt;/code> 密码，完成之后取消挂载并重启（记得更改启动项顺序到虚拟硬盘）。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-install
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setting root password...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Enter new UNIX password: ***
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Retype new UNIX password: ***
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo umount -r /mnt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ reboot
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev.png"
+width="1135"
+height="492"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_from_dev_hua4a363df8d1ea1c13471afa92cdc8452_56415_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="调整启动顺序"
+class="gallery-image"
+data-flex-grow="230"
+data-flex-basis="553px"
+>&lt;/p>
+&lt;h2 id="nixos-系统配置和使用">NixOS 系统配置和使用&lt;/h2>
+&lt;h3 id="0-检查引导状态">0. 检查引导状态&lt;/h3>
+&lt;p>重启登陆后可以查看引导状态：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo bootctl status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status.png"
+width="984"
+height="822"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/boot_status_hufa72d0cbb1b5710b183f3687d93852e2_23367_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="systemd-boot 状态"
+class="gallery-image"
+data-flex-grow="119"
+data-flex-basis="287px"
+>&lt;/p>
+&lt;h3 id="1-配置桌面环境">1. 配置桌面环境&lt;/h3>
+&lt;p>&lt;code>/etc/nixos/configuration.conf&lt;/code> 配置文件参考如下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-nix" data-lang="nix">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Edit this configuration file to define what should be installed on&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># your system. Help is available in the configuration.nix(5) man page&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># and in the NixOS manual (accessible by running ‘nixos-help’).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span> &lt;span class="n">config&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="o">...&lt;/span> &lt;span class="p">}:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">imports&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span> &lt;span class="c1"># Include the results of the hardware scan.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="sr">./hardware-configuration.nix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Use the systemd-boot EFI boot loader.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">loader&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">systemd-boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">boot&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">loader&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">efi&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">canTouchEfiVariables&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hostName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置 hostname.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Set your time zone.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">timeZone&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Asia/Shanghai&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置时区&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># The global useDHCP flag is deprecated, therefore explicitly set to false here.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Per-interface useDHCP will be mandatory in the future, so this generated config&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># replicates the default behavior.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">useDHCP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">interfaces&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enp1s0&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">useDHCP&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">networkmanager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 启用 NetworkManager 替代默认的 DHCP&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Configure network proxy if necessary&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">networking&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">proxy&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">default&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;http://192.168.122.1:8888&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置一个外部代理（可选）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.proxy.noProxy = &amp;#34;127.0.0.1,localhost,internal.domain&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Select internationalisation properties.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">i18n&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">defaultLocale&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;en_US.UTF-8&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 默认语言环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># console = {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># font = &amp;#34;Lat2-Terminus16&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># keyMap = &amp;#34;us&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># };&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Configure keymap in X11&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layout&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;us&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 设置键盘布局&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.xserver.xkbOptions = &amp;#34;eurosign:e&amp;#34;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable CUPS to print documents.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">printing&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">false&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 启用打印服务（不需要可禁止）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable sound.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">sound&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 允许声音&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">hardware&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pulseaudio&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable touchpad support (enabled default in most desktopManager).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">libinput&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 允许触摸板&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Define a user account. Don&amp;#39;t forget to set a password with ‘passwd’.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 创建用户并添加到用户组&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">users&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">users&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">axionl&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">isNormalUser&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">extraGroups&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span> &lt;span class="s2">&amp;#34;wheel&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;networkmanager&amp;#34;&lt;/span> &lt;span class="p">];&lt;/span> &lt;span class="c1"># Enable ‘sudo’ for the user.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">shell&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">fish&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># 指定终端（默认为 bash）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># List packages installed in system profile. To search, run:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># $ nix search wget&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 在系统层面安装软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">environment&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">systemPackages&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">with&lt;/span> &lt;span class="n">pkgs&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">htop&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">neofetch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">fish&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">spice-vdagent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">virglrenderer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Some programs need SUID wrappers, can be configured further or are&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># started in user sessions.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># programs.mtr.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># programs.gnupg.agent = {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># enableSSHSupport = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># };&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># List services that you want to enable:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Enable the OpenSSH daemon.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.openssh.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Open ports in the firewall.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.allowedTCPPorts = [ ... ];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.allowedUDPPorts = [ ... ];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Or disable the firewall altogether.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># networking.firewall.enable = false;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># This value determines the NixOS release from which the default&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># settings for stateful data, like file locations and database versions&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># on your system were taken. It‘s perfectly fine and recommended to leave&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># this value at the release version of the first install of this system.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Before changing this value read the documentation for this option&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">system&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stateVersion&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;20.09&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1"># Did you read the comment?&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># X Windows Server&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 启动 X 显示服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.qemuGuest.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># services.spice-vdagentd.enable = true;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 允许 SDDM 作为窗口管理器&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">displayManager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sddm&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 安装 Plasma KDE 作为桌面环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">xserver&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">desktopManager&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">plasma5&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Packages&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 允许第三方闭源软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">allowUnfree&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="no">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>修改配置文件之后需要使用命令重建并推荐重启生效：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo nixos-rebuild switch --upgrade
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>日常使用的时候理论上可以多套配置（profile）兼容和切换，当配置过多的时候可用 &lt;code>nix-collect-garbage -d&lt;/code> 来完成，详见&lt;a class="link" href="https://nixos.org/guides/nix-pills/garbage-collector.html" target="_blank" rel="noopener"
+>文档&lt;/a>。&lt;/p>
+&lt;p>在用户层面安装软件包使用 &lt;code>nix&lt;/code> 包管理器进行搜索和安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ nix search &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 搜索&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -i &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 安装&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -qa &lt;span class="c1"># 列出可安装的包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env -e &amp;lt;软件包名称&amp;gt; &lt;span class="c1"># 卸载软件包&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ nix-env --rollback &lt;span class="c1"># 软件包回滚&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>更多用法可见&lt;a class="link" href="https://nixos.org/manual/nix/stable/" target="_blank" rel="noopener"
+>官方文档&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="2-截图">2. 截图&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final.png"
+width="1960"
+height="1120"
+srcset="https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%9C%A8-qemu/kvm-%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-nixos-%E5%8F%91%E8%A1%8C%E7%89%88/final_hu716cf65f9b220f6ee002cb4b4595423f_2261830_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="预览"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="420px"
+>&lt;/p></description></item></channel></rss>

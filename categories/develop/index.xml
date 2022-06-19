@@ -1,15 +1,821 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Develop on 初等記憶體</title><link>https://axionl.me/categories/develop/</link><description>Recent content in Develop on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Apr 2021 17:32:39 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/develop/index.xml" rel="self" type="application/rss+xml"/><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 mdbook 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。
-文档地址：wayland.axionl.me</description></item><item><title>Protocol Buffers 和 gRPC（一）</title><link>https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/</link><pubDate>Sun, 03 Jan 2021 23:46:51 +0800</pubDate><guid>https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/</guid><description>前言 官方网站
-gRPC Protocol Buffers 通俗易懂的说明 introduction
-以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。
-有点复杂的介绍 RPC(Remote Procedure Call) 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。
-虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。
-流程示意图
-一个简单的例子 以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 golang 或者 java 等语言来说 proto3 支持以 option 的方式产生适合其代码引入的包封装 (详见)。
-公共协议 syntax = &amp;#34;proto3&amp;#34;;option go_package = &amp;#34;example.com/user/grpcGoExample&amp;#34;message HelloMessage {} // 公共消息体，未包含任何字段 /* 通讯服务声明，类似于我们常说的接口 */service Greeter { rpc SayHello(HelloMessage) returns (HelloMessage);}使用 protocol buffers 第一步便是在 proto 文件中定于需要序列化的数据结构：这是一个以 .</description></item><item><title>[新手篇] 如何写一个简单的上膛机器人</title><link>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</link><pubDate>Thu, 31 Dec 2020 17:26:38 +0800</pubDate><guid>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</guid><description>介绍 一个检测关键词并自动回复表情包的 Telegram 机器人。
-开发 注册一个机器人 访问 Telegram 的官方注册机器人 @BotFather 。
-使用 /newbot 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以_bot结尾)，注册成功后会将机器人的 TOKEN 返回给你，而这个 TOKEN 用于告知服务器这个机器人就是（大明湖畔那个夏雨荷）对应注册的机器人。
-botfather
-... Use this token to access the HTTP API: `&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;` Keep your token secure and store it safely, ... 安装 Python 环境 官方网站: https://www.python.org/downloads
-对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 Python 即可（2021 年了应该都默认 Python3?)
-Windows 则 Python 官方提供了安装器，记得把 Python 加到环境变量 (PATH) 的框给勾选上。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Develop on 初等記憶體</title><link>https://axionl.me/categories/develop/</link><description>Recent content in Develop on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Apr 2021 17:32:39 +0800</lastBuildDate><atom:link href="https://axionl.me/categories/develop/index.xml" rel="self" type="application/rss+xml"/><item><title>The Wayland Protocol</title><link>https://axionl.me/p/the-wayland-protocol/</link><pubDate>Sat, 24 Apr 2021 17:32:39 +0800</pubDate><guid>https://axionl.me/p/the-wayland-protocol/</guid><description>&lt;img src="https://axionl.me/p/the-wayland-protocol/wayland.png" alt="Featured image of post The Wayland Protocol" />&lt;blockquote>
+&lt;p>最近还在填坑 &amp;ldquo;The Wayland Protocol&amp;rdquo; 这本书的翻译，由于内容比较独立，所以用 &lt;a class="link" href="https://github.com/rust-lang/mdBook" target="_blank" rel="noopener"
+>mdbook&lt;/a> 单独构建了一份文档页。目前最大的个感受是其设计模式上和 grpc 有异曲同工之妙，等全篇完工后在博客简要介绍一下，希望不咕。&lt;/p>
+&lt;/blockquote>
+&lt;p>文档地址：&lt;a class="link" href="https://wayland.axionl.me" target="_blank" rel="noopener"
+>wayland.axionl.me&lt;/a>&lt;/p></description></item><item><title>Protocol Buffers 和 gRPC（一）</title><link>https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/</link><pubDate>Sun, 03 Jan 2021 23:46:51 +0800</pubDate><guid>https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/</guid><description>&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/banner.jpg" alt="Featured image of post Protocol Buffers 和 gRPC（一）" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>官方网站&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://grpc.io" target="_blank" rel="noopener"
+>gRPC&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener"
+>Protocol Buffers&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h3 id="通俗易懂的说明">通俗易懂的说明&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction.png"
+width="916"
+height="580"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/introduction_hub0c6a23b7eac344035b836ecb5593f14_65920_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="introduction"
+class="gallery-image"
+data-flex-grow="157"
+data-flex-basis="379px"
+>&lt;/p>
+&lt;p>以宽泛的概念来说就是找到一种公共的中间体，以达到两者“交流”的目的。&lt;/p>
+&lt;h3 id="有点复杂的介绍">有点复杂的介绍&lt;/h3>
+&lt;p>&lt;a class="link" href="https://en.wikipedia.org/wiki/Remote_procedure_call" target="_blank" rel="noopener"
+>RPC(Remote Procedure Call)&lt;/a> 远程过程调用，可简单理解为远程的程间通讯。gRPC 是 Google 所实现的一个开源框架，Protocol Buffers 是用于通信的数据载体格式，有着高压缩率（序列化后）、跨平台、多语言等优点。&lt;/p>
+&lt;p>虽然定义上是远程通讯，但扩展到仅本地使用就成了一种形式上的程间通讯。gRPC 通过网络栈实现这一过程，而 Apache Thrift 则包含了网络、命名管道、内存共享等多种数据交换形式，留作以后介绍和对比。通过序列化工具 (Protocol Buffers) 在节省带宽和减少传输时间的基础上，又能够轻易还原回原本的结构数据，便于多语言开发，部分软件也以此作为其 API 暴露方式，如 v2ray 等。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow.png"
+width="1019"
+height="467"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/flow_hu357817bfc71fa842687faeb034a27405_25579_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="流程示意图"
+class="gallery-image"
+data-flex-grow="218"
+data-flex-basis="523px"
+>&lt;/p>
+&lt;h3 id="一个简单的例子">一个简单的例子&lt;/h3>
+&lt;p>以一个消息内容为空的协议为例子，仅用于确认发送和响应。对于 &lt;code>golang&lt;/code> 或者 &lt;code>java&lt;/code> 等语言来说 &lt;code>proto3&lt;/code> 支持以 &lt;code>option&lt;/code> 的方式产生适合其代码引入的包封装 (&lt;a class="link" href="https://developers.google.com/protocol-buffers/docs/tutorials" target="_blank" rel="noopener"
+>详见&lt;/a>)。&lt;/p>
+&lt;h4 id="公共协议">公共协议&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-proto" data-lang="proto">&lt;span class="line">&lt;span class="cl">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">go_package&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kd">message&lt;/span> &lt;span class="nc">HelloMessage&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 公共消息体，未包含任何字段
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="cm">/* 通讯服务声明，类似于我们常说的接口 */&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kd">service&lt;/span> &lt;span class="n">Greeter&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="k">rpc&lt;/span> &lt;span class="n">SayHello&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">HelloMessage&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">returns&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">HelloMessage&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 protocol buffers 第一步便是在 &lt;code>proto&lt;/code> 文件中定于需要序列化的数据结构：这是一个以 &lt;code>.proto&lt;/code> 为扩展名的普通文本文件。数据被构造为消息（&lt;code>message&lt;/code>），其中每条消息包含数量不等的键值对（也可以为空），下面简单举例，传输到接收方可以直接从结构体中取出想要的数据，而从结构体到序列化压缩传输，再到还原成结构体这一过程对程序员来说是透明的，由 &lt;code>protobuf&lt;/code> 生成的库文件自动完成。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-proto" data-lang="proto">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">message&lt;/span> &lt;span class="nc">Person&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">int32&lt;/span> &lt;span class="n">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">has_ponycopter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="golang-客户端">golang 客户端&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pb&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 具体方法实现
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">g&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Greeter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">sayHello&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 生成上下文
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">cancel&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithTimeout&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Background&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Second&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nf">cancel&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取服务端响应，在执行这条指令后可以看到进入了服务端对应的方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">response&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">g&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">client&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SayHello&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HelloMessage&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Failed to get the response: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">response&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello Server&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 本地临时创建一个不安全的链接(socks5)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kd">const&lt;/span> &lt;span class="nx">Address&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;localhost:50051&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">conn&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">grpc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Dial&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">Address&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">grpc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithInsecure&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="nx">grpc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithBlock&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Failed to connect: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nx">conn&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Close&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">client&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewGreeterClient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">conn&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">greeter&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">Greeter&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">client&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">client&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">greeter&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">sayHello&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 调用方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="golang-服务端">golang 服务端&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pb&lt;/span> &lt;span class="s">&amp;#34;example.com/user/grpcGoExample&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">server&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">UnimplementedGreeterServer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 方法具体实现
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">s&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">SayHello&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span> &lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">message&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HelloMessage&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HelloMessage&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 请求陷入该方法后输出字符串，表示服务器已经收到该指令
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello Client!&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 返回响应
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HelloMessage&lt;/span>&lt;span class="p">{},&lt;/span> &lt;span class="kc">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 监听一个本地端口
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">lis&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">net&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Listen&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;tcp&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;0.0.0.0:50051&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;failed to listen: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Listen on: %v...&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Address&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 创建服务端
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">s&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">grpc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewServer&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pb&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">RegisterGreeterServer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">server&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">s&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Serve&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">lis&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;failed to serve: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到，在基本不需要涉及底层网络开发和同步协定的情况下实现了两个程序之间的通讯，其关键在于服务端重写方法的实现和客户端上下文的获取。在后续的介绍中还会就具体操作过程作详细说明。&lt;/p>
+&lt;h2 id="protocol-buffers-简要">Protocol Buffers 简要&lt;/h2>
+&lt;h3 id="跨语言类型的桥梁">跨语言类型的桥梁&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener"
+>Protocol Buffers&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>作为一种语言中立的协议，其在多种语言中都有对应的变量类型转换，需要特别注意是否在转换过程中出现精度丢失现象，或者并非预期类型的现象，比如 &lt;code>bytes&lt;/code> 对应到 &lt;code>C++&lt;/code> 的类型为 &lt;code>string&lt;/code>，需要自己适当转换。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar.png"
+width="862"
+height="782"
+srcset="https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_480x0_resize_box_3.png 480w, https://axionl.me/p/protocol-buffers-%E5%92%8C-grpc%E4%B8%80/scalar_hua19fb8bf80b659dd6c089a3e0794ccd5_114023_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="变量类型对应表 (https://developers.google.com/protocol-buffers/docs/overview#scalar)"
+class="gallery-image"
+data-flex-grow="110"
+data-flex-basis="264px"
+>&lt;/p>
+&lt;p>此外支持通过嵌套类型，实现结构体形式的信息的传输和还原。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">message&lt;/span> &lt;span class="nc">PersonalInfo&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">int32&lt;/span> &lt;span class="n">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">int32&lt;/span> &lt;span class="n">score&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kd">enum&lt;/span> &lt;span class="n">Hobby&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="n">GAMES&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="n">MUSIC&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="n">Hobby&lt;/span> &lt;span class="n">hobby&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kd">message&lt;/span> &lt;span class="nc">PersonalResponse&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kd">message&lt;/span> &lt;span class="nc">ClassInfo&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="k">repeated&lt;/span> &lt;span class="n">PersonalInfo&lt;/span> &lt;span class="n">c_info&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kd">service&lt;/span> &lt;span class="n">SearchInfo&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="k">rpc&lt;/span> &lt;span class="n">Add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stream&lt;/span> &lt;span class="n">PersonalInfo&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">returns&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">PersonalResponse&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>更多语法说明可以参考&lt;a class="link" href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank" rel="noopener"
+>官方文档&lt;/a>。&lt;/p>
+&lt;h3 id="生成库文件">生成库文件&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/protocolbuffers/protobuf/releases/latest" target="_blank" rel="noopener"
+>Protobuf Github Release 下载 (含 protoc)&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>生成所需要用到两个工具，一个是 &lt;code>protoc&lt;/code> 其本身，另一个是用于生成对应其他语言文件的插件，后者可能有些发行版已经将对应语言的插件打包到了 &lt;code>grpc&lt;/code> 包内一起，视具体情况而定，比如 &lt;code>protoc-gen-go-grpc&lt;/code> 正好没有，那就找到&lt;a class="link" href="https://github.com/grpc/grpc-go" target="_blank" rel="noopener"
+>上游项目&lt;/a>自己安装一个并添加到环境变量中（方便输入）。&lt;/p>
+&lt;ul>
+&lt;li>命令行方式&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>protoc &lt;span class="na">--plugin&lt;/span>&lt;span class="o">=&lt;/span>protoc-gen-go-grpc &lt;span class="na">--go_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">--go-grpc_out&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="na">-I&lt;/span>&lt;span class="o">=&lt;/span>. &lt;span class="nf">info&lt;/span>.proto
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后生成了 &lt;code>info.pb.go&lt;/code> 和 &lt;code>info_grpc.pb.go&lt;/code> 两个文件，大体上看前者管定义，后者管实现，属于同一个包。其他语言主要是将二进制插件和输出参数替换成对应语言的。&lt;/p>
+&lt;ul>
+&lt;li>cmake 包办&lt;/li>
+&lt;/ul>
+&lt;p>可以参考如下 &lt;code>.cmake&lt;/code> 文件，自行在 &lt;code>CMakeLists.txt&lt;/code> 引入库文件和生成的头文件。&lt;/p>
+&lt;p>&lt;code>protobuf.cmake&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmake" data-lang="cmake">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Find Protobuf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nb">find_package&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">Protobuf&lt;/span> &lt;span class="s">REQUIRED&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c"># 如果没有需要自行安装
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="c"># Find Generator Executable # 找到两个用于生成库文件的可执行文件
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nb">find_program&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PROTOBUF_PROTOC_EXECUTABLE&lt;/span> &lt;span class="s">protoc&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="nb">find_program&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">GRPC_CC_PLUGIN_EXECUTABLE&lt;/span> &lt;span class="s">grpc_cpp_plugin&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c"># 对应所需要生成的语言
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="c"># Set Proto File Name
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">APPEND&lt;/span> &lt;span class="s">PROTO_NAME_LISTS&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;api&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="c"># Generate gRPC and protobuf Sources
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nb">foreach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PROTO_NAME&lt;/span> &lt;span class="o">${&lt;/span>&lt;span class="nv">PROTO_NAME_LISTS&lt;/span>&lt;span class="o">}&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">GRPC_SOURCE&lt;/span> &lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">GRPC_HEADER&lt;/span> &lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PB_SOURCE&lt;/span> &lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PB_HEADER&lt;/span> &lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PROTO_DIR&lt;/span> &lt;span class="s2">&amp;#34;${CMAKE_SOURCE_DIR}/misc/&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">PROTO_FILE&lt;/span> &lt;span class="s2">&amp;#34;${PROTO_DIR}/${PROTO_NAME}.proto&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">add_custom_command&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">OUTPUT&lt;/span> &lt;span class="s2">&amp;#34;${GRPC_SOURCE}&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;${GRPC_HEADER}&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;${PB_SOURCE}&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;${PB_HEADER}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">COMMAND&lt;/span> &lt;span class="s2">&amp;#34;${PROTOBUF_PROTOC_EXECUTABLE}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">ARGS&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">--grpc_out=&lt;/span>&lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">--cpp_out=&lt;/span>&lt;span class="s2">&amp;#34;${CMAKE_CURRENT_BINARY_DIR}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">-I=&lt;/span>&lt;span class="s2">&amp;#34;${PROTO_DIR}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">--plugin=protoc-gen-grpc=&lt;/span>&lt;span class="s2">&amp;#34;${GRPC_CC_PLUGIN_EXECUTABLE}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;${PROTO_FILE}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">DEPENDS&lt;/span> &lt;span class="s2">&amp;#34;${PROTO_FILE}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">APPEND&lt;/span> &lt;span class="s">GRPC_HEADERS&lt;/span> &lt;span class="s2">&amp;#34;${GRPC_HEADER}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">APPEND&lt;/span> &lt;span class="s">GRPC_SOURCES&lt;/span> &lt;span class="s2">&amp;#34;${GRPC_SOURCE}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">APPEND&lt;/span> &lt;span class="s">PROTO_HEADERS&lt;/span> &lt;span class="s2">&amp;#34;${PB_HEADER}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">APPEND&lt;/span> &lt;span class="s">PROTO_SOURCES&lt;/span> &lt;span class="s2">&amp;#34;${PB_SOURCE}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="nb">endforeach&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="一个综合的案例">一个综合的案例&lt;/h3>
+&lt;p>&lt;a class="link" href="https://github.com/v2fly/v2ray-core/blob/master/config.proto" target="_blank" rel="noopener"
+>v2ray config.proto&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="line">&lt;span class="cl">&lt;span class="n">syntax&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;proto3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nn">v2ray&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">core&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">csharp_namespace&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;V2Ray.Core&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">go_package&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;v2ray.com/core&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">java_package&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;com.v2ray.core&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">option&lt;/span> &lt;span class="n">java_multiple_files&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">import&lt;/span> &lt;span class="s">&amp;#34;common/serial/typed_message.proto&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="k">import&lt;/span> &lt;span class="s">&amp;#34;transport/config.proto&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="o">...&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到首先引入了两个子 &lt;code>proto&lt;/code> 文件，其中包含一些自己项目具体定义的消息类型，以 &lt;code>typed_message.proto&lt;/code> 为例子，其中只包含了两种类型的两个字段。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-protobuf" data-lang="protobuf">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">message&lt;/span> &lt;span class="nc">TypedMessage&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="c1">// The name of the message type, retrieved from protobuf API.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">type&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span> &lt;span class="c1">// Serialized proto message.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kt">bytes&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最终通过层层嵌套构成了一个综合的信息结构体，一并打包发送。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://wallhaven.cc/w/6k293l" target="_blank" rel="noopener"
+>Banner Artwork&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>[新手篇] 如何写一个简单的上膛机器人</title><link>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</link><pubDate>Thu, 31 Dec 2020 17:26:38 +0800</pubDate><guid>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</guid><description>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/banner.png" alt="Featured image of post [新手篇] 如何写一个简单的上膛机器人" />&lt;h2 id="介绍">介绍&lt;/h2>
+&lt;p>一个检测关键词并自动回复表情包的 &lt;code>Telegram&lt;/code> 机器人。&lt;/p>
+&lt;h2 id="开发">开发&lt;/h2>
+&lt;h3 id="注册一个机器人">注册一个机器人&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>访问 Telegram 的官方注册机器人 &lt;a class="link" href="https://t.me/BotFather" target="_blank" rel="noopener"
+>@BotFather&lt;/a> 。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用 &lt;code>/newbot&lt;/code> 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以&lt;code>_bot&lt;/code>结尾)，注册成功后会将机器人的 &lt;code>TOKEN&lt;/code> 返回给你，而这个 &lt;code>TOKEN&lt;/code> 用于告知服务器这个机器人就是（&lt;del>大明湖畔那个夏雨荷&lt;/del>）对应注册的机器人。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather.png"
+width="661"
+height="500"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="botfather"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="317px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Use this token to access the HTTP API:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sb">`&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Keep your token secure and store it safely, ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="安装-python-环境">安装 Python 环境&lt;/h3>
+&lt;blockquote>
+&lt;p>官方网站: &lt;a class="link" href="https://www.python.org/downloads" target="_blank" rel="noopener"
+>https://www.python.org/downloads&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 &lt;code>Python&lt;/code> 即可（&lt;del>2021 年了应该都默认 Python3?)&lt;/del>&lt;/p>
+&lt;p>Windows 则 Python 官方提供了安装器，记得把 &lt;code>Python&lt;/code> 加到环境变量 (PATH) 的框给勾选上。&lt;/p>
+&lt;p>为了避免开发环境不干净对后续开发和使用系统造成影响，建议创建一个用于该机器人项目的&lt;a class="link" href="https://docs.python.org/zh-cn/3/tutorial/venv.html" target="_blank" rel="noopener"
+>虚拟环境(virtual environment)&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>python &lt;span class="na">-m&lt;/span> venv .venv // 创建了一个名为 .venv 的隐藏文件夹
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于国内使用 PyPi 源速度不是很给力的情况，可以考虑替换镜像源为&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/" target="_blank" rel="noopener"
+>清华源&lt;/a>&lt;/p>
+&lt;p>也可以写入默认配置文件 &lt;code>~/.config/pip/pip.conf&lt;/code>（如果没有则&lt;a class="link" href="https://pip.pypa.io/en/stable/user_guide/#config-file" target="_blank" rel="noopener"
+>创建&lt;/a>）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="k">[global]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">index-url&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">https://pypi.tuna.tsinghua.edu.cn/simple&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以查看设置是否生效&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip config list
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">global&lt;/span>.index-&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;https://pypi.tuna.tsinghua.edu.cn/simple&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>创建虚拟环境后，您可以激活它，进入项目所在目录。&lt;/p>
+&lt;ul>
+&lt;li>在 Windows 上，运行:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmd" data-lang="cmd">&lt;span class="line">&lt;span class="cl">tutorial-env\Scripts\activate.bat
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>在 Unix 或 MacOS 上，运行:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nb">source&lt;/span> tutorial-env/bin/activate
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于 &lt;code>csh&lt;/code> 和 &lt;code>fish shell&lt;/code> 分别对应名为 &lt;code>activate.csh&lt;/code> 和 &lt;code>activate.fish&lt;/code> 的脚本&lt;/p>
+&lt;h3 id="安装软件包依赖">安装软件包依赖&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener"
+>python telegram bot 项目地址&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip install python-telegram-bot &lt;span class="na">--upgrade&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也可以将依赖导出到文件，便于开发迁移&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip freeze &lt;span class="o">&amp;gt;&lt;/span> requirements.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="coding-time">Coding Time&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 从环境变量中读取 TOKEN 减少硬编码可能带来的泄漏风险&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 如果只是本地测试的话可以直接把 TOKEN 粘贴到程序中&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TOKEN&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;TELEGRAM_BOT_TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Updater 是 Dispatcher 的实现，用于机器人数据交互的前端，&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 负责更新消息队列并交付给其他调度程序&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Updater&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TOKEN&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">use_context&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dispatcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 开始拉取信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">start_polling&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 响应终止信号 Ctrl+C&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">idle&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="vm">__name__&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;__main__&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上述几行代码构成了整个机器人的基本框架，包含了机器人身份认证和开启机器人服务等。我们还需要向该框架内注册具体的方法，以实现所需功能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">start&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Send a message when the command /start is issued.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;你好～&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">user&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">from_user&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">username&lt;/span> &lt;span class="ow">is&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;您的用户名是: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">username&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;ID: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">help_command&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Send a message when the command /help is issued.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;这里是帮助命令&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">echo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Echo the user message.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">token&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;TELEGRAM_BOT_TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Updater&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">use_context&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dispatcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CommandHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;start&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start_command&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CommandHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;help&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">help_command&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MessageHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">echo&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">start_polling&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">idle&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>从 &lt;code>Update&lt;/code> 中可以拿到消息的类型、具体内容、发送者等关键信息，从 &lt;code>CallbackContext&lt;/code> 中可以获取机器人本身的一些信息等。在使用 &lt;code>\&lt;/code> 开头的对应命令后就能进入到对应的方法，也可以对此进行类封装。&lt;/p>
+&lt;p>注意到除了 &lt;code>CommandHandler&lt;/code> 之外还有其他类型的句柄如常规消息类的 &lt;code>MessageHandler&lt;/code>、用于行内输入的的 &lt;code>InlineQueryHandler&lt;/code> 等，请详见&lt;a class="link" href="https://python-telegram-bot.readthedocs.io/en/stable/telegram.html" target="_blank" rel="noopener"
+>上游 API 文档&lt;/a>。&lt;/p>
+&lt;p>回到需求，我们需要的检测关键词部分也是从 &lt;code>Update&lt;/code> 中来，用关键词列表简单演示，当消息中包含关键词的时候发送一个表情，或者其他类型的回复&lt;a class="link" href="https://python-telegram-bot.readthedocs.io/en/stable/telegram.message.html?highlight=Message" target="_blank" rel="noopener"
+>详见 Message 类文档&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">telegram&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Sticker&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 临时创建一个表情量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">sticker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">file_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;CAACAgUAAxkBAAIMOV_jA7I0IAABMbqNVNGkJWZNiDRT6QACiwIAArL6ew6tFsY1eQy9Lx4E&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">file_unique_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;AgADiwIAArL6ew4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">480&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">height&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">512&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">is_animated&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">echo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">keys_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;上膛&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;车主&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;特斯拉&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">keys_list&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview.png"
+width="596"
+height="284"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="echo"
+class="gallery-image"
+data-flex-grow="209"
+data-flex-basis="503px"
+>&lt;/p>
+&lt;p>至此初步效果已经达成，剩下要解决的两个疑问就是：&lt;/p>
+&lt;ul>
+&lt;li>Sticker 的信息是怎么来的？&lt;/li>
+&lt;li>如何回复指定消息&lt;/li>
+&lt;/ul>
+&lt;h4 id="sticker-信息">Sticker 信息&lt;/h4>
+&lt;p>可以添加一个专用于获取表情包信息的句柄&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MessageHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sticker&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">command&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get_sticker&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了便于理解这里在服务端后台直接输出表情包信息作为日志，对于一些要动态添加表情包和对应关键字的需求来说，一个轻便的可持久化数据才是更好的选择。创建 Sticker 实例的时候注意不要遗漏必要的传入参数。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info.png"
+width="862"
+height="117"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="sticker_info"
+class="gallery-image"
+data-flex-grow="736"
+data-flex-basis="1768px"
+>&lt;/p>
+&lt;h4 id="如何回复指定的消息">如何回复指定的消息&lt;/h4>
+&lt;p>简单来说这就是一个套娃过程，从包含关键字消息的 &lt;code>reply_to_message&lt;/code> 成员可以判断并拿到上一条回复的消息，回复拿到的上一条消息即可，从而实现精准打击（x&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_to_message&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">msg&lt;/span> &lt;span class="ow">is&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply.png"
+width="666"
+height="428"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="reply to your reply"
+class="gallery-image"
+data-flex-grow="155"
+data-flex-basis="373px"
+>&lt;/p>
+&lt;h2 id="结束">结束&lt;/h2>
+&lt;p>以简单的案例来介绍 Telegram 机器人的玩法，希望能够帮助到入门的萌新打造属于自己的机器人。（撒花 ~=o(&lt;em>^▽^&lt;/em>)o~♪&lt;/p></description></item></channel></rss>

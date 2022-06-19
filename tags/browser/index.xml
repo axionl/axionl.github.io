@@ -1,7 +1,223 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Browser on 初等記憶體</title><link>https://axionl.me/tags/browser/</link><description>Recent content in Browser on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 27 Jan 2021 16:24:43 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/browser/index.xml" rel="self" type="application/rss+xml"/><item><title>[归档] Hello, My Firefox</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</link><pubDate>Wed, 27 Jan 2021 16:24:43 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</guid><description>自用配置项，持续更新中&amp;hellip;&amp;hellip;
-选项 允许加载用户样式文件（userChrome.css） toolkit.legacyUserProfileCustomizations.stylesheets = true 调整浏览器标签宽度 browser.tabs.tabClipWidth = 83 硬件加速 media.ffmpeg.vaapi.enabled = true media.ffvpx.enabled = false 配合系统环境变量使用 MOZ_X11_EGL=1 或 MOZ_ENABLE_WAYLAND=1，MOZ_WEBRENDER=1
-Devtools devtools.editor.tabsize = 4 devtools.debugger.remote-enabled = true DevTools 中还有 Enable browser chrome and add-on debugging toolboxes 可以打开，调试扩展常用选项
-易用模式 accessibility.typeaheadfind.enablesound = false 默认开了这个选项，导致 Ctrl+F 搜索不到结果的时候笔记本的蜂鸣器会吼得很大声
-主题 MaterialFox Preview
-MaterialFox
-扩展 Tree Style Tab</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Browser on 初等記憶體</title><link>https://axionl.me/tags/browser/</link><description>Recent content in Browser on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 27 Jan 2021 16:24:43 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/browser/index.xml" rel="self" type="application/rss+xml"/><item><title>[归档] Hello, My Firefox</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</link><pubDate>Wed, 27 Jan 2021 16:24:43 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/wallhaven-eo5jko.png" alt="Featured image of post [归档] Hello, My Firefox" />&lt;blockquote>
+&lt;p>自用配置项，持续更新中&amp;hellip;&amp;hellip;&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="选项">选项&lt;/h2>
+&lt;ul>
+&lt;li>允许加载用户样式文件（userChrome.css）&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">toolkit.legacyUserProfileCustomizations.stylesheets&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>调整浏览器标签宽度&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">browser.tabs.tabClipWidth&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">83&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>硬件加速&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">media.ffmpeg.vaapi.enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">media.ffvpx.enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配合系统环境变量使用 &lt;code>MOZ_X11_EGL=1&lt;/code> 或 &lt;code>MOZ_ENABLE_WAYLAND=1&lt;/code>，&lt;code>MOZ_WEBRENDER=1&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>Devtools&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">devtools.editor.tabsize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">devtools.debugger.remote-enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>DevTools 中还有 &lt;code>Enable browser chrome and add-on debugging toolboxes&lt;/code> 可以打开，调试扩展常用选项&lt;/p>
+&lt;ul>
+&lt;li>易用模式&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="na">accessibility.typeaheadfind.enablesound&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认开了这个选项，导致 Ctrl+F 搜索不到结果的时候笔记本的蜂鸣器会吼得很大声&lt;/p>
+&lt;h2 id="主题">主题&lt;/h2>
+&lt;p>&lt;img src="https://user-images.githubusercontent.com/5405629/45172944-21d91900-b24a-11e8-8bc5-03814121b0de.png"
+loading="lazy"
+alt="MaterialFox Preview"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/muckSponge/MaterialFox" target="_blank" rel="noopener"
+>MaterialFox&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="扩展">扩展&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab" target="_blank" rel="noopener"
+>Tree Style Tab&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview.png"
+width="1072"
+height="730"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/preview_hu9072e42a2e616cef52575a9e53a82241_181317_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="TST Preview"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="352px"
+>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>userChrome.css 外部配置 &lt;a class="link" href="https://github.com/axionl/dotfiles/blob/14ARE/private_dot_mozilla/csstheme/TreeStyleTab/treestyletab.css" target="_blank" rel="noopener"
+>treestyletab.css&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>插件内嵌样式配置 &lt;a class="link" href="https://github.com/axionl/dotfiles/blob/14ARE/private_dot_mozilla/csstheme/TreeStyleTab/custom.css" target="_blank" rel="noopener"
+>custom.css&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>调试插件样式的方法&lt;/p>
+&lt;ol>
+&lt;li>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons.png"
+width="396"
+height="299"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_add_ons_hu9836c956d3836efb369769b8ab969da9_19689_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Debug Add-ons"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="317px"
+>&lt;/li>
+&lt;li>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime.png"
+width="692"
+height="211"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_runtime_hua8fcf25883582b3b0b7d6969060f8602_20453_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Debug Runtime"
+class="gallery-image"
+data-flex-grow="327"
+data-flex-basis="787px"
+>&lt;/li>
+&lt;li>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page.png"
+width="296"
+height="182"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_page_huf113180348d425f9b61ec67b0e48fd76_12019_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Debug TST Page"
+class="gallery-image"
+data-flex-grow="162"
+data-flex-basis="390px"
+>&lt;/li>
+&lt;li>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst.png"
+width="1392"
+height="776"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/debug_tst_hu6900f4fa9af3b1268034c8626457e55b_248265_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Debug TST"
+class="gallery-image"
+data-flex-grow="179"
+data-flex-basis="430px"
+>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/tst-bookmarks-subpanel" target="_blank" rel="noopener"
+>TST Bookmarks Subpanel&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/220/220713.png"
+loading="lazy"
+alt="TST Bookmarks Preview"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/switchyomega" target="_blank" rel="noopener"
+>SwitchyOmega&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/183/183855.png"
+loading="lazy"
+alt="SwitchyOmega Preview"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/zh-CN/firefox/addon/auto-tab-discard" target="_blank" rel="noopener"
+>Auto Tab Discard&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser" target="_blank" rel="noopener"
+>Keepassxc Browser&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/234/234592.png"
+loading="lazy"
+alt="Keepassxc Browser Preview"
+>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/plasma-integration" target="_blank" rel="noopener"
+>Plasma Integration&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/202/202551.png"
+loading="lazy"
+alt="Plasma Integration Preview"
+>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/ext-saladict" target="_blank" rel="noopener"
+>Saladict&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/203/203286.png"
+loading="lazy"
+alt="Saladict Preview"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey" target="_blank" rel="noopener"
+>Tampermonkey&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/170/170870.png"
+loading="lazy"
+alt="Tampermonkey Preview"
+>&lt;/p>
+&lt;ul>
+&lt;li>一个用于 &lt;a class="link" href="https://github.com/axionl/dotfiles/blob/14ARE/private_dot_mozilla/csstheme/Tampermonkey/archwiki.js" target="_blank" rel="noopener"
+>ArchWiki 目录&lt;/a> 侧边显示的脚本&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki.png"
+width="1756"
+height="998"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-hello-my-firefox/archwiki_hu84283574b4dae8df688d8adb95f9e671_238647_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="ArchWiki TOC"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="422px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher" target="_blank" rel="noopener"
+>User-Agent Switcher and Manager&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://addons.cdn.mozilla.net/user-media/previews/thumbs/188/188200.png"
+loading="lazy"
+alt="User-Agent Switcher and Manager Preview"
+>&lt;/p>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>

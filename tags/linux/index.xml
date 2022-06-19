@@ -1,15 +1,618 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 初等記憶體</title><link>https://axionl.me/tags/linux/</link><description>Recent content in Linux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>序言 Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。
-.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。 .pam_environment 由于提权漏洞频出（如：CVE-2010-4708、CVE-2011-3148），已经被上游遗弃，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 session required pam_env.so user_readenv=1 以恢复读取该文件中环境变量的行为，并非长久之计。 参考了依云的 Linux 的环境变量怎么设 一文，遂选用 systemd 的 environment.d 作为用户环境变量配置方案。
-介绍 配置文件目录如下：
-~/.config/environment.d/*.conf [✓] /run/environment.d/*.conf /etc/environment.d/*.conf /usr/lib/environment.d/*.conf /etc/environment 其写法如下：
-环境变量=值 环境变量=${值:-如果为空的默认值} 环境变量=${值:+添加值} 可以读取 $HOME, $PATH 等原有的环境变量，如：PATH=~/.local/bin:$PATH apps.conf
-由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。
-~/.config/fish/conf.d/env_init.fish
-if not contains $USER $PATH export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator) end show environments</description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>前言 项目地址：twpayne/chezmoi
-早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。
-【譯】使用 GNU stow 管理你的點文件
-相比之下，其有如下缺点促使我切换到 Chezmoi:
-需要手动创建目录结构，而不是根据现有配置文件来生成 需要手动建立版本管理，本身不提供备份和恢复等功能 2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 dot- 前缀 隐私数据加密 安装 https://www.chezmoi.io/docs/install/
-多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。
-$ curl -sfL https://git.io/chezmoi | sh 快速上手 初始化 $ chezmoi init --apply 这会在 ~/.local/share/chezmoi 中创建一个目录权限为 700 的 git 仓库，用于保存配置文件。
-$ chezmoi source-path 可以列出其路径 $ chezmoi cd 可以直接进入到该目录 --apply 参数意为仓库创建后自动添加配置文件，默认为不创建 $ chezmoi init &amp;lt;git_repo&amp;gt; 可在新设备上初始化上传的配置仓库 若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 初等記憶體</title><link>https://axionl.me/tags/linux/</link><description>Recent content in Linux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 20:35:26 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 用户环境变量设置</title><link>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</link><pubDate>Tue, 23 Feb 2021 20:35:26 +0800</pubDate><guid>https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/</guid><description>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.jpg" alt="Featured image of post Linux 用户环境变量设置" />&lt;h2 id="序言">序言&lt;/h2>
+&lt;p>Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam_environment 亦或是各种 shell 配置文件。&lt;/p>
+&lt;ul>
+&lt;li>.xprofile 受限于 x11 服务，在 wayland 或未启动图形界面等情况下不会被读取。&lt;/li>
+&lt;li>.pam_environment 由于提权漏洞频出（如：&lt;a class="link" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-4708" target="_blank" rel="noopener"
+>CVE-2010-4708&lt;/a>、&lt;a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2011-3148" target="_blank" rel="noopener"
+>CVE-2011-3148&lt;/a>），&lt;strong>已经被上游遗弃&lt;/strong>，一些发行版为了兼容老的用户配置，在 /etc/pam.d/system-login 中临时加入 &lt;code>session required pam_env.so user_readenv=1 &lt;/code> 以恢复读取该文件中环境变量的行为，并非长久之计。&lt;/li>
+&lt;/ul>
+&lt;p>参考了依云的 &lt;a class="link" href="https://blog.lilydjwg.me/2020/7/22/linux-environment-variables.215496.html" target="_blank" rel="noopener"
+>Linux 的环境变量怎么设&lt;/a> 一文，遂选用 systemd 的 &lt;a class="link" href="https://www.freedesktop.org/software/systemd/man/environment.d.html" target="_blank" rel="noopener"
+>environment.d&lt;/a> 作为用户环境变量配置方案。&lt;/p>
+&lt;h2 id="介绍">介绍&lt;/h2>
+&lt;p>配置文件目录如下：&lt;/p>
+&lt;ul>
+&lt;li>~/.config/environment.d/*.conf [✓]&lt;/li>
+&lt;li>/run/environment.d/*.conf&lt;/li>
+&lt;li>/etc/environment.d/*.conf&lt;/li>
+&lt;li>/usr/lib/environment.d/*.conf&lt;/li>
+&lt;li>/etc/environment&lt;/li>
+&lt;/ul>
+&lt;p>其写法如下：&lt;/p>
+&lt;ul>
+&lt;li>环境变量=值&lt;/li>
+&lt;li>环境变量=${值:-如果为空的默认值}&lt;/li>
+&lt;li>环境变量=${值:+添加值}&lt;/li>
+&lt;li>可以读取 &lt;code>$HOME&lt;/code>, &lt;code>$PATH&lt;/code> 等原有的环境变量，如：&lt;code>PATH=~/.local/bin:$PATH&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps.png"
+width="1100"
+height="721"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/apps_hu1b83020ba751949eb81872429f68c4ce_146399_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="apps.conf"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="366px"
+>&lt;/p>
+&lt;p>由于我是 fish + tmux 用户，需要自己导出一下生成的环境变量文件到命令行。&lt;/p>
+&lt;p>&lt;code>~/.config/fish/conf.d/env_init.fish&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">not&lt;/span> &lt;span class="nb">contains&lt;/span> &lt;span class="nv">$USER&lt;/span> &lt;span class="nv">$PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">export&lt;/span> &lt;span class="o">(&lt;/span>/usr/lib/systemd/user-environment-generators/&lt;span class="m">30&lt;/span>-systemd-environment-d-generator&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env.png"
+width="1100"
+height="721"
+srcset="https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_480x0_resize_box_3.png 480w, https://axionl.me/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/show_env_hu719fd1b8da5a399c46eca1ab9f3b7901_572168_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="show environments"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="366px"
+>&lt;/p>
+&lt;h2 id="关于-kdeplasma-的补充">关于 KDE/Plasma 的补充&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://blog.davidedmundson.co.uk/blog/plasma-and-the-systemd-startup/" target="_blank" rel="noopener"
+>Plasma and the systemd startup&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>在 Plasma 5.21 和 Systemd 246 以及后续更新版本中，可以使用 systemd 来启动和管理 KDE 服务。&lt;/p>
+&lt;p>其中一个好处在于：其环境变量可直接继承自 &lt;code>environment.d&lt;/code> 而无需再手动设置 &lt;code>systemd-environment-d-generator&lt;/code> 生成的环境变量。&lt;/p>
+&lt;p>启用后重启生效。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>kwriteconfig5 &lt;span class="na">--file&lt;/span> startkderc &lt;span class="na">--group&lt;/span> General &lt;span class="na">--key&lt;/span> systemdBoot true
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 Systemd 进行管理后可利用其 CGroups 限制资源分配和使用等诸多特性（或许可以给你的应用加上 cgproxy?），进一步细化和统一用户配置方案，再次感谢开发者为此做出的努力。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> set-property app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="nv">MemoryMax&lt;/span>&lt;span class="o">=&lt;/span>1500M &lt;span class="nv">MemoryLimit&lt;/span>&lt;span class="o">=&lt;/span>1G
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>systemctl &lt;span class="na">--user&lt;/span> &lt;span class="nb">status &lt;/span>app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ● app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope &lt;span class="na">- Telegram&lt;/span> Desktop
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Loaded&lt;/span>: loaded &lt;span class="o">(&lt;/span>/usr/share/applications/telegramdesktop.desktop&lt;span class="p">;&lt;/span> &lt;span class="nf">transient&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Transient&lt;/span>: yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Drop-In&lt;/span>: /run/user/&lt;span class="m">1000&lt;/span>/systemd/transient/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope.d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └─&lt;span class="m">50&lt;/span>-MemoryLimit.conf, &lt;span class="m">50&lt;/span>-MemoryMax.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Active&lt;/span>: active &lt;span class="o">(&lt;/span>&lt;span class="nf">running&lt;/span>&lt;span class="o">)&lt;/span> since Tue &lt;span class="m">2021&lt;/span>-&lt;span class="m">02&lt;/span>-&lt;span class="m">23&lt;/span> &lt;span class="m">21&lt;/span>:&lt;span class="m">02&lt;/span>:&lt;span class="m">37&lt;/span> CST&lt;span class="p">;&lt;/span> &lt;span class="nf">5min&lt;/span> ago
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Tasks&lt;/span>: &lt;span class="m">44&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="nf">limit&lt;/span>: &lt;span class="m">18425&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Memory&lt;/span>: &lt;span class="m">351&lt;/span>.0M &lt;span class="o">(&lt;/span>&lt;span class="nf">max&lt;/span>: &lt;span class="m">1&lt;/span>.4G limit: &lt;span class="m">1&lt;/span>.0G&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">CPU&lt;/span>: &lt;span class="m">20&lt;/span>.056s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">CGroup&lt;/span>: /user.slice/user-&lt;span class="m">1000&lt;/span>.slice/user@&lt;span class="m">1000&lt;/span>.service/app.slice/app-telegramdesktop-b9317feb02e54b4c93dd1c97a06711a4.scope
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └─&lt;span class="m">15363&lt;/span> /usr/bin/telegram-desktop &lt;span class="na">--
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[归档] 用 Chezmoi 管理配置文件</title><link>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link><pubDate>Fri, 29 Jan 2021 10:04:51 +0800</pubDate><guid>https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid><description>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.jpg" alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址：&lt;a class="link" href="https://github.com/twpayne/chezmoi" target="_blank" rel="noopener"
+>twpayne/chezmoi&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>早前看了 Farseerfc 老师这篇译文，开始用 Stow 打理自己家目录中的配置文件，其实现非常简单直接：在一个特定的目录保留原始配置文件，并在其原本对应的位置创建软链接。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://farseerfc.me/using-gnu-stow-to-manage-your-dotfiles.html" target="_blank" rel="noopener"
+>【譯】使用 GNU stow 管理你的點文件 &lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>相比之下，其有如下缺点促使我切换到 Chezmoi:&lt;/p>
+&lt;ul>
+&lt;li>需要手动创建目录结构，而不是根据现有配置文件来生成&lt;/li>
+&lt;li>需要手动建立版本管理，本身不提供备份和恢复等功能&lt;/li>
+&lt;li>2.3.0 版本加入了隐藏文件显式命名的方案，但还是需要手动添加 &lt;code>dot-&lt;/code> 前缀&lt;/li>
+&lt;li>隐私数据加密&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/install/" target="_blank" rel="noopener"
+>https://www.chezmoi.io/docs/install/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>多数包管理器可以搜索到此包进行安装，包括 Linux、BSD、macOS、Windows 在内的多种平台。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>curl &lt;span class="na">-sfL&lt;/span> https://git.io/chezmoi &lt;span class="o">|&lt;/span> &lt;span class="nf">sh&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="快速上手">快速上手&lt;/h2>
+&lt;h3 id="初始化">初始化&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi init &lt;span class="na">--apply&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这会在 &lt;code>~/.local/share/chezmoi&lt;/code> 中创建一个目录权限为 &lt;code>700&lt;/code> 的 git 仓库，用于保存配置文件。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>$ chezmoi source-path&lt;/code> 可以列出其路径&lt;/li>
+&lt;li>&lt;code>$ chezmoi cd&lt;/code> 可以直接进入到该目录&lt;/li>
+&lt;li>&lt;code>--apply&lt;/code> 参数意为仓库创建后自动添加配置文件，默认为不创建&lt;/li>
+&lt;li>&lt;code>$ chezmoi init &amp;lt;git_repo&amp;gt;&lt;/code> 可在新设备上初始化上传的配置仓库&lt;/li>
+&lt;/ul>
+&lt;p>若包管理器未安装自动补全，则可由下例所示，添加到 &amp;lt;bash/zsh/fish/powershell&amp;gt; 配置当中。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi completion &lt;span class="nb">fish&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> ~/.config/&lt;span class="nb">fish&lt;/span>/completions/chezmoi.&lt;span class="nb">fish&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>-o &amp;lt;filename&amp;gt;&lt;/code> 输出到文件，默认为标准输出&lt;/li>
+&lt;/ul>
+&lt;h3 id="添加文件或目录">添加文件或目录&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add .nanorc &lt;span class="c"># 添加文件
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-x&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span>/ &lt;span class="c"># 添加文件夹
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-xa&lt;/span> .config/&lt;span class="nb">fish&lt;/span>/&lt;span class="nb">functions&lt;/span> &lt;span class="c"># 递归添加文件夹和子目录下的全部内容
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">-T&lt;/span> .xprofile &lt;span class="c"># 添加临时内容
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi add .tmux.conf &lt;span class="na">--follow&lt;/span> &lt;span class="c"># 添加软链接对应的原始内容，而不是软链接符号
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">&lt;/span>&lt;span class="nv">$ &lt;/span>chezmoi managed &lt;span class="c"># 列出所管理的内容路径
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编辑和应用">编辑和应用&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi edit ~/.bashrc &lt;span class="na">--apply&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>其默认不带 &lt;code>--apply&lt;/code> 参数，所以编辑完成后也不会直接作用于源文件，&lt;code>--dry-run&lt;/code> 参数可以空运行而不改变目标文件&lt;/li>
+&lt;li>&lt;code>$EDITOR&lt;/code> 环境变量决定所使用的编辑器。&lt;/li>
+&lt;li>&lt;code>$ chezmoi diff&lt;/code> 以查看改动&lt;/li>
+&lt;li>&lt;code>$ chezmoi -v apply&lt;/code> 应用改动&lt;/li>
+&lt;/ul>
+&lt;h3 id="同步与合并">同步与合并&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>pull &lt;span class="na">-- --rebase&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nf">chezmoi&lt;/span> diff
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi apply &lt;span class="na">--verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其同步操作与 git 本身无异，通过 &lt;code>--&lt;/code> 可以传递所需参数。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>add .nanorc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi &lt;span class="nb">source &lt;/span>commit &lt;span class="na">-- -m&lt;/span> &lt;span class="s2">&amp;#34;Initial commit&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>支持自动提交，但考虑到用户可能意外添加&lt;strong>敏感数据&lt;/strong>的情况下不建议开启，配置文件的介绍将在稍后提到。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">sourceVCS&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">autoCommit&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">autoPush&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也可以一次打包成压缩包放 U 盘上硬件备份&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi archive &lt;span class="na">--output&lt;/span>&lt;span class="o">=&lt;/span>dotfiles.tar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="小结">小结&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor.png"
+width="1048"
+height="826"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/doctor_huea984c6c4f2853d86b329b2a50c1808a_791757_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="doctor"
+class="gallery-image"
+data-flex-grow="126"
+data-flex-basis="304px"
+>&lt;/p>
+&lt;p>其还提供了一个名为 &lt;code>secret&lt;/code> 的参数，是各种加密存储管理软件命令行客户端的包装 (cli wrapper)，&lt;code>chezmoi doctor&lt;/code> 可以检测机器中对应可执行文件的安装状态，此部分内容和应用会在后面的数据模板中提及。&lt;/p>
+&lt;p>至此，快速上手基本功能已介绍完毕，初次使用发现它像是一个功能丰富的 wrapper，提供了诸多自动化的帮助，包括编辑、冲突合并、同步和导出备份等。可以注意到一个与其他以软链接形式的 dotfiles manager 不同，由于在设计之初就考虑到了多设备、跨平台的兼容方案，chezmoi 并没有选择以软链接的形式来替换源文档所在路径，一方面提供了改动与应用之间的缓冲，另一方面规避了多平台的兼容性问题。&lt;/p>
+&lt;h2 id="数据模板">数据模板&lt;/h2>
+&lt;p>以 &lt;a class="link" href="https://gohugo.io/templates/" target="_blank" rel="noopener"
+>Hugo&lt;/a> 作为博客或者使用过 &lt;a class="link" href="https://pkg.go.dev/text/template" target="_blank" rel="noopener"
+>go template&lt;/a> 的朋友一定不会对此感到陌生，得益于 &lt;code>golang&lt;/code> 的实现，chezmoi 不仅做到了单文件、跨平台使用，还继承了其强大的数据模板功能，可以对于不同的设备实现不同的数据配置，比如配置不同的 &lt;code>ssh key&lt;/code>，这也是与诸多的 dotfiles manager 的不同之处。&lt;/p>
+&lt;h3 id="创建模板">创建模板&lt;/h3>
+&lt;p>以 &lt;code>.gitconfig&lt;/code> 为例，原文如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">axionl&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了在不同的设备电脑上使用不同的 git 账户这一需求，要将其中的用户信息数据与配置文件进行绑定，而原文件将作为 &lt;code>.tmpl&lt;/code> 为后缀的模板文件保存。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.local/share/chezmoi/dot_gitconfig.tmpl&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .name }}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">email&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;{{ .email }}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>模板文件如上，&lt;code>{{ }}&lt;/code> 是 go template 的数据变量标记符，&lt;code>.&lt;/code> 代表了当前变量，即在非循环体内，&lt;code>.&lt;/code> 就代表了传入的那个变量。一般的变量定义可由赋值表达式定义 &lt;code>{{ $variable := Balabala }}&lt;/code>，不过这里 chezmoi 会根据配置文件自动生成和对应。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--autotemplate&lt;/span> ~/.gitconfig
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>chezmoi 提供了自动生成模板的功能，但是聪明的生成器未必懂你心意，正如我的 hostname 恰好等于 username 而在其他机器上未必如此。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl.png"
+width="544"
+height="143"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/tmpl_hu93eb61e53e7ff68b8c9d717727c8f9e4_23718_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="dot_gitconfig.tmpl"
+class="gallery-image"
+data-flex-grow="380"
+data-flex-basis="913px"
+>&lt;/p>
+&lt;p>此时重新 &lt;code>$ chezmoi edit ~/.gitconfig&lt;/code> 对应编辑的就是模板文件（就不要图快加上 &lt;code>--apply&lt;/code> 了，以免产生不必要的手滑）。&lt;code>$ chezmoi data&lt;/code> 的内容便是其妄加猜测的根源，对应变量也可以手动添加使用，如下，根据系统类型来判断模板中的内容是否作用于该机器，&lt;code>-&lt;/code> 符号用于移除前或者后的空格，更多语法可去 &lt;a class="link" href="https://golang.org/pkg/text/template/" target="_blank" rel="noopener"
+>go template&lt;/a> 参阅。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">eq&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;linux&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[core]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> editor = nvim
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">else&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[core]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> editor = &lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.editor&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于大量需要编辑内容的配置文件，也可根据不同机器直接做多份同名文件，并对应进行切换。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># symlink_dot_bashrc.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将会创建一个 &lt;code>~/.bashrc&lt;/code> 的软链接到对应的配置文件, 若不希望以软链接形式，&lt;code>{{ include &amp;quot;.bashrc_linux&amp;quot; }}&lt;/code> 可以直接替换为文件。&lt;code>.chezmoiignore&lt;/code> 用于确保对应的系统安装对应的文件，意为如果不匹配，则忽略对应的配置文件，此外还有 &lt;code>.chezmoiremove&lt;/code> 等，详见 &lt;a class="link" href="https://www.chezmoi.io/docs/reference/#chezmoiignore" target="_blank" rel="noopener"
+>reference&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># .chezmoiignore
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ne&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;darwin&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_darwin
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ne&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.chezmoi.os&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;linux&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">.bashrc_linux
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在配置文件内写入对应的数据，TOML 语法可去 &lt;a class="link" href="https://toml.io/" target="_blank" rel="noopener"
+>toml.io&lt;/a> 快速上手，大有（声）裨（安）益（利）。除此之外，chezmoi 还支持由 &lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
+>github.com/spf13/viper&lt;/a> 的 &lt;code>json&lt;/code>, &lt;code>hcl&lt;/code>, &lt;code>yaml&lt;/code> 等格式，均以 chezmoi 加不同扩展名命名，将会使用第一个被找到的配置文件。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.chezmoi.io/docs/reference/#configuration-file" target="_blank" rel="noopener"
+>配置文件模板&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">github&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">editor&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;nano&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如下命令可临时调试时，脱离模板文件查看变量值是否正确。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{- .github.editor -}}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">nano&lt;/span>⏎
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编辑配置">编辑配置&lt;/h3>
+&lt;p>相比于自动创建模板的南辕北辙，通过智能人工从模板中自动生成 TOML 配置则显得较为靠谱。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/test.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">&lt;/span>&lt;span class="cp">{{-&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">:=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">promptString&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">-}}&lt;/span>&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[data]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> email = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">$email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过 &lt;code>promptString&lt;/code> 这个函数解析等下从命令行中传入的参数，并传入到配置文件中。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="na">--init&lt;/span> &lt;span class="na">--promptString&lt;/span> &lt;span class="nv">email&lt;/span>&lt;span class="o">=&lt;/span>axionl@example.com &lt;span class="o">&amp;lt;&lt;/span> ~/test.tmpl
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">[&lt;/span>data&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">email&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;axionl@example.com&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="管理私有数据">管理私有数据&lt;/h3>
+&lt;p>chezmoi 通过检测原有目录和文件权限来判断是否属于私有，通常以 &lt;code>private_&lt;/code> 为前缀， &lt;code>0644&lt;/code> 为权限，&lt;code>~/.local/share/chezmoi&lt;/code> 则为 &lt;code>700&lt;/code> 权限，并且运行时会检查该文件夹权限是否正确。&lt;/p>
+&lt;p>以下面三种方式为例，介绍 chezmoi 的加密部分：&lt;/p>
+&lt;ul>
+&lt;li>GPG&lt;/li>
+&lt;li>Gnome Keyring&lt;/li>
+&lt;li>KeepassXC&lt;/li>
+&lt;/ul>
+&lt;p>其余还有 Lastpass, OnePassword 等&lt;a class="link" href="https://www.chezmoi.io/docs/how-to/" target="_blank" rel="noopener"
+>用法&lt;/a>。&lt;/p>
+&lt;h4 id="gpg">GPG&lt;/h4>
+&lt;p>支持对称和非对称密钥加密两种方式。&lt;/p>
+&lt;p>非对称加密方式中，可用如下命令查看接受方名称，所用 shell 支持的话也可以 &lt;code>$ gpg --recipient &amp;lt;Tab&amp;gt;&lt;/code> 进行补全。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>gpg &lt;span class="na">--list-public-keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">pub&lt;/span> ed25519 &lt;span class="m">2019&lt;/span>-&lt;span class="m">07&lt;/span>-&lt;span class="m">04&lt;/span> &lt;span class="o">[&lt;/span>SC&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>expires: &lt;span class="m">2024&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">07&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="m">02&lt;/span>&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">1FDBDCE2D26BD8F100EE2E73B1B9AAD8BE7E7326&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">uid&lt;/span> &lt;span class="o">[&lt;/span>ultimate&lt;span class="o">]&lt;/span> ArielAxionL &lt;span class="o">&amp;lt;&lt;/span>i@axionl.me&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以接受方竟是我自己为例，在配置文件 &lt;code>chezmoi.toml&lt;/code> 中填入：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recipient&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;ArielAxionL&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将文件加密并添加，chezmoi 默认使用了 &lt;code>gpg --armor&lt;/code> 参数使得加密文件可读，可以通过配置中，的 &lt;code>command&lt;/code> 字段来定义 gpg 的其他参数。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi add &lt;span class="na">--encrypt&lt;/span> test.toml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt.png"
+width="903"
+height="643"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-encrypt_huee69e1b318899adb832639385df9f612_157054_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="加密内容"
+class="gallery-image"
+data-flex-grow="140"
+data-flex-basis="337px"
+> &lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt.png"
+width="1064"
+height="643"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/gpg-decrypt_hu7646430154d2e9eeed6a196a2da92269_150043_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="解密内容"
+class="gallery-image"
+data-flex-grow="165"
+data-flex-basis="397px"
+>&lt;/p>
+&lt;p>对称加密：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">gpg&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">symmetric&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="gnome-keyring">Gnome Keyring&lt;/h4>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/zalando/go-keyring" target="_blank" rel="noopener"
+>github.com/zalando/go-keyring&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>Linux 中环境下，keyring 的实现目前还只支持 gnome-keyring，希望以后也能提供 kwallet 版本的接口。macOS 则支持 Keychain 存储帐号密码。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi secret keyring set &lt;span class="na">--service&lt;/span>&lt;span class="o">=&lt;/span>github &lt;span class="na">--user&lt;/span>&lt;span class="o">=&amp;lt;&lt;/span>github-user&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">Password&lt;/span>: &lt;span class="o">&amp;lt;&lt;/span>github-token&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将 &lt;code>set&lt;/code> 替换成 &lt;code>get&lt;/code> 从命令行拿到所存密令，或者使用 &lt;a class="link" href="https://wiki.gnome.org/Apps/Seahorse" target="_blank" rel="noopener"
+>Seahorse&lt;/a> 客户端查看。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse.png"
+width="829"
+height="663"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/seahorse_hu3fea8af086834637024aba37480cea75_258598_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Seahorse 是一个管理 gnome-keyring 的软件"
+class="gallery-image"
+data-flex-grow="125"
+data-flex-basis="300px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go-text-template" data-lang="go-text-template">&lt;span class="line">&lt;span class="cl">&lt;span class="x"># ~/.local/share/chezmoi/dot_gitconfig.tmpl
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x">[github]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> user = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="x"> token = &amp;#34;&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nx">keyring&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;github&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.github.user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="x">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>chezmoi.toml&lt;/code> 配置文件中写明用户名，模板中便可自动取用 gnome-keyring 先前所存 token，keyring 一般会在用户登陆时自动解锁 &lt;a class="link" href="https://wiki.archlinux.org/index.php/GNOME/Keyring" target="_blank" rel="noopener"
+>GNOME/Keyring&lt;/a>。&lt;/p>
+&lt;h3 id="keepassxc">KeepassXC&lt;/h3>
+&lt;p>配置文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ~/.config/chezmoi/chezmoi.toml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">keepassxc&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">args&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;--key-file&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/key&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">database&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;/path/to/your/kdbx&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认字段有 &lt;code>Notes&lt;/code>, &lt;code>Password&lt;/code>, &lt;code>URL&lt;/code>, &lt;code>Username&lt;/code>, 测试获得密码字段，Entry 可以填入保存密码的 Title，keepassxc-cli 会返回一个匹配的结果。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ (keepassxc &amp;#34;&amp;lt;YourEntry&amp;gt;&amp;#34;).Password }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>KeepassXC 支持自定义字段，比如你的密钥：
+&lt;img src="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes.png"
+width="970"
+height="761"
+srcset="https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_480x0_resize_box_3.png 480w, https://axionl.me/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/attributes_hu197f908b303265833a38e5477e51affc_84315_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="KeepassXC Entry Attributes"
+class="gallery-image"
+data-flex-grow="127"
+data-flex-basis="305px"
+>&lt;/p>
+&lt;p>在模板中用 &lt;code>keepassxcAttribute&lt;/code> 获取：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>chezmoi execute-template &lt;span class="s1">&amp;#39;{{ keepassxcAttribute &amp;#34;VPS Keyring&amp;#34; &amp;#34;public-key&amp;#34; }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="结束">结束&lt;/h2>
+&lt;p>得益于数据模板的引入，chezmoi 作为一款 dotfiles manager，其配置管理功能相较之下更加强大，也有更多新的功能和应用场景可以发掘。&lt;/p></description></item></channel></rss>

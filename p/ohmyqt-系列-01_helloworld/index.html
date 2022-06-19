@@ -1,36 +1,33 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前言  项目地址: axionl/OhMyQt
-  项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2  本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。
-从看见到设计 我们需要一个简单的展示页面作为上手的第一个项目：
- 一个醒目的标题 一段用于描述的文字 还有一个好看的背景  假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。
- preview 
-布局 我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：
- 内容整体居中 标题和描述上下排布 内容之间最好有一定的间距   layout 
-如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
-// 基本元素如下 Window { // 窗口一个大盒子  Box { // 里面套个小盒子  Title {} // 盒子里面有标题  Description {} // 标题下面有描述  } } 进一步加上居中对齐和间距："><title>[OhMyQt 系列] 01_HelloWorld</title><link rel=canonical href=https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/><link rel=stylesheet href=/scss/style.min.1e1911b7d032f615a5a43333b6c1f75dd97487afb82f4ff727ef49bd5049d355.css><meta property="og:title" content="[OhMyQt 系列] 01_HelloWorld"><meta property="og:description" content="前言  项目地址: axionl/OhMyQt
-  项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2  本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。
-从看见到设计 我们需要一个简单的展示页面作为上手的第一个项目：
- 一个醒目的标题 一段用于描述的文字 还有一个好看的背景  假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。
- preview 
-布局 我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：
- 内容整体居中 标题和描述上下排布 内容之间最好有一定的间距   layout 
-如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
-// 基本元素如下 Window { // 窗口一个大盒子  Box { // 里面套个小盒子  Title {} // 盒子里面有标题  Description {} // 标题下面有描述  } } 进一步加上居中对齐和间距："><meta property="og:url" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/"><meta property="og:site_name" content="初等記憶體"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Qt"><meta property="article:tag" content="QML"><meta property="article:published_time" content="2021-07-20T10:58:40+08:00"><meta property="article:modified_time" content="2021-07-20T10:58:40+08:00"><meta property="og:image" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png"><meta name=twitter:site content="@ArielAxionL"><meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="[OhMyQt 系列] 01_HelloWorld"><meta name=twitter:description content="前言  项目地址: axionl/OhMyQt
-  项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2  本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。
-从看见到设计 我们需要一个简单的展示页面作为上手的第一个项目：
- 一个醒目的标题 一段用于描述的文字 还有一个好看的背景  假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。
- preview 
-布局 我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：
- 内容整体居中 标题和描述上下排布 内容之间最好有一定的间距   layout 
-如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
-// 基本元素如下 Window { // 窗口一个大盒子  Box { // 里面套个小盒子  Title {} // 盒子里面有标题  Description {} // 标题下面有描述  } } 进一步加上居中对齐和间距："><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png"><link rel="shortcut icon" href=/img/favicon.ico></head><body class="article-page has-toc"><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class=main-container-background><div class="container main-container flex
-extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg><span>返回</span></a></div><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png 800w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_1600x0_resize_box_3.png 1600w" width=800 height=267 loading=lazy alt="Featured image of post [OhMyQt 系列] 01_HelloWorld"></a></div><div class=article-details><header class=article-category><a href=/categories/tutorial/ style=background-color:#2a9d8f;color:#fff>Tutorial</a></header><h2 class=article-title><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/>[OhMyQt 系列] 01_HelloWorld</a></h2><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Jul 20, 202020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><h2 id=前言>前言</h2><blockquote><p>项目地址: <a class=link href=https://github.com/axionl/OhMyQt target=_blank rel=noopener>axionl/OhMyQt</a></p></blockquote><ul><li>项目在 Windows 11 和 ArchLinux 下进行测试</li><li>Qt 版本: 5.15.2</li></ul><p>本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。</p><h2 id=从看见到设计>从看见到设计</h2><p>我们需要一个简单的展示页面作为上手的第一个项目：</p><ul><li>一个醒目的标题</li><li>一段用于描述的文字</li><li>还有一个好看的背景</li></ul><p>假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。</p><p><figure class=gallery-image style=flex-grow:177;flex-basis:426px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png data-size=1920x1080><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png width=1920 height=1080 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_3.png 1024w" loading=lazy alt=preview></a><figcaption>preview</figcaption></figure></p><h3 id=布局>布局</h3><p>我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：</p><ul><li>内容整体居中</li><li>标题和描述上下排布</li><li>内容之间最好有一定的间距</li></ul><p><figure class=gallery-image style=flex-grow:132;flex-basis:319px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png data-size=730x549><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png width=730 height=549 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_3.png 1024w" loading=lazy alt=layout></a><figcaption>layout</figcaption></figure></p><p>如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（<strong>注意不是直接能用的代码</strong>）：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=c1>// 基本元素如下
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前言 项目地址: axionl/OhMyQt 项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中"><title>[OhMyQt 系列] 01_HelloWorld</title><link rel=canonical href=https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/><link rel=stylesheet href=/scss/style.min.38ded3a22afc26698b162b1307e08a91125f145cb171a85d76c47f08bd5d991d.css><meta property="og:title" content="[OhMyQt 系列] 01_HelloWorld"><meta property="og:description" content="前言 项目地址: axionl/OhMyQt 项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中"><meta property="og:url" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/"><meta property="og:site_name" content="初等記憶體"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Qt"><meta property="article:tag" content="QML"><meta property="article:published_time" content="2021-07-20T10:58:40+08:00"><meta property="article:modified_time" content="2021-07-20T10:58:40+08:00"><meta property="og:image" content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png"><meta name=twitter:site content="@ArielAxionL"><meta name=twitter:creator content="@ArielAxionL"><meta name=twitter:title content="[OhMyQt 系列] 01_HelloWorld"><meta name=twitter:description content="前言 项目地址: axionl/OhMyQt 项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"dark")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class=main-container-background><div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header class=site-info><a href=https://axionl.me><div class=site-avatar-container><figure class=site-avatar><img src=/img/avatar_hub1dc8a650b495c118164fb85da876e1e_643833_300x0_resize_q75_box.jpg width=300 height=485 class=site-logo loading=lazy alt=Avatar>
+<span class=emoji>🐱</span></figure></div></a><h1 class=site-name><a href=https://axionl.me>初等記憶體</a></h1><h2 class=site-description>「 一個你知道的地方，和一個沒有酒的故事 ｜ 言文 」</h2><div class=site-icon><a href=https://twitter.com/arielaxionl target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a><a href=https://github.com/axionl target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a><a href=mailto:i@axionl.me target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a><a href=https://t.me/arielaxionl target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 10l-4 4 6 6 4-16-18 7 4 2 2 6 3-4"/></svg></a><a href=https://axionl.me/index.xml target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a><a href=https://github.com/axionl.gpg target=_blank><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="8" cy="15" r="4"/><line x1="10.85" y1="12.15" x2="19" y2="4"/><line x1="18" y1="5" x2="20" y2="7"/><line x1="15" y1="8" x2="17" y2="10"/></svg></a></div></header><ol class=menu id=main-menu><li><a href=/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg><span>主页</span></a></li><li><a href=/friends><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.85"/></svg><span>友链</span></a></li><li><a href=/about><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg><span>关于</span></a></li><li><a href=/archives><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>归档</span></a></li><li><a href=/search><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>搜索</span></a></li><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><span>暗色模式</span></li></ol><div class=to-top><button class=to-top-button id=to-top-button><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-up" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="7 11 12 6 17 11"/><polyline points="7 17 12 12 17 17"/></svg></button></div></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_800x0_resize_box_3.png 800w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner_hu2b2e55908b8d26e47274f4f94447b3fd_141327_1600x0_resize_box_3.png 1600w" width=800 height=267 loading=lazy alt="Featured image of post [OhMyQt 系列] 01_HelloWorld"></a></div><div class=article-details><header class=article-category><a href=/categories/tutorial/ style=background-color:#2a9d8f;color:#fff>Tutorial</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/>[OhMyQt 系列] 01_HelloWorld</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Jul 20, 202020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><h2 id=前言>前言</h2><blockquote><p>项目地址: <a class=link href=https://github.com/axionl/OhMyQt target=_blank rel=noopener>axionl/OhMyQt</a></p></blockquote><ul><li>项目在 Windows 11 和 ArchLinux 下进行测试</li><li>Qt 版本: 5.15.2</li></ul><p>本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。</p><h2 id=从看见到设计>从看见到设计</h2><p>我们需要一个简单的展示页面作为上手的第一个项目：</p><ul><li>一个醒目的标题</li><li>一段用于描述的文字</li><li>还有一个好看的背景</li></ul><p>假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。</p><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png width=1920 height=1080 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_3.png 1024w" loading=lazy alt=preview class=gallery-image data-flex-grow=177 data-flex-basis=426px></p><h3 id=布局>布局</h3><p>我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：</p><ul><li>内容整体居中</li><li>标题和描述上下排布</li><li>内容之间最好有一定的间距</li></ul><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png width=730 height=549 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_3.png 1024w" loading=lazy alt=layout class=gallery-image data-flex-grow=132 data-flex-basis=319px></p><p>如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（<strong>注意不是直接能用的代码</strong>）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=c1>// 基本元素如下
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Window</span> <span class=p>{</span>                <span class=c1>// 窗口一个大盒子
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>Box</span> <span class=p>{</span>               <span class=c1>// 里面套个小盒子
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>Title</span> <span class=p>{}</span>        <span class=c1>// 盒子里面有标题
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>Description</span> <span class=p>{}</span>  <span class=c1>// 标题下面有描述
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>进一步加上居中对齐和间距：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Window</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>进一步加上居中对齐和间距：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Window</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>Box</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=k>anchors.centerIn:</span> <span class=nx>parent</span> <span class=c1>// 居中对齐大盒子
 </span></span></span><span class=line><span class=cl><span class=c1></span>
@@ -43,7 +40,32 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>可以看到，这里引用了一个 <code>parent</code> 的概念，实际上指代上一层父级元素，套娃套在里面的才是娃，文字和描述的父级元素是小盒子，小盒子的父级元素是大窗口。再补上元素的属性和间距：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Window</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，这里引用了一个 <code>parent</code> 的概念，实际上指代上一层父级元素，套娃套在里面的才是娃，文字和描述的父级元素是小盒子，小盒子的父级元素是大窗口。再补上元素的属性和间距：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Window</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>width:</span> <span class=mi>960</span> <span class=c1>// 窗口宽度
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>height:</span> <span class=mi>720</span>  <span class=c1>// 窗口高度
 </span></span></span><span class=line><span class=cl><span class=c1></span>
@@ -68,7 +90,41 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>这些具体元素我们以后会写到如何实现，现在需要用 <code>QtQuick.Controls</code> 提供的一些默认元素替代：</p><ul><li>Box->Rectangle</li><li>Title / Description -> Text</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span> <span class=mf>2.12</span>
+</span></span></code></pre></td></tr></table></div></div><p>这些具体元素我们以后会写到如何实现，现在需要用 <code>QtQuick.Controls</code> 提供的一些默认元素替代：</p><ul><li>Box->Rectangle</li><li>Title / Description -> Text</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Window</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl>
@@ -102,7 +158,42 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>实现之后的效果可能长成了这个样子，对了，但没全对。因为我们这个 <code>Rectangle</code> 不太智能，是个“硬盒”，元素之间会挤在一起，而不是自动拉开保持社交距离。</p><p><figure class=gallery-image style=flex-grow:203;flex-basis:487px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png data-size=506x249><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png width=506 height=249 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_3.png 1024w" loading=lazy alt=awesome_qml></a><figcaption>awesome_qml</figcaption></figure></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span> <span class=mf>2.12</span>
+</span></span></code></pre></td></tr></table></div></div><p>实现之后的效果可能长成了这个样子，对了，但没全对。因为我们这个 <code>Rectangle</code> 不太智能，是个“硬盒”，元素之间会挤在一起，而不是自动拉开保持社交距离。</p><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png width=506 height=249 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_3.png 1024w" loading=lazy alt=awesome_qml class=gallery-image data-flex-grow=203 data-flex-basis=487px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Window</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Layouts</span> <span class=mf>1.12</span>
@@ -137,7 +228,17 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>可以把 <code>ColumnLayout</code> 当作一个更加智能的盒子，它能够把挤在一起的元素上下依次排开。而与之相对的 <code>RowLayout</code> 则是将元素左右排开。</p><p><figure class=gallery-image style=flex-grow:166;flex-basis:400px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png data-size=490x294><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png width=490 height=294 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_3.png 1024w" loading=lazy alt=column_layout></a><figcaption>column_layout</figcaption></figure></p><p>对比原本想像中的布局要求，可以说是基本实现了(<del>打个九折不过分吧</del>)。</p><h3 id=样式>样式</h3><p>基本的元素提供了默认的样式和属性，回顾想象图目前还缺少：</p><ul><li>按钮</li><li>背景图</li></ul><p>以一个基本的矩形为例，有如下常用属性（<a class=link href=https://doc.qt.io/qt-5/qml-qtquick-rectangle.html target=_blank rel=noopener>QtQuick-Rectangle</a>）</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以把 <code>ColumnLayout</code> 当作一个更加智能的盒子，它能够把挤在一起的元素上下依次排开。而与之相对的 <code>RowLayout</code> 则是将元素左右排开。</p><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png width=490 height=294 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_3.png 1024w" loading=lazy alt=column_layout class=gallery-image data-flex-grow=166 data-flex-basis=400px></p><p>对比原本想像中的布局要求，可以说是基本实现了(<del>打个九折不过分吧</del>)。</p><h3 id=样式>样式</h3><p>基本的元素提供了默认的样式和属性，回顾想象图目前还缺少：</p><ul><li>按钮</li><li>背景图</li></ul><p>以一个基本的矩形为例，有如下常用属性（<a class=link href=https://doc.qt.io/qt-5/qml-qtquick-rectangle.html target=_blank rel=noopener>QtQuick-Rectangle</a>）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>width:</span> <span class=mi>16</span>
@@ -147,7 +248,22 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>border.width:</span> <span class=mi>1</span>            <span class=c1>// 边框宽度
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>border.color:</span> <span class=s2>&#34;whitesmoke&#34;</span> <span class=c1>// 边框颜色
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
-</span></span></code></pre></div><p>带阴影的矩形可以这样实现：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
+</span></span></code></pre></td></tr></table></div></div><p>带阴影的矩形可以这样实现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtQuick</span><span class=p>.</span><span class=nx>Controls</span> <span class=mf>2.12</span>
 </span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>QtGraphicalEffects</span> <span class=mf>1.0</span> <span class=c1>// 包含 DropShadow 效果
 </span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
@@ -162,7 +278,25 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>color:</span> <span class=s2>&#34;#10000000&#34;</span>  <span class=c1>// ARGB（透明度，红，绿，蓝）
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>为矩形添加渐变色：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>为矩形添加渐变色：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// ...
 </span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=k>rotation:</span> <span class=mi>0</span>                 <span class=c1>// 渐变角度
@@ -180,7 +314,19 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p><code>qml.qrc</code> 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：</p><p><figure class=gallery-image style=flex-grow:198;flex-basis:476px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png data-size=729x367><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png width=729 height=367 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_3.png 1024w" loading=lazy alt=qml.qrc></a><figcaption>qml.qrc</figcaption></figure></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>qml.qrc</code> 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：</p><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png width=729 height=367 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_3.png 1024w" loading=lazy alt=qml.qrc class=gallery-image data-flex-grow=198 data-flex-basis=476px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kd>id: background</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// ...
@@ -192,7 +338,44 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>z:</span><span class=o>-</span><span class=mi>1</span>  <span class=c1>// 由于需要将渐变色作为滤镜效果，所以图片的层级下调
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：</p><p><figure class=gallery-image style=flex-grow:120;flex-basis:289px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png data-size=770x639><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png width=770 height=639 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_3.png 1024w" loading=lazy alt=no_z_index></a><figcaption>no_z_index</figcaption></figure></p><h2 id=事件和交互>事件和交互</h2><h3 id=事件触发>事件触发</h3><p>虽然 <code>QtQuick.Controls</code> 中提供了 <code>Button</code> 控件，但是我们仍然可以先为自己创立一个简单的按钮，通过鼠标点击这一事件理解其基本实现。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：</p><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png width=770 height=639 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_3.png 1024w" loading=lazy alt=no_z_index class=gallery-image data-flex-grow=120 data-flex-basis=289px></p><h2 id=事件和交互>事件和交互</h2><h3 id=事件触发>事件触发</h3><p>虽然 <code>QtQuick.Controls</code> 中提供了 <code>Button</code> 控件，但是我们仍然可以先为自己创立一个简单的按钮，通过鼠标点击这一事件理解其基本实现。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kd>id: button</span>
 </span></span><span class=line><span class=cl>    <span class=k>implicitHeight:</span> <span class=mi>48</span>
 </span></span><span class=line><span class=cl>    <span class=k>implicitWidth:</span> <span class=mi>156</span>
@@ -229,14 +412,30 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p><code>Qt.lighter()</code> 和 <code>Qt.darker()</code>是 <code>color</code> 属性内置的两个方法，用于相对调整颜色的深浅。运行时，鼠标放到按钮上方即可看见按钮颜色变化。</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#darker-method target=_blank rel=noopener>darker-method</a> | <a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#lighter-method target=_blank rel=noopener>lighter-method</a></p></blockquote><p>这里有一个常见用法可以将需要设置的属性用 <code>property</code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 <code>state</code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>Qt.lighter()</code> 和 <code>Qt.darker()</code>是 <code>color</code> 属性内置的两个方法，用于相对调整颜色的深浅。运行时，鼠标放到按钮上方即可看见按钮颜色变化。</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#darker-method target=_blank rel=noopener>darker-method</a> | <a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#lighter-method target=_blank rel=noopener>lighter-method</a></p></blockquote><p>这里有一个常见用法可以将需要设置的属性用 <code>property</code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 <code>state</code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// ...
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>property</span> <span class=nx>string</span> <span class=k>buttonColor:</span> <span class=s2>&#34;#ef7e9ceb&#34;</span>
 </span></span><span class=line><span class=cl>    <span class=nx>property</span> <span class=nx>string</span> <span class=nx>buttonText</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>color:</span> <span class=nx>buttonColor</span>  <span class=c1>// 引用属性值
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
-</span></span></code></pre></div><h3 id=事件交互响应>事件交互（响应）</h3><p>那么如何使得按钮能够响应我需要的事件呢，比如说点击按钮后用系统默认浏览器打开一个网址：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=事件交互响应>事件交互（响应）</h3><p>那么如何使得按钮能够响应我需要的事件呢，比如说点击按钮后用系统默认浏览器打开一个网址：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
 </span></span><span class=line><span class=cl>    
 </span></span><span class=line><span class=cl>    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
@@ -245,7 +444,16 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=nx>openURL</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 我们需要实现一个形如这样的方法
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>好在作为一个常见功能，QML 已经将其置为默认对象的方法之一，点击后即可调用默认浏览器打开所设置的网址</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#openUrlExternally-method target=_blank rel=noopener>openUrlExternally-method</a></p></blockquote><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>好在作为一个常见功能，QML 已经将其置为默认对象的方法之一，点击后即可调用默认浏览器打开所设置的网址</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qml-qtqml-qt.html#openUrlExternally-method target=_blank rel=noopener>openUrlExternally-method</a></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
 </span></span><span class=line><span class=cl>    
 </span></span><span class=line><span class=cl>    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
@@ -254,7 +462,21 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=nx>Qt</span><span class=p>.</span><span class=nx>openUrlExternally</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 使用默认提供的方法
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><h3 id=自定义类型和方法>自定义类型和方法</h3><p>在 C++ 中先写一个基于 <code>QObject</code> 父类的类对象，并实现所需的方法。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// my_button.hpp
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义类型和方法>自定义类型和方法</h3><p>在 C++ 中先写一个基于 <code>QObject</code> 父类的类对象，并实现所需的方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// my_button.hpp
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>MyButton</span> <span class=o>:</span> <span class=k>public</span> <span class=n>QObject</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>Q_OBJECT</span>
@@ -268,9 +490,27 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>};</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span></code></pre></div><p>我们用 <code>Q_INVOKABLE</code> 宏声明了一个可以被外部调用（指 QML 中用 javascript 调用）的方法 <code>void openUrl(const QUrl& url)</code>。</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qdesktopservices.html target=_blank rel=noopener>QDesktopServices</a>
+</span></span></code></pre></td></tr></table></div></div><p>我们用 <code>Q_INVOKABLE</code> 宏声明了一个可以被外部调用（指 QML 中用 javascript 调用）的方法 <code>void openUrl(const QUrl& url)</code>。</p><blockquote><p><a class=link href=https://doc.qt.io/qt-5/qdesktopservices.html target=_blank rel=noopener>QDesktopServices</a>
 |
-该方法是对 <code>QDesktopServices</code> 类中打开链接方法的套用，其在不同平台下其会调用系统浏览器来打开链接。当然也可以自行实现，比如 Linux 平台如果装了 <code>extra/xdg-utils</code> 可以利用 <code>xdg-open</code> 来打开链接。</p></blockquote><div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// main.cpp
+该方法是对 <code>QDesktopServices</code> 类中打开链接方法的套用，其在不同平台下其会调用系统浏览器来打开链接。当然也可以自行实现，比如 Linux 平台如果装了 <code>extra/xdg-utils</code> 可以利用 <code>xdg-open</code> 来打开链接。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// main.cpp
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>import</span> <span class=s>&#34;my_button.hpp&#34;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
@@ -288,7 +528,25 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>app</span><span class=p>.</span><span class=n>exec</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>简单注册如上，<code>qmlRegisterType&lt;类名>("包名", 主版本号, 次版本号, "对象名");</code>，然后在所需的 qml 文件中引入。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>MyApp</span> <span class=mf>1.0</span>
+</span></span></code></pre></td></tr></table></div></div><p>简单注册如上，<code>qmlRegisterType&lt;类名>("包名", 主版本号, 次版本号, "对象名");</code>，然后在所需的 qml 文件中引入。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=kr>import</span> <span class=nx>MyApp</span> <span class=mf>1.0</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nx>Item</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// 以对象名为组件名
@@ -306,7 +564,29 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>   
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>也可以先在 C++ 中实例化一个对象，再传入对象引用。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// main.cpp
+</span></span></code></pre></td></tr></table></div></div><p>也可以先在 C++ 中实例化一个对象，再传入对象引用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// main.cpp
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>import</span> <span class=s>&#34;my_button.hpp&#34;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
@@ -328,7 +608,16 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>app</span><span class=p>.</span><span class=n>exec</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>此时我们不再需要注册声明该对象，也无需在 QML 中引入和实例化，而是直接调用该对象的方法。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
+</span></span></code></pre></td></tr></table></div></div><p>此时我们不再需要注册声明该对象，也无需在 QML 中引入和实例化，而是直接调用该对象的方法。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-qml data-lang=qml><span class=line><span class=cl><span class=nx>Rectangle</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>property</span> <span class=nx>string</span> <span class=k>url:</span> <span class=s2>&#34;https://axionl.me&#34;</span>
 </span></span><span class=line><span class=cl>    
 </span></span><span class=line><span class=cl>    <span class=k>text:</span> <span class=s2>&#34;ClickMe!&#34;</span>
@@ -337,12 +626,12 @@ extended"><div id=article-toolbar><a href=/ class=back-home><svg xmlns="http://w
 </span></span><span class=line><span class=cl>        <span class=nx>myButtonObjecton</span><span class=p>.</span><span class=nx>openUrl</span><span class=p>(</span><span class=nx>url</span><span class=p>);</span> <span class=c1>// 直接调用对象方法
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><h2 id=小结>小结</h2><p><figure class=gallery-image style=flex-grow:199;flex-basis:478px><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png data-size=940x471><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png width=940 height=471 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_1024x0_resize_box_3.png 1024w" loading=lazy alt=preview></a><figcaption>preview</figcaption></figure></p><p>至此已经实现了 Demo 的全部功能：</p><ul><li>一个用于展示的界面</li><li>能用默认浏览器打开链接的按钮</li></ul><p>本节基本介绍了 QML 的组织结构和简单事件交互的实现方法，下一节将以一个新的例子来介绍信号量和信号槽这一对重要的概念，以及 C++ 后端代码到 QML 的数据绑定实现。</p><blockquote><p>另外还建立了个人讨论群方便大家互相交流: <a class=link href=https://t.me/Qt_CN target=_blank rel=noopener>https://t.me/Qt_CN</a></p></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/qt/>Qt</a>
-<a href=/tags/qml/>QML</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script></article><aside class=related-contents--wrapper><h2 class=section-title>相关文章</h2><div class=related-contents><div class="flex article-list--tile"><article class=has-image><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/><div class=article-image><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] _00__搭建环境" data-hash="md5-kgGUncNnKiOnd9vCr8rhwg=="></div><div class=article-details><h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2></div></a></article><article class=has-image><a href=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/><div class=article-image><img src=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/banner.8929fb7793b112a2406ae57335f99dc9_hu4ea74c24f3c75b3077d8f2e58314c6d9_4687092_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post Maddy 自建邮件服务" data-hash="md5-iSn7d5OxEqJAauVzNfmdyQ=="></div><div class=article-details><h2 class=article-title>Maddy 自建邮件服务</h2></div></a></article><article class=has-image><a href=/p/the-wayland-protocol/><div class=article-image><img src=/p/the-wayland-protocol/wayland.2a9f76dee0fd08ca9e145ff26e79fb22_hu0adbd50c5ecec4ec41a5eaa3a1a2a25b_328685_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post The Wayland Protocol" data-hash="md5-Kp923uD9CMqeFF/ybnn7Ig=="></div><div class=article-details><h2 class=article-title>The Wayland Protocol</h2></div></a></article><article class=has-image><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/><div class=article-image><img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.4230682136e27cdb80fa13d080d92f16_huf5720345d1f95701fdc400deb49d5893_1019259_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Linux 用户环境变量设置" data-hash="md5-QjBoITbifNuA+hPQgNkvFg=="></div><div class=article-details><h2 class=article-title>Linux 用户环境变量设置</h2></div></a></article><article class=has-image><a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/><div class=article-image><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.6c13d53e882032ddb45706dd2bca5954_hud6f9c8919d070f75481ccdcf5e8a2ef3_499154_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" data-hash="md5-bBPVPoggMt20VwbdK8pZVA=="></div><div class=article-details><h2 class=article-title>[归档] 用 Chezmoi 管理配置文件</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//axionl.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{DISQUS&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+</span></span></code></pre></td></tr></table></div></div><h2 id=小结>小结</h2><p><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png width=940 height=471 srcset="/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_480x0_resize_box_3.png 480w, /p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_1024x0_resize_box_3.png 1024w" loading=lazy alt=preview class=gallery-image data-flex-grow=199 data-flex-basis=478px></p><p>至此已经实现了 Demo 的全部功能：</p><ul><li>一个用于展示的界面</li><li>能用默认浏览器打开链接的按钮</li></ul><p>本节基本介绍了 QML 的组织结构和简单事件交互的实现方法，下一节将以一个新的例子来介绍信号量和信号槽这一对重要的概念，以及 C++ 后端代码到 QML 的数据绑定实现。</p><blockquote><p>另外还建立了个人讨论群方便大家互相交流: <a class=link href=https://t.me/Qt_CN target=_blank rel=noopener>https://t.me/Qt_CN</a></p></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/qt/>Qt</a>
+<a href=/tags/qml/>QML</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css integrity="sha256-J+iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s=" crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js integrity="sha256-InsNdER1b2xUewP+pKCUJpkhiqwHgqiPXDlIk7GzBu4=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI=" crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.querySelector(`.article-content`),{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/><div class=article-image><img src=/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.9201949dc3672a23a777dbc2afcae1c2_hu6f6358395c0ed0013ba891c5758422fd_159593_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post [OhMyQt 系列] _00__搭建环境" data-hash="md5-kgGUncNnKiOnd9vCr8rhwg=="></div><div class=article-details><h2 class=article-title>[OhMyQt 系列] _00__搭建环境</h2></div></a></article><article class=has-image><a href=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/><div class=article-image><img src=/p/maddy-%E8%87%AA%E5%BB%BA%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1/banner.8929fb7793b112a2406ae57335f99dc9_hu4ea74c24f3c75b3077d8f2e58314c6d9_4687092_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post Maddy 自建邮件服务" data-hash="md5-iSn7d5OxEqJAauVzNfmdyQ=="></div><div class=article-details><h2 class=article-title>Maddy 自建邮件服务</h2></div></a></article><article class=has-image><a href=/p/the-wayland-protocol/><div class=article-image><img src=/p/the-wayland-protocol/wayland.2a9f76dee0fd08ca9e145ff26e79fb22_hu0adbd50c5ecec4ec41a5eaa3a1a2a25b_328685_250x150_fill_box_smart1_3.png width=250 height=150 loading=lazy alt="Featured image of post The Wayland Protocol" data-hash="md5-Kp923uD9CMqeFF/ybnn7Ig=="></div><div class=article-details><h2 class=article-title>The Wayland Protocol</h2></div></a></article><article class=has-image><a href=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/><div class=article-image><img src=/p/linux-%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE/wallhaven-vmyg6l.4230682136e27cdb80fa13d080d92f16_huf5720345d1f95701fdc400deb49d5893_1019259_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post Linux 用户环境变量设置" data-hash="md5-QjBoITbifNuA+hPQgNkvFg=="></div><div class=article-details><h2 class=article-title>Linux 用户环境变量设置</h2></div></a></article><article class=has-image><a href=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/><div class=article-image><img src=/p/%E5%BD%92%E6%A1%A3-%E7%94%A8-chezmoi-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/wallhaven-j85o5q.6c13d53e882032ddb45706dd2bca5954_hud6f9c8919d070f75481ccdcf5e8a2ef3_499154_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post [归档] 用 Chezmoi 管理配置文件" data-hash="md5-bBPVPoggMt20VwbdK8pZVA=="></div><div class=article-details><h2 class=article-title>[归档] 用 Chezmoi 管理配置文件</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//axionl.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
 2020 -
-2022 初等記憶體</section><section class=powerby>Ariel AxionL's Blog<br>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.6.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+2022 初等記憶體</section><section class=powerby>Ariel AxionL's Blog<br>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.12.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#前言>前言</a></li><li><a href=#从看见到设计>从看见到设计</a><ol><li><a href=#布局>布局</a></li><li><a href=#样式>样式</a></li></ol></li><li><a href=#事件和交互>事件和交互</a><ol><li><a href=#事件触发>事件触发</a></li><li><a href=#事件交互响应>事件交互（响应）</a></li><li><a href=#自定义类型和方法>自定义类型和方法</a></li></ol></li><li><a href=#小结>小结</a></li></ol></nav></div></section></aside></div></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin=anonymous defer></script><script type=text/javascript src=/ts/main.js defer></script>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#前言>前言</a></li><li><a href=#从看见到设计>从看见到设计</a><ol><li><a href=#布局>布局</a></li><li><a href=#样式>样式</a></li></ol></li><li><a href=#事件和交互>事件和交互</a><ol><li><a href=#事件触发>事件触发</a></li><li><a href=#事件交互响应>事件交互（响应）</a></li><li><a href=#自定义类型和方法>自定义类型和方法</a></li></ol></li><li><a href=#小结>小结</a></li></ol></nav></div></section></aside></div></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
 <script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

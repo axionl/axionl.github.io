@@ -1,7 +1,229 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ArchLinux on 初等記憶體</title><link>https://axionl.me/tags/archlinux/</link><description>Recent content in ArchLinux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/archlinux/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>前言 项目地址: axionl/OhMyQt
-项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文是 OhMyQt 系列的第 00 章节，主要介绍在 Windows 11 和 ArchLinux 下如何搭建一个可用的 Qt 开发环境。
-在 ArchLinux 上搭建 基本软件安装 首先你需要安装 qt5-base，同时推荐安装对应的文档包 qt5-doc
-$ sudo pacman -S qt5-base $ sudo pacman -S qt5-doc # 可选 然后安装一个合用的编辑器，这里推荐使用 qtcreator
-$ sudo pacman -S qtcreator 因为本教程主要是介绍 QML 的开发，所以还需要安装 qt5-declarative
-$ sudo pacman -S qt5-declarative 安装完成之后验证版本信息
-$ qmake -v QMake version 3.1 Using Qt version 5.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ArchLinux on 初等記憶體</title><link>https://axionl.me/tags/archlinux/</link><description>Recent content in ArchLinux on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/archlinux/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
+>axionl/OhMyQt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>项目在 Windows 11 和 ArchLinux 下进行测试&lt;/li>
+&lt;li>Qt 版本: 5.15.2&lt;/li>
+&lt;/ul>
+&lt;p>本文是 OhMyQt 系列的第 00 章节，主要介绍在 Windows 11 和 ArchLinux 下如何搭建一个可用的 Qt 开发环境。&lt;/p>
+&lt;h2 id="在-archlinux-上搭建">在 ArchLinux 上搭建&lt;/h2>
+&lt;h3 id="基本软件安装">基本软件安装&lt;/h3>
+&lt;p>首先你需要安装 qt5-base，同时推荐安装对应的文档包 qt5-doc&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-base
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-doc &lt;span class="c1"># 可选&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后安装一个合用的编辑器，这里推荐使用 qtcreator&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qtcreator
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为本教程主要是介绍 QML 的开发，所以还需要安装 qt5-declarative&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-declarative
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装完成之后验证版本信息&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ qmake -v
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">QMake version 3.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Using Qt version 5.15.2 in /usr/lib
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ pacman -Qs qt5-declarative
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">local/qt5-declarative 5.15.2+kde+r29-1 &lt;span class="o">(&lt;/span>qt qt5&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Classes &lt;span class="k">for&lt;/span> QML and JavaScript languages
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ qtcreator -version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Qt Creator 4.15.2 based on Qt 5.15.2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="软件配置">软件配置&lt;/h3>
+&lt;p>首先打开 qtcreator，新建一个 QtQuick 项目&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1.png"
+width="1901"
+height="1039"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1_hu9cc792a18713befa1403035370c08e65_117515_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1_hu9cc792a18713befa1403035370c08e65_117515_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="新建项目"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>然后输入名称和路径&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2.png"
+width="791"
+height="519"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2_hu82ebd35a7a537086a44dfe1df5c51482_34221_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2_hu82ebd35a7a537086a44dfe1df5c51482_34221_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="项目名和路径"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+>&lt;/p>
+&lt;p>下一步编译系统建议选择 cmake&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3.png"
+width="801"
+height="528"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3_hu83a700fec5c8bc92f5882469d3c9647c_24219_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3_hu83a700fec5c8bc92f5882469d3c9647c_24219_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="编译系统"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+>&lt;/p>
+&lt;p>QT 版本保持默认&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4.png"
+width="802"
+height="527"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4_hu4e4328150d0e1974479982c49c290434_27008_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4_hu4e4328150d0e1974479982c49c290434_27008_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="QT 版本"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+>&lt;/p>
+&lt;p>因为暂时是教学项目，暂时不添加语言文件&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5.png"
+width="797"
+height="526"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5_hub4baf059e27fe7b35971168e3ae803de_34446_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5_hub4baf059e27fe7b35971168e3ae803de_34446_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="语言文件"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/p>
+&lt;p>kit 保持默认的 Desktop 就好，因为我们最终也是要做一个桌面应用&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6.png"
+width="795"
+height="527"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6_hu5d51efb104b39963d45195934fa21366_29308_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6_hu5d51efb104b39963d45195934fa21366_29308_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Kit"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="362px"
+>&lt;/p>
+&lt;p>会创建的文件如下所示，你也可以选择加入 git 作为版本控制&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7.png"
+width="793"
+height="524"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7_hu6a73af58d9accf7d29cff1cb151119d5_41002_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7_hu6a73af58d9accf7d29cff1cb151119d5_41002_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="summary"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/p>
+&lt;p>点击左下角的运行按钮，就可以看到运行的 HelloWorld 窗口了&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8.png"
+width="1899"
+height="1036"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8_hu17238bd37e7d8ec27abbdccce7f9c34e_89297_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8_hu17238bd37e7d8ec27abbdccce7f9c34e_89297_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="HelloWorld"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>恭喜你，已经搭建好了本教程的开发环境！&lt;/p>
+&lt;h2 id="在-windows-11-上搭建">在 Windows 11 上搭建&lt;/h2>
+&lt;h3 id="通过-installer-安装">通过 Installer 安装&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.qt.io/download" target="_blank" rel="noopener"
+>https://www.qt.io/download&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>注册账号并下载开源版本（需遵守 GPL 许可并限于个人使用）&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder.png"
+width="952"
+height="632"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder_hu65d40ae02004ed0aec9f4b6e8006dc1d_233150_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder_hu65d40ae02004ed0aec9f4b6e8006dc1d_233150_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="installation folder"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="361px"
+>&lt;/p>
+&lt;p>&lt;strong>此处安装路径至今未支持带空格&lt;/strong>，故不要选择常见的 &lt;code>C:\Program Files&lt;/code> 等目录&lt;/p>
+&lt;p>手动最小化安装则选择 &lt;code>Custom Installation&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components.png"
+width="1187"
+height="632"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components_hue6768a7fe11425ee2810af592f8759dd_307295_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components_hue6768a7fe11425ee2810af592f8759dd_307295_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="select components"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="450px"
+>&lt;/p>
+&lt;p>至少需要选择一个版本的 Qt 支持（如 &lt;code>MinGW 8.1.0 64-bit&lt;/code> 包含了 Qt 和其他所需的一些环境），而 &lt;code>QtCreator&lt;/code> 作为 IDE 在下方已经被默认勾选了，还有 &lt;code>CMake&lt;/code> 如果需要或是已经手动安装则可消去。等待联网装好后即可使用&lt;/p>
+&lt;h3 id="通过第三方包管理器安装">通过第三方包管理器安装&lt;/h3>
+&lt;p>&lt;code>chocolately&lt;/code> 也提供了 &lt;a class="link" href="https://community.chocolatey.org/packages/qtcreator" target="_blank" rel="noopener"
+>QtCreator&lt;/a> 的安装脚本和基本的 &lt;a class="link" href="https://community.chocolatey.org/packages/qt5-default" target="_blank" rel="noopener"
+>Qt5 SDK&lt;/a> 环境&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-PowerShell" data-lang="PowerShell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">choco&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-y&lt;/span> &lt;span class="nb">qt5-default&lt;/span> &lt;span class="n">qtcreato&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>脚本会自动下载安装，默认路径为 &lt;code>C:\Qt&lt;/code>&lt;/p>
+&lt;h3 id="配置工具链">配置工具链&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits.png"
+width="993"
+height="714"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits_hu4d86a381a539d2b3e5022c6c05038585_42673_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits_hu4d86a381a539d2b3e5022c6c05038585_42673_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="toolkits"
+class="gallery-image"
+data-flex-grow="139"
+data-flex-basis="333px"
+>&lt;/p>
+&lt;p>QtCreator 左边 &lt;code>Projects&lt;/code> 有配置工具链的地方，通常来说会自动检测是否已经安装对应工具并设置，如果需要自定义或者不在查找范围内的目录，则可以手动进行指定。&lt;/p>
+&lt;p>若在开发时终端需要运行 Qt 程序，则需要将库所在目录添加到环境变量 &lt;code>PATH&lt;/code> 中（如 &lt;code>C:\Qt\5.15.2\mingw81_64\bin&lt;/code>）&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment.png"
+width="618"
+height="585"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment_hu3b5b6aaa656ce69f1077215323465e69_28183_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment_hu3b5b6aaa656ce69f1077215323465e69_28183_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="environment"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="253px"
+>&lt;/p>
+&lt;p>若是打包和分发的话则需要带上对应的动态链接库。&lt;/p>
+&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>Linux 平台上开发相对方便，而 Windows 平台上开发则受到没有合适包管理的限制，需要自己折腾一下。下一节将会正式开始教程中的第一个 Demo，一个用于展示自己内容的 Hello World 程序。&lt;/p></description></item></channel></rss>

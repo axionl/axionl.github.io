@@ -1,7 +1,257 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cluster Manage on 初等記憶體</title><link>https://axionl.me/tags/cluster-manage/</link><description>Recent content in Cluster Manage on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Dec 2020 23:04:45 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/cluster-manage/index.xml" rel="self" type="application/rss+xml"/><item><title>Teleport 小记</title><link>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</link><pubDate>Sun, 06 Dec 2020 23:04:45 +0800</pubDate><guid>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</guid><description>简介 常用于跨平台集群管理，提供多设备认证、远程操作和反向代理。
-项目地址：github.com/gravitational/teleport
-官方网站：goteleport.com
-安装 有以下几种方式，单个可执行文件内已经包含 web 管理平台、服务端和客户端功能。(Windows 目前仅支持客户端)
-可执行文件下载 Docker 下载 编译安装 快速配置 服务端及 Web 管理平台 teleport:data_dir:/var/lib/teleport# 数据存放目录auth_service:enabled:truecluster_name:&amp;#34;demo_cluster&amp;#34;listen_addr:0.0.0.0:3025# 认证监听地址tokens:- proxy,node,app:&amp;lt;nodes_auth_token&amp;gt;# 节点认证密令ssh_service:enabled:truelabels:env:stagingapp_service:enabled:truedebug_app:falseproxy_service:enabled:truelisten_addr:0.0.0.0:3023# 反向代理监听地址web_listen_addr:0.0.0.0:3080# web 管理页面地址tunnel_listen_addr:0.0.0.0:3024# 隧道监听地址public_addr:&amp;lt;https://example.domain.org:3025&amp;gt;# 反向代理公共地址https_keypairs:# 本地测试时可不设置证书- key_file:&amp;lt;key_file_path&amp;gt;- cert_file:&amp;lt;cert_file_path&amp;gt;可由如下命令启用服务端进行测试，要点如下:
-在本地测试时即便没有填写 https_keypairs 也仍然需要在监听的 web 地址前面加上 https://，或者使用 --insecure-no-tls 命令行参数对 http:// 进行访问。 如果配置中含有非对应权限目录或者证书文件，则调整到对应权限，如 /var/lib/teleport 仅限 root 权限访问，则需要调整到对应的权限再启动命令。 所有的登陆行文均在 web_listen_addr 所指示的地址发生。 注意证书所对应的域名与可访问的相同 $ teleport start --config teleport.yaml tctl 是 teleport 的一个命令行管理工具，在 teleport 服务运行时，可以由它对用户、节点、密令等进行动态管理。
-# 创建一个初始用户 $ tctl users add &amp;lt;username&amp;gt; &amp;lt;login_user, login_group&amp;gt; --config teleport.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cluster Manage on 初等記憶體</title><link>https://axionl.me/tags/cluster-manage/</link><description>Recent content in Cluster Manage on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Dec 2020 23:04:45 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/cluster-manage/index.xml" rel="self" type="application/rss+xml"/><item><title>Teleport 小记</title><link>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</link><pubDate>Sun, 06 Dec 2020 23:04:45 +0800</pubDate><guid>https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/</guid><description>&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/banner.jpg" alt="Featured image of post Teleport 小记" />&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>常用于跨平台集群管理，提供多设备认证、远程操作和反向代理。&lt;/p>
+&lt;blockquote>
+&lt;p>项目地址：&lt;a class="link" href="https://github.com/gravitational/teleport" target="_blank" rel="noopener"
+>github.com/gravitational/teleport&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>官方网站：&lt;a class="link" href="https://goteleport.com/teleport" target="_blank" rel="noopener"
+>goteleport.com&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;p>有以下几种方式，单个可执行文件内已经包含 web 管理平台、服务端和客户端功能。(&lt;em>Windows 目前仅支持客户端&lt;/em>)&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://gravitational.com/teleport/download/" target="_blank" rel="noopener"
+>可执行文件下载&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://quay.io/repository/gravitational/teleport?tab=tags" target="_blank" rel="noopener"
+>Docker 下载&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://goteleport.com/teleport/installing" target="_blank" rel="noopener"
+>编译安装&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="快速配置">快速配置&lt;/h2>
+&lt;h3 id="服务端及-web-管理平台">服务端及 Web 管理平台&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 数据存放目录&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">auth_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cluster_name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;demo_cluster&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3025&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 认证监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tokens&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">proxy,node,app:&amp;lt;nodes_auth_token&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 节点认证密令&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">ssh_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">staging&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">app_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">debug_app&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">proxy_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3023&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 反向代理监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">web_listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3080&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># web 管理页面地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tunnel_listen_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.0.0.0&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="m">3024&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 隧道监听地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">public_addr&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;https://example.domain.org:3025&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 反向代理公共地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">https_keypairs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地测试时可不设置证书&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key_file&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;key_file_path&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">cert_file&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;cert_file_path&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;em>可由如下命令启用服务端进行测试，要点如下:&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>在本地测试时即便没有填写 &lt;code>https_keypairs&lt;/code> 也仍然需要在监听的 &lt;code>web&lt;/code> 地址前面加上 &lt;code>https://&lt;/code>，或者使用 &lt;code>--insecure-no-tls&lt;/code> 命令行参数对 &lt;code>http://&lt;/code> 进行访问。&lt;/li>
+&lt;li>如果配置中含有非对应权限目录或者证书文件，则调整到对应权限，如 &lt;code>/var/lib/teleport&lt;/code> 仅限 &lt;code>root&lt;/code> 权限访问，则需要调整到对应的权限再启动命令。&lt;/li>
+&lt;li>所有的登陆行文均在 &lt;code>web_listen_addr&lt;/code> 所指示的地址发生。&lt;/li>
+&lt;li>注意证书所对应的域名与可访问的相同&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ teleport start --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>tctl&lt;/code> 是 &lt;code>teleport&lt;/code> 的一个命令行管理工具，在 &lt;code>teleport&lt;/code> 服务运行时，可以由它对用户、节点、密令等进行动态管理。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 创建一个初始用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ tctl users add &amp;lt;username&amp;gt; &amp;lt;login_user, login_group&amp;gt; --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>添加好用户后可访问提示的地址，输入账户密码，用手机两步验证器扫码后填入验证码即可初始化成功。配置文件中支持除 &lt;code>otp&lt;/code> 外还支持 &lt;code>github auth&lt;/code> 认证等方式。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite.png"
+width="884"
+height="734"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/invite_hu9c7b42c1b5dbea967607293c8d3ece26_53712_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="注册界面"
+class="gallery-image"
+data-flex-grow="120"
+data-flex-basis="289px"
+> &lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login.png"
+width="700"
+height="705"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/login_hu758d252b3ca4432e4cc31b1647d0f276_29819_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="登陆界面"
+class="gallery-image"
+data-flex-grow="99"
+data-flex-basis="238px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>常用的两步验客户端&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://authy.com/download/" target="_blank" rel="noopener"
+>Authy&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.google.com/landing/2step/" target="_blank" rel="noopener"
+>Google Authenticator&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.microsoft.com/en-us/account/authenticator" target="_blank" rel="noopener"
+>Microsoft Authenticator&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h3 id="子节点">子节点&lt;/h3>
+&lt;p>除了服务端平台自己可以作为节点外，还可以添加其他的子节点构成集群，大体上分为两类：&lt;/p>
+&lt;ul>
+&lt;li>子节点有公网可以访问&lt;/li>
+&lt;li>非公网节点需要反向代理(&lt;code>roles&lt;/code> 内需要含有 &lt;code>proxy&lt;/code>)。&lt;/li>
+&lt;/ul>
+&lt;h4 id="静态子节点">静态子节点&lt;/h4>
+&lt;p>静态子节点配置文件需要对应服务端里的地址和 &lt;code>&amp;lt;nodes_auth_token&amp;gt;&lt;/code>，随后直接在节点上运行即可。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">teleport&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">nodename&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;my_laptop&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">data_dir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/var/lib/teleport/&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">auth_token&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;nodes_auth_token&amp;gt;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">auth_servers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">&amp;lt;https://example.domain.org:3025&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 认证地址&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">proxy_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地子节点暂时无需启动反向代理服务端&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">ssh_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">local_node&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">auth_service&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 本地子节点暂时无需启动认证服务端&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="动态子节点">动态子节点&lt;/h4>
+&lt;p>动态子节点需要在服务端上进行添加，由以下命令生成一个临时的 &lt;code>token&lt;/code> 以添加子节点。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tctl nodes add --roles&lt;span class="o">=&lt;/span>node,proxy --ttl&lt;span class="o">=&lt;/span>5m --config teleport.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>得到形如下方的命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ teleport start &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --roles&lt;span class="o">=&lt;/span>node,proxy &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --token&lt;span class="o">=&lt;/span>&amp;lt;random_token&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --auth-server&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>添加成功后可以在 &lt;code>web&lt;/code> 界面内看到所有的节点。
+&lt;img src="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster.png"
+width="822"
+height="181"
+srcset="https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_480x0_resize_box_3.png 480w, https://axionl.me/p/teleport-%E5%B0%8F%E8%AE%B0/cluster_hu985d9a3ce60a2302a9eeab16abdb0ca9_12685_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Server Page"
+class="gallery-image"
+data-flex-grow="454"
+data-flex-basis="1089px"
+>&lt;/p>
+&lt;h3 id="客户端">客户端&lt;/h3>
+&lt;p>安装包内自带一个名为 &lt;code>tsh&lt;/code> 的可执行文件，用于命令行认证和登陆&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh login --proxy&lt;span class="o">=&lt;/span>&amp;lt;https://example.domain.org:3025&amp;gt; --user&lt;span class="o">=&lt;/span>&amp;lt;username&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>登陆后可以使用 &lt;code>ls&lt;/code> 命令查看已添加的节点&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh ls
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Node Name Address Labels
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-------------- -------------- ----------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">demo_cluster 127.0.0.1:3022 &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>core_service
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">my_laptop ⟵ Tunnel &lt;span class="nv">env&lt;/span>&lt;span class="o">=&lt;/span>local_node
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用 &lt;code>ssh&lt;/code> 来登陆节点终端&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ tsh ssh &amp;lt;node_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="高级配置">高级配置&lt;/h2>
+&lt;h3 id="配合-k8s-管理服务">配合 K8S 管理服务&lt;/h3>
+&lt;p>TBC&amp;hellip;&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://wallhaven.cc/w/ymz1qx" target="_blank" rel="noopener"
+>Banner Artwork&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

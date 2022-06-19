@@ -1,7 +1,352 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Telegram on 初等記憶體</title><link>https://axionl.me/tags/telegram/</link><description>Recent content in Telegram on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 31 Dec 2020 17:26:38 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/telegram/index.xml" rel="self" type="application/rss+xml"/><item><title>[新手篇] 如何写一个简单的上膛机器人</title><link>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</link><pubDate>Thu, 31 Dec 2020 17:26:38 +0800</pubDate><guid>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</guid><description>介绍 一个检测关键词并自动回复表情包的 Telegram 机器人。
-开发 注册一个机器人 访问 Telegram 的官方注册机器人 @BotFather 。
-使用 /newbot 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以_bot结尾)，注册成功后会将机器人的 TOKEN 返回给你，而这个 TOKEN 用于告知服务器这个机器人就是（大明湖畔那个夏雨荷）对应注册的机器人。
-botfather
-... Use this token to access the HTTP API: `&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;` Keep your token secure and store it safely, ... 安装 Python 环境 官方网站: https://www.python.org/downloads
-对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 Python 即可（2021 年了应该都默认 Python3?)
-Windows 则 Python 官方提供了安装器，记得把 Python 加到环境变量 (PATH) 的框给勾选上。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Telegram on 初等記憶體</title><link>https://axionl.me/tags/telegram/</link><description>Recent content in Telegram on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 31 Dec 2020 17:26:38 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/telegram/index.xml" rel="self" type="application/rss+xml"/><item><title>[新手篇] 如何写一个简单的上膛机器人</title><link>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</link><pubDate>Thu, 31 Dec 2020 17:26:38 +0800</pubDate><guid>https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/</guid><description>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/banner.png" alt="Featured image of post [新手篇] 如何写一个简单的上膛机器人" />&lt;h2 id="介绍">介绍&lt;/h2>
+&lt;p>一个检测关键词并自动回复表情包的 &lt;code>Telegram&lt;/code> 机器人。&lt;/p>
+&lt;h2 id="开发">开发&lt;/h2>
+&lt;h3 id="注册一个机器人">注册一个机器人&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>访问 Telegram 的官方注册机器人 &lt;a class="link" href="https://t.me/BotFather" target="_blank" rel="noopener"
+>@BotFather&lt;/a> 。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用 &lt;code>/newbot&lt;/code> 命令创建一个新的机器人。它会询问你所要创建机器人的名字 (nickname) 和用户名 (username, 以&lt;code>_bot&lt;/code>结尾)，注册成功后会将机器人的 &lt;code>TOKEN&lt;/code> 返回给你，而这个 &lt;code>TOKEN&lt;/code> 用于告知服务器这个机器人就是（&lt;del>大明湖畔那个夏雨荷&lt;/del>）对应注册的机器人。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather.png"
+width="661"
+height="500"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/botfather_hucf6421b70a9b3e8ebac9202e8f165b34_180718_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="botfather"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="317px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Use this token to access the HTTP API:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sb">`&amp;lt;1145141919810:TheWholeSentenceIsToken&amp;gt;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Keep your token secure and store it safely, ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="安装-python-环境">安装 Python 环境&lt;/h3>
+&lt;blockquote>
+&lt;p>官方网站: &lt;a class="link" href="https://www.python.org/downloads" target="_blank" rel="noopener"
+>https://www.python.org/downloads&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>对于绝大多数 Linux 发行版来说从其自己的包管理器中安装 &lt;code>Python&lt;/code> 即可（&lt;del>2021 年了应该都默认 Python3?)&lt;/del>&lt;/p>
+&lt;p>Windows 则 Python 官方提供了安装器，记得把 &lt;code>Python&lt;/code> 加到环境变量 (PATH) 的框给勾选上。&lt;/p>
+&lt;p>为了避免开发环境不干净对后续开发和使用系统造成影响，建议创建一个用于该机器人项目的&lt;a class="link" href="https://docs.python.org/zh-cn/3/tutorial/venv.html" target="_blank" rel="noopener"
+>虚拟环境(virtual environment)&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>python &lt;span class="na">-m&lt;/span> venv .venv // 创建了一个名为 .venv 的隐藏文件夹
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于国内使用 PyPi 源速度不是很给力的情况，可以考虑替换镜像源为&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/" target="_blank" rel="noopener"
+>清华源&lt;/a>&lt;/p>
+&lt;p>也可以写入默认配置文件 &lt;code>~/.config/pip/pip.conf&lt;/code>（如果没有则&lt;a class="link" href="https://pip.pypa.io/en/stable/user_guide/#config-file" target="_blank" rel="noopener"
+>创建&lt;/a>）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ini" data-lang="ini">&lt;span class="line">&lt;span class="cl">&lt;span class="k">[global]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">index-url&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">https://pypi.tuna.tsinghua.edu.cn/simple&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以查看设置是否生效&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip config list
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">global&lt;/span>.index-&lt;span class="nv">url&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;https://pypi.tuna.tsinghua.edu.cn/simple&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>创建虚拟环境后，您可以激活它，进入项目所在目录。&lt;/p>
+&lt;ul>
+&lt;li>在 Windows 上，运行:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmd" data-lang="cmd">&lt;span class="line">&lt;span class="cl">tutorial-env\Scripts\activate.bat
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>在 Unix 或 MacOS 上，运行:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ &lt;span class="nb">source&lt;/span> tutorial-env/bin/activate
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于 &lt;code>csh&lt;/code> 和 &lt;code>fish shell&lt;/code> 分别对应名为 &lt;code>activate.csh&lt;/code> 和 &lt;code>activate.fish&lt;/code> 的脚本&lt;/p>
+&lt;h3 id="安装软件包依赖">安装软件包依赖&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener"
+>python telegram bot 项目地址&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip install python-telegram-bot &lt;span class="na">--upgrade&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也可以将依赖导出到文件，便于开发迁移&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fish" data-lang="fish">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$ &lt;/span>pip freeze &lt;span class="o">&amp;gt;&lt;/span> requirements.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="coding-time">Coding Time&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 从环境变量中读取 TOKEN 减少硬编码可能带来的泄漏风险&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 如果只是本地测试的话可以直接把 TOKEN 粘贴到程序中&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TOKEN&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;TELEGRAM_BOT_TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Updater 是 Dispatcher 的实现，用于机器人数据交互的前端，&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 负责更新消息队列并交付给其他调度程序&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Updater&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TOKEN&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">use_context&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dispatcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 开始拉取信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">start_polling&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 响应终止信号 Ctrl+C&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">idle&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="vm">__name__&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;__main__&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上述几行代码构成了整个机器人的基本框架，包含了机器人身份认证和开启机器人服务等。我们还需要向该框架内注册具体的方法，以实现所需功能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">start&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Send a message when the command /start is issued.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;你好～&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">user&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">from_user&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">username&lt;/span> &lt;span class="ow">is&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;您的用户名是: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">username&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">reply_text&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;ID: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">help_command&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Send a message when the command /help is issued.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;这里是帮助命令&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">echo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;Echo the user message.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_text&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">token&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;TELEGRAM_BOT_TOKEN&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Updater&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">use_context&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dispatcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CommandHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;start&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start_command&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CommandHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;help&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">help_command&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MessageHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">echo&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">start_polling&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">updater&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">idle&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>从 &lt;code>Update&lt;/code> 中可以拿到消息的类型、具体内容、发送者等关键信息，从 &lt;code>CallbackContext&lt;/code> 中可以获取机器人本身的一些信息等。在使用 &lt;code>\&lt;/code> 开头的对应命令后就能进入到对应的方法，也可以对此进行类封装。&lt;/p>
+&lt;p>注意到除了 &lt;code>CommandHandler&lt;/code> 之外还有其他类型的句柄如常规消息类的 &lt;code>MessageHandler&lt;/code>、用于行内输入的的 &lt;code>InlineQueryHandler&lt;/code> 等，请详见&lt;a class="link" href="https://python-telegram-bot.readthedocs.io/en/stable/telegram.html" target="_blank" rel="noopener"
+>上游 API 文档&lt;/a>。&lt;/p>
+&lt;p>回到需求，我们需要的检测关键词部分也是从 &lt;code>Update&lt;/code> 中来，用关键词列表简单演示，当消息中包含关键词的时候发送一个表情，或者其他类型的回复&lt;a class="link" href="https://python-telegram-bot.readthedocs.io/en/stable/telegram.message.html?highlight=Message" target="_blank" rel="noopener"
+>详见 Message 类文档&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">telegram&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Sticker&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 临时创建一个表情量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">sticker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">file_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;CAACAgUAAxkBAAIMOV_jA7I0IAABMbqNVNGkJWZNiDRT6QACiwIAArL6ew6tFsY1eQy9Lx4E&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">file_unique_id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;AgADiwIAArL6ew4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">480&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">height&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">512&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">is_animated&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">echo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">keys_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;上膛&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;车主&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;特斯拉&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">keys_list&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview.png"
+width="596"
+height="284"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/echo_preview_hu13c889a0dde82791a75b695a30732db5_121401_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="echo"
+class="gallery-image"
+data-flex-grow="209"
+data-flex-basis="503px"
+>&lt;/p>
+&lt;p>至此初步效果已经达成，剩下要解决的两个疑问就是：&lt;/p>
+&lt;ul>
+&lt;li>Sticker 的信息是怎么来的？&lt;/li>
+&lt;li>如何回复指定消息&lt;/li>
+&lt;/ul>
+&lt;h4 id="sticker-信息">Sticker 信息&lt;/h4>
+&lt;p>可以添加一个专用于获取表情包信息的句柄&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Update&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CallbackContext&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">logger&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dispatcher&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">add_handler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MessageHandler&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sticker&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="o">~&lt;/span>&lt;span class="n">Filters&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">command&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get_sticker&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为了便于理解这里在服务端后台直接输出表情包信息作为日志，对于一些要动态添加表情包和对应关键字的需求来说，一个轻便的可持久化数据才是更好的选择。创建 Sticker 实例的时候注意不要遗漏必要的传入参数。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info.png"
+width="862"
+height="117"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/sticker_info_hu4c462ca90775e67664e71ad2a3337f27_61412_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="sticker_info"
+class="gallery-image"
+data-flex-grow="736"
+data-flex-basis="1768px"
+>&lt;/p>
+&lt;h4 id="如何回复指定的消息">如何回复指定的消息&lt;/h4>
+&lt;p>简单来说这就是一个套娃过程，从包含关键字消息的 &lt;code>reply_to_message&lt;/code> 成员可以判断并拿到上一条回复的消息，回复拿到的上一条消息即可，从而实现精准打击（x&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">update&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_to_message&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">msg&lt;/span> &lt;span class="ow">is&lt;/span> &lt;span class="ow">not&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">msg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reply_sticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">sticker&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply.png"
+width="666"
+height="428"
+srcset="https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_480x0_resize_box_3.png 480w, https://axionl.me/p/%E6%96%B0%E6%89%8B%E7%AF%87-%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%8A%E8%86%9B%E6%9C%BA%E5%99%A8%E4%BA%BA/reply_hu6c3252242f1a9b7b61af37965102af7d_192120_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="reply to your reply"
+class="gallery-image"
+data-flex-grow="155"
+data-flex-basis="373px"
+>&lt;/p>
+&lt;h2 id="结束">结束&lt;/h2>
+&lt;p>以简单的案例来介绍 Telegram 机器人的玩法，希望能够帮助到入门的萌新打造属于自己的机器人。（撒花 ~=o(&lt;em>^▽^&lt;/em>)o~♪&lt;/p></description></item></channel></rss>

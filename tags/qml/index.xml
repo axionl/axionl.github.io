@@ -1,15 +1,1118 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>QML on 初等記憶體</title><link>https://axionl.me/tags/qml/</link><description>Recent content in QML on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/qml/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>前言 项目地址: axionl/OhMyQt
-项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文是 OhMyQt 系列的第 00 章节，主要介绍在 Windows 11 和 ArchLinux 下如何搭建一个可用的 Qt 开发环境。
-在 ArchLinux 上搭建 基本软件安装 首先你需要安装 qt5-base，同时推荐安装对应的文档包 qt5-doc
-$ sudo pacman -S qt5-base $ sudo pacman -S qt5-doc # 可选 然后安装一个合用的编辑器，这里推荐使用 qtcreator
-$ sudo pacman -S qtcreator 因为本教程主要是介绍 QML 的开发，所以还需要安装 qt5-declarative
-$ sudo pacman -S qt5-declarative 安装完成之后验证版本信息
-$ qmake -v QMake version 3.1 Using Qt version 5.</description></item><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>前言 项目地址: axionl/OhMyQt
-项目在 Windows 11 和 ArchLinux 下进行测试 Qt 版本: 5.15.2 本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。
-从看见到设计 我们需要一个简单的展示页面作为上手的第一个项目：
-一个醒目的标题 一段用于描述的文字 还有一个好看的背景 假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。
-preview
-布局 我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：
-内容整体居中 标题和描述上下排布 内容之间最好有一定的间距 layout
-如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（注意不是直接能用的代码）：
-// 基本元素如下 Window { // 窗口一个大盒子 Box { // 里面套个小盒子 Title {} // 盒子里面有标题 Description {} // 标题下面有描述 } } 进一步加上居中对齐和间距：</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>QML on 初等記憶體</title><link>https://axionl.me/tags/qml/</link><description>Recent content in QML on 初等記憶體</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Jul 2021 00:39:13 +0800</lastBuildDate><atom:link href="https://axionl.me/tags/qml/index.xml" rel="self" type="application/rss+xml"/><item><title>[OhMyQt 系列] _00__搭建环境</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link><pubDate>Sat, 24 Jul 2021 00:39:13 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/banner.png" alt="Featured image of post [OhMyQt 系列] _00__搭建环境" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
+>axionl/OhMyQt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>项目在 Windows 11 和 ArchLinux 下进行测试&lt;/li>
+&lt;li>Qt 版本: 5.15.2&lt;/li>
+&lt;/ul>
+&lt;p>本文是 OhMyQt 系列的第 00 章节，主要介绍在 Windows 11 和 ArchLinux 下如何搭建一个可用的 Qt 开发环境。&lt;/p>
+&lt;h2 id="在-archlinux-上搭建">在 ArchLinux 上搭建&lt;/h2>
+&lt;h3 id="基本软件安装">基本软件安装&lt;/h3>
+&lt;p>首先你需要安装 qt5-base，同时推荐安装对应的文档包 qt5-doc&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-base
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-doc &lt;span class="c1"># 可选&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后安装一个合用的编辑器，这里推荐使用 qtcreator&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qtcreator
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为本教程主要是介绍 QML 的开发，所以还需要安装 qt5-declarative&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo pacman -S qt5-declarative
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装完成之后验证版本信息&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ qmake -v
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">QMake version 3.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Using Qt version 5.15.2 in /usr/lib
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ pacman -Qs qt5-declarative
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">local/qt5-declarative 5.15.2+kde+r29-1 &lt;span class="o">(&lt;/span>qt qt5&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Classes &lt;span class="k">for&lt;/span> QML and JavaScript languages
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ qtcreator -version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Qt Creator 4.15.2 based on Qt 5.15.2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="软件配置">软件配置&lt;/h3>
+&lt;p>首先打开 qtcreator，新建一个 QtQuick 项目&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1.png"
+width="1901"
+height="1039"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1_hu9cc792a18713befa1403035370c08e65_117515_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator1_hu9cc792a18713befa1403035370c08e65_117515_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="新建项目"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>然后输入名称和路径&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2.png"
+width="791"
+height="519"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2_hu82ebd35a7a537086a44dfe1df5c51482_34221_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator2_hu82ebd35a7a537086a44dfe1df5c51482_34221_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="项目名和路径"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+>&lt;/p>
+&lt;p>下一步编译系统建议选择 cmake&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3.png"
+width="801"
+height="528"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3_hu83a700fec5c8bc92f5882469d3c9647c_24219_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator3_hu83a700fec5c8bc92f5882469d3c9647c_24219_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="编译系统"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+>&lt;/p>
+&lt;p>QT 版本保持默认&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4.png"
+width="802"
+height="527"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4_hu4e4328150d0e1974479982c49c290434_27008_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator4_hu4e4328150d0e1974479982c49c290434_27008_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="QT 版本"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+>&lt;/p>
+&lt;p>因为暂时是教学项目，暂时不添加语言文件&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5.png"
+width="797"
+height="526"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5_hub4baf059e27fe7b35971168e3ae803de_34446_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator5_hub4baf059e27fe7b35971168e3ae803de_34446_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="语言文件"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/p>
+&lt;p>kit 保持默认的 Desktop 就好，因为我们最终也是要做一个桌面应用&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6.png"
+width="795"
+height="527"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6_hu5d51efb104b39963d45195934fa21366_29308_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator6_hu5d51efb104b39963d45195934fa21366_29308_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Kit"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="362px"
+>&lt;/p>
+&lt;p>会创建的文件如下所示，你也可以选择加入 git 作为版本控制&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7.png"
+width="793"
+height="524"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7_hu6a73af58d9accf7d29cff1cb151119d5_41002_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator7_hu6a73af58d9accf7d29cff1cb151119d5_41002_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="summary"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/p>
+&lt;p>点击左下角的运行按钮，就可以看到运行的 HelloWorld 窗口了&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8.png"
+width="1899"
+height="1036"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8_hu17238bd37e7d8ec27abbdccce7f9c34e_89297_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/qtcreator8_hu17238bd37e7d8ec27abbdccce7f9c34e_89297_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="HelloWorld"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>恭喜你，已经搭建好了本教程的开发环境！&lt;/p>
+&lt;h2 id="在-windows-11-上搭建">在 Windows 11 上搭建&lt;/h2>
+&lt;h3 id="通过-installer-安装">通过 Installer 安装&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.qt.io/download" target="_blank" rel="noopener"
+>https://www.qt.io/download&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>注册账号并下载开源版本（需遵守 GPL 许可并限于个人使用）&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder.png"
+width="952"
+height="632"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder_hu65d40ae02004ed0aec9f4b6e8006dc1d_233150_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/installation_folder_hu65d40ae02004ed0aec9f4b6e8006dc1d_233150_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="installation folder"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="361px"
+>&lt;/p>
+&lt;p>&lt;strong>此处安装路径至今未支持带空格&lt;/strong>，故不要选择常见的 &lt;code>C:\Program Files&lt;/code> 等目录&lt;/p>
+&lt;p>手动最小化安装则选择 &lt;code>Custom Installation&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components.png"
+width="1187"
+height="632"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components_hue6768a7fe11425ee2810af592f8759dd_307295_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/select_components_hue6768a7fe11425ee2810af592f8759dd_307295_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="select components"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="450px"
+>&lt;/p>
+&lt;p>至少需要选择一个版本的 Qt 支持（如 &lt;code>MinGW 8.1.0 64-bit&lt;/code> 包含了 Qt 和其他所需的一些环境），而 &lt;code>QtCreator&lt;/code> 作为 IDE 在下方已经被默认勾选了，还有 &lt;code>CMake&lt;/code> 如果需要或是已经手动安装则可消去。等待联网装好后即可使用&lt;/p>
+&lt;h3 id="通过第三方包管理器安装">通过第三方包管理器安装&lt;/h3>
+&lt;p>&lt;code>chocolately&lt;/code> 也提供了 &lt;a class="link" href="https://community.chocolatey.org/packages/qtcreator" target="_blank" rel="noopener"
+>QtCreator&lt;/a> 的安装脚本和基本的 &lt;a class="link" href="https://community.chocolatey.org/packages/qt5-default" target="_blank" rel="noopener"
+>Qt5 SDK&lt;/a> 环境&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-PowerShell" data-lang="PowerShell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">choco&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-y&lt;/span> &lt;span class="nb">qt5-default&lt;/span> &lt;span class="n">qtcreato&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>脚本会自动下载安装，默认路径为 &lt;code>C:\Qt&lt;/code>&lt;/p>
+&lt;h3 id="配置工具链">配置工具链&lt;/h3>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits.png"
+width="993"
+height="714"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits_hu4d86a381a539d2b3e5022c6c05038585_42673_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/toolkits_hu4d86a381a539d2b3e5022c6c05038585_42673_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="toolkits"
+class="gallery-image"
+data-flex-grow="139"
+data-flex-basis="333px"
+>&lt;/p>
+&lt;p>QtCreator 左边 &lt;code>Projects&lt;/code> 有配置工具链的地方，通常来说会自动检测是否已经安装对应工具并设置，如果需要自定义或者不在查找范围内的目录，则可以手动进行指定。&lt;/p>
+&lt;p>若在开发时终端需要运行 Qt 程序，则需要将库所在目录添加到环境变量 &lt;code>PATH&lt;/code> 中（如 &lt;code>C:\Qt\5.15.2\mingw81_64\bin&lt;/code>）&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment.png"
+width="618"
+height="585"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment_hu3b5b6aaa656ce69f1077215323465e69_28183_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-_00__%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/environment_hu3b5b6aaa656ce69f1077215323465e69_28183_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="environment"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="253px"
+>&lt;/p>
+&lt;p>若是打包和分发的话则需要带上对应的动态链接库。&lt;/p>
+&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>Linux 平台上开发相对方便，而 Windows 平台上开发则受到没有合适包管理的限制，需要自己折腾一下。下一节将会正式开始教程中的第一个 Demo，一个用于展示自己内容的 Hello World 程序。&lt;/p></description></item><item><title>[OhMyQt 系列] 01_HelloWorld</title><link>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</link><pubDate>Tue, 20 Jul 2021 10:58:40 +0800</pubDate><guid>https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/</guid><description>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/banner.png" alt="Featured image of post [OhMyQt 系列] 01_HelloWorld" />&lt;h2 id="前言">前言&lt;/h2>
+&lt;blockquote>
+&lt;p>项目地址: &lt;a class="link" href="https://github.com/axionl/OhMyQt" target="_blank" rel="noopener"
+>axionl/OhMyQt&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>项目在 Windows 11 和 ArchLinux 下进行测试&lt;/li>
+&lt;li>Qt 版本: 5.15.2&lt;/li>
+&lt;/ul>
+&lt;p>本文以项目构建的角度介绍一个简单 Qt 应用的开发，其余具体的环境安装和配置稍后会在第 0 节内容中放出。&lt;/p>
+&lt;h2 id="从看见到设计">从看见到设计&lt;/h2>
+&lt;p>我们需要一个简单的展示页面作为上手的第一个项目：&lt;/p>
+&lt;ul>
+&lt;li>一个醒目的标题&lt;/li>
+&lt;li>一段用于描述的文字&lt;/li>
+&lt;li>还有一个好看的背景&lt;/li>
+&lt;/ul>
+&lt;p>假设我们已经做了出来，它长下面这个样子，你需要做的是把它保留在你的想象中，我们再回过头来考虑如何实现。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview.png"
+width="1920"
+height="1080"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/preview_hu85caa472e9bc90ba71d5339c7711fdd3_1488388_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="preview"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;h3 id="布局">布局&lt;/h3>
+&lt;p>我们把窗口想象成一个盒子（而不是一个平面或者一张桌子，因为盒子横看有四壁，俯瞰有纵深），而所需要填入的内容当成另一个小些的盒子，套入到窗口这个大盒子中。结合我们多年糊 PPT 的水平，可以对界面有如下设计要求：&lt;/p>
+&lt;ul>
+&lt;li>内容整体居中&lt;/li>
+&lt;li>标题和描述上下排布&lt;/li>
+&lt;li>内容之间最好有一定的间距&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout.png"
+width="730"
+height="549"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/layout_hua50c8d7697c036278e5e2f296d277e31_33333_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="layout"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="319px"
+>&lt;/p>
+&lt;p>如上图所示，我们把这一些要求的集合称为 “布局” 也即 Layout，它决定了我们软件设计的基本框架。上面的每一项具体内容称为 “元素” 即 Element / Item。有的人设计 PPT 的时候会说：“应甲方要求，标题一定要大！”，那这属于元素的“属性”，即 Property。于是我们来抽象实现一下这个布局（&lt;strong>注意不是直接能用的代码&lt;/strong>）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 基本元素如下
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 窗口一个大盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 里面套个小盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Title&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 盒子里面有标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Description&lt;/span> &lt;span class="p">{}&lt;/span> &lt;span class="c1">// 标题下面有描述
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>进一步加上居中对齐和间距：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span> &lt;span class="c1">// 居中对齐大盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Title&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Description&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到，这里引用了一个 &lt;code>parent&lt;/code> 的概念，实际上指代上一层父级元素，套娃套在里面的才是娃，文字和描述的父级元素是小盒子，小盒子的父级元素是大窗口。再补上元素的属性和间距：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span> &lt;span class="c1">// 窗口宽度
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span> &lt;span class="c1">// 窗口高度
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span> &lt;span class="c1">// 宽度 360 单位（多数情况下理解为像素）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span> &lt;span class="c1">// 高度 128 单位
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Title&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span> &lt;span class="c1">// 标题一定要大
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Box&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">visible:&lt;/span> &lt;span class="kc">false&lt;/span> &lt;span class="c1">// 一个看不见的盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 用于拉开标题和描述的间距
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Description&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span> &lt;span class="c1">// 水平对齐小盒子
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 精致的描述用小字
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这些具体元素我们以后会写到如何实现，现在需要用 &lt;code>QtQuick.Controls&lt;/code> 提供的一些默认元素替代：&lt;/p>
+&lt;ul>
+&lt;li>Box-&amp;gt;Rectangle&lt;/li>
+&lt;li>Title / Description -&amp;gt; Text&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: title&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;transparent&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: description&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;我吞下玻璃会伤身体&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>实现之后的效果可能长成了这个样子，对了，但没全对。因为我们这个 &lt;code>Rectangle&lt;/code> 不太智能，是个“硬盒”，元素之间会挤在一起，而不是自动拉开保持社交距离。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml.png"
+width="506"
+height="249"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/awesome_qml_hu9bc5d2d9adaff629e5840cb94ad029ac_12553_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="awesome_qml"
+class="gallery-image"
+data-flex-grow="203"
+data-flex-basis="487px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Window&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Layouts&lt;/span> &lt;span class="mf">1.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Window&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">width:&lt;/span> &lt;span class="mi">960&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">height:&lt;/span> &lt;span class="mi">720&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.centerIn:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">360&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">128&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ColumnLayout&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// 一个上下布局的模板
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">parent&lt;/span> &lt;span class="c1">// 沾满小盒子的空间
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">spacing:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 原先看不见的盒子用默认提供的间距属性实现
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: title&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span> &lt;span class="c1">// 换成 Layout 下的居中对齐模式
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;这是一个大标题&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: description&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;我吞下玻璃会伤身体&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">font.pixelSize:&lt;/span> &lt;span class="mi">24&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以把 &lt;code>ColumnLayout&lt;/code> 当作一个更加智能的盒子，它能够把挤在一起的元素上下依次排开。而与之相对的 &lt;code>RowLayout&lt;/code> 则是将元素左右排开。&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout.png"
+width="490"
+height="294"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/column_layout_hu4ea178bc7978c0e5fcfe35c6378179d7_12025_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="column_layout"
+class="gallery-image"
+data-flex-grow="166"
+data-flex-basis="400px"
+>&lt;/p>
+&lt;p>对比原本想像中的布局要求，可以说是基本实现了(&lt;del>打个九折不过分吧&lt;/del>)。&lt;/p>
+&lt;h3 id="样式">样式&lt;/h3>
+&lt;p>基本的元素提供了默认的样式和属性，回顾想象图目前还缺少：&lt;/p>
+&lt;ul>
+&lt;li>按钮&lt;/li>
+&lt;li>背景图&lt;/li>
+&lt;/ul>
+&lt;p>以一个基本的矩形为例，有如下常用属性（&lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtquick-rectangle.html" target="_blank" rel="noopener"
+>QtQuick-Rectangle&lt;/a>）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">width:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">height:&lt;/span> &lt;span class="mi">16&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">radius:&lt;/span> &lt;span class="mi">8&lt;/span> &lt;span class="c1">// 圆角半径
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">border.width:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 边框宽度
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">border.color:&lt;/span> &lt;span class="s2">&amp;#34;whitesmoke&amp;#34;&lt;/span> &lt;span class="c1">// 边框颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>带阴影的矩形可以这样实现：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtQuick&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Controls&lt;/span> &lt;span class="mf">2.12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">QtGraphicalEffects&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="c1">// 包含 DropShadow 效果
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">layer.enabled:&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">layer.effect:&lt;/span> &lt;span class="nx">DropShadow&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">horizontalOffset:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 横向偏移
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">verticalOffset:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="c1">// 纵向偏移
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">radius:&lt;/span> &lt;span class="mi">16&lt;/span> &lt;span class="c1">// 阴影半径
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">samples:&lt;/span> &lt;span class="mi">17&lt;/span> &lt;span class="c1">// 采样率（越高效果越好，性能消耗也增大）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#10000000&amp;#34;&lt;/span> &lt;span class="c1">// ARGB（透明度，红，绿，蓝）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>为矩形添加渐变色：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">rotation:&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1">// 渐变角度
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">gradient:&lt;/span> &lt;span class="nx">Gradient&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">GradientStop&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">position:&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span> &lt;span class="c1">// 起始颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 可以添加多段
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">GradientStop&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">position:&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#c5000000&amp;#34;&lt;/span> &lt;span class="c1">// 结束颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>qml.qrc&lt;/code> 文件中管理所有的静态资源，可以右键在编辑器中打开，然后添加图片资源：&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc.png"
+width="729"
+height="367"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/qml_qrc_hue4d97a6005f65bf1e466ac417d253cc9_33146_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="qml.qrc"
+class="gallery-image"
+data-flex-grow="198"
+data-flex-basis="476px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: background&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Image&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">background&lt;/span> &lt;span class="c1">// 填充背景矩形
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">source:&lt;/span> &lt;span class="s2">&amp;#34;qrc:/background.png&amp;#34;&lt;/span> &lt;span class="c1">// 图片资源
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">fillMode:&lt;/span> &lt;span class="nx">Image&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">PreserveAspectCrop&lt;/span> &lt;span class="c1">// 填充方式
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">z:&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="c1">// 由于需要将渐变色作为滤镜效果，所以图片的层级下调
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果去掉 z 轴高度设置会发现渐变色在图片下层不可见：&lt;/p>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index.png"
+width="770"
+height="639"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/no_z_index_hue6132802dfb0d56078da81ce75c0bc19_420996_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="no_z_index"
+class="gallery-image"
+data-flex-grow="120"
+data-flex-basis="289px"
+>&lt;/p>
+&lt;h2 id="事件和交互">事件和交互&lt;/h2>
+&lt;h3 id="事件触发">事件触发&lt;/h3>
+&lt;p>虽然 &lt;code>QtQuick.Controls&lt;/code> 中提供了 &lt;code>Button&lt;/code> 控件，但是我们仍然可以先为自己创立一个简单的按钮，通过鼠标点击这一事件理解其基本实现。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: button&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitHeight:&lt;/span> &lt;span class="mi">48&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">implicitWidth:&lt;/span> &lt;span class="mi">156&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">radius:&lt;/span> &lt;span class="nx">implicitHeight&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">border.color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 边框颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span> &lt;span class="c1">// 背景颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Text&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.verticalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">verticalCenter&lt;/span> &lt;span class="c1">// 居中对齐
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">anchors.horizontalCenter:&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">horizontalCenter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;初等記憶體&amp;#34;&lt;/span> &lt;span class="c1">// 文字内容
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">color:&lt;/span> &lt;span class="s2">&amp;#34;white&amp;#34;&lt;/span> &lt;span class="c1">// 文字颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 大小和位置覆盖全按钮的鼠标动作区域
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">MouseArea&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">anchors.fill:&lt;/span> &lt;span class="nx">parent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">Layout.alignment:&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignHCenter&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AlignVCenter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">hoverEnabled:&lt;/span> &lt;span class="kc">true&lt;/span> &lt;span class="c1">// 允许响应鼠标停留
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onEntered:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">0.8&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 进入颜色变深
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">opacity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 不透明
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onExited:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">0.9&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 退出颜色变浅
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">opacity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.7&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">parent&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">lighter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">button&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">1.1&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 点击颜色变亮
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>Qt.lighter()&lt;/code> 和 &lt;code>Qt.darker()&lt;/code>是 &lt;code>color&lt;/code> 属性内置的两个方法，用于相对调整颜色的深浅。运行时，鼠标放到按钮上方即可看见按钮颜色变化。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtqml-qt.html#darker-method" target="_blank" rel="noopener"
+>darker-method&lt;/a> | &lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtqml-qt.html#lighter-method" target="_blank" rel="noopener"
+>lighter-method&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>这里有一个常见用法可以将需要设置的属性用 &lt;code>property&lt;/code> 暴露出来，这样便于统一设置和更改，以及将来要写自己组件时便于外部设置，使用 &lt;code>state&lt;/code> 可以提供若干个对象默认状态进行切换，这部分后面会见到。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">buttonColor:&lt;/span> &lt;span class="s2">&amp;#34;#ef7e9ceb&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="nx">buttonText&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color:&lt;/span> &lt;span class="nx">buttonColor&lt;/span> &lt;span class="c1">// 引用属性值
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="事件交互响应">事件交互（响应）&lt;/h3>
+&lt;p>那么如何使得按钮能够响应我需要的事件呢，比如说点击按钮后用系统默认浏览器打开一个网址：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">url:&lt;/span> &lt;span class="s2">&amp;#34;https://axionl.me&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;ClickMe!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">openURL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 我们需要实现一个形如这样的方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>好在作为一个常见功能，QML 已经将其置为默认对象的方法之一，点击后即可调用默认浏览器打开所设置的网址&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://doc.qt.io/qt-5/qml-qtqml-qt.html#openUrlExternally-method" target="_blank" rel="noopener"
+>openUrlExternally-method&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">url:&lt;/span> &lt;span class="s2">&amp;#34;https://axionl.me&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;ClickMe!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Qt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">openUrlExternally&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 使用默认提供的方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="自定义类型和方法">自定义类型和方法&lt;/h3>
+&lt;p>在 C++ 中先写一个基于 &lt;code>QObject&lt;/code> 父类的类对象，并实现所需的方法。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// my_button.hpp
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">class&lt;/span> &lt;span class="nc">MyButton&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="k">public&lt;/span> &lt;span class="n">QObject&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Q_OBJECT&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">public&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">explicit&lt;/span> &lt;span class="n">MyButton&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">QObject&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">parent&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Q_INVOKABLE&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">openUrl&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">QUrl&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">url&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">bool&lt;/span> &lt;span class="n">err&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">QDesktopServices&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">openUrl&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">url&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">err&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">qDebug&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="s">&amp;#34;Failed to open url&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们用 &lt;code>Q_INVOKABLE&lt;/code> 宏声明了一个可以被外部调用（指 QML 中用 javascript 调用）的方法 &lt;code>void openUrl(const QUrl&amp;amp; url)&lt;/code>。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://doc.qt.io/qt-5/qdesktopservices.html" target="_blank" rel="noopener"
+>QDesktopServices&lt;/a>
+|
+该方法是对 &lt;code>QDesktopServices&lt;/code> 类中打开链接方法的套用，其在不同平台下其会调用系统浏览器来打开链接。当然也可以自行实现，比如 Linux 平台如果装了 &lt;code>extra/xdg-utils&lt;/code> 可以利用 &lt;code>xdg-open&lt;/code> 来打开链接。&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// main.cpp
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">import&lt;/span> &lt;span class="s">&amp;#34;my_button.hpp&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">argc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">char&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">argv&lt;/span>&lt;span class="p">[])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">QGuiApplication&lt;/span> &lt;span class="nf">app&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">argc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">argv&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 声明自定义对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">qmlRegisterType&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">MyButton&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;MyApp&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;MyButton&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">QQmlApplicationEngine&lt;/span> &lt;span class="n">engine&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">exec&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>简单注册如上，&lt;code>qmlRegisterType&amp;lt;类名&amp;gt;(&amp;quot;包名&amp;quot;, 主版本号, 次版本号, &amp;quot;对象名&amp;quot;);&lt;/code>，然后在所需的 qml 文件中引入。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">MyApp&lt;/span> &lt;span class="mf">1.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Item&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 以对象名为组件名
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">MyButton&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">id: myButton&lt;/span> &lt;span class="c1">// 实例化对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">url:&lt;/span> &lt;span class="s2">&amp;#34;https://axionl.me&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;ClickMe!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">myButton&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">openUrl&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 使用自己实现的方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也可以先在 C++ 中实例化一个对象，再传入对象引用。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// main.cpp
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">import&lt;/span> &lt;span class="s">&amp;#34;my_button.hpp&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">argc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">char&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">argv&lt;/span>&lt;span class="p">[])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">QGuiApplication&lt;/span> &lt;span class="nf">app&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">argc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">argv&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 实例化一个对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">MyButton&lt;/span> &lt;span class="n">my_button&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">QQmlApplicationEngine&lt;/span> &lt;span class="n">engine&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 传入对象引用
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">engine&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">rootContext&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">setContextProperty&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">QStringLiteral&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;myButtonObject&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">my_button&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 全局使用时，设置唯一名称
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">exec&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此时我们不再需要注册声明该对象，也无需在 QML 中引入和实例化，而是直接调用该对象的方法。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-qml" data-lang="qml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Rectangle&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">property&lt;/span> &lt;span class="nx">string&lt;/span> &lt;span class="k">url:&lt;/span> &lt;span class="s2">&amp;#34;https://axionl.me&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text:&lt;/span> &lt;span class="s2">&amp;#34;ClickMe!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">onClicked:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">myButtonObjecton&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">openUrl&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 直接调用对象方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="小结">小结&lt;/h2>
+&lt;p>&lt;img src="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview.png"
+width="940"
+height="471"
+srcset="https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_480x0_resize_box_3.png 480w, https://axionl.me/p/ohmyqt-%E7%B3%BB%E5%88%97-01_helloworld/last_preview_hueb96b8e2c06422b565322dc1e99119b2_309234_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="preview"
+class="gallery-image"
+data-flex-grow="199"
+data-flex-basis="478px"
+>&lt;/p>
+&lt;p>至此已经实现了 Demo 的全部功能：&lt;/p>
+&lt;ul>
+&lt;li>一个用于展示的界面&lt;/li>
+&lt;li>能用默认浏览器打开链接的按钮&lt;/li>
+&lt;/ul>
+&lt;p>本节基本介绍了 QML 的组织结构和简单事件交互的实现方法，下一节将以一个新的例子来介绍信号量和信号槽这一对重要的概念，以及 C++ 后端代码到 QML 的数据绑定实现。&lt;/p>
+&lt;blockquote>
+&lt;p>另外还建立了个人讨论群方便大家互相交流: &lt;a class="link" href="https://t.me/Qt_CN" target="_blank" rel="noopener"
+>https://t.me/Qt_CN&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>
