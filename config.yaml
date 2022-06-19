@@ -11,6 +11,10 @@ disqusShortname: axionl
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn
 DefaultContentLanguage: zh-cn
 
+# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
+# This will make .Summary and .WordCount behave correctly for CJK languages.
+hasCJKLanguage: true
+
 permalinks:
   post: "/p/:slug/"
   page: "/:slug/"
@@ -61,50 +65,20 @@ params:
     enabled: true
     provider: disqus
 
-    utterances:
-      repo:
-      issueTerm: pathname
-      label:
-
-    remark42:
-      host:
-      site:
-      locale:
-
-    vssue:
-      platform:
-      owner:
-      repo:
-      clientId:
-      clientSecret:
-
-    # Waline client configuration see: https://waline.js.org/en/reference/client.html
-    waline:
-      serverURL:
-      lang:
-      visitor:
-      avatar:
-      emoji:
-        - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
-      requiredMeta:
-        - name
-        - email
-        - url
-      placeholder:
-      locale:
-        admin: Admin
-
   widgets:
-    enabled:
-      - search
-      - archives
-      - tag-cloud
-
-    archives:
-      limit: 10
-
-    tagCloud:
-      limit: 25
+    homepage:
+      - type: search
+      - type: archives
+        params:
+          limit: 15
+      - type: categories
+        params:
+          limit: 15
+      - type: tag-cloud
+        params:
+          limit: 25
+    page:
+        - type: toc
 
   friends:
     friend:
@@ -263,6 +237,10 @@ params:
         url: "https://www.csslayer.info/"
         avatar: "https://avatars.githubusercontent.com/u/259684"
         desc: "老 K，fcitx* 系列开发者"
+      - name: MoodyHunter
+        url: "https://mooody.me/"
+        avatar: "https://avatars.githubusercontent.com/u/76251897"
+        desc: "全能开发者，\"Qt MVP\""
         
   opengraph:
     twitter:
@@ -290,6 +268,7 @@ params:
       enabled: true
     content:
       enabled: true
+
   banner:
     info: 三生有幸，四季如春 | 言文
     local:
@@ -340,9 +319,18 @@ related:
       weight: 200
 
 markup:
+  goldmark:
+    renderer:
+      unsafe: false
   tableOfContents:
     endLevel: 4
     ordered: true
     startLevel: 2
   highlight:
     noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNoStart: 1
+    lineNos: true
+    lineNumbersInTable: true
+    tabWidth: 4

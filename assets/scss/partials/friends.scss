@@ -5,24 +5,32 @@
 
     .friends-list {
         margin: 10px;
-        padding: 20px;
-        width: auto;
+        padding: 10px;
+        width: 100vw;
         height: auto;
-        min-width: 260px;
+        min-width: 200px;
         max-width: 1000px;
         background-color: var(--card-background);
         border-radius: var(--card-border-radius);
         box-shadow: var(--shadow-l1);
         display: flex;
         flex-direction: row;
-        padding: 30px;
+        padding: 24px;
+
+        @include respond(xl) {
+            width: 48%;
+        }
+
+        @include respond(md) {
+            width: 47%;
+        }
 
         .friend-avatar {
             margin: auto 0px;
 
             .friend-avatar-img {
-                width: 80px;
-                height: 80px;
+                width: 64px;
+                height: 64px;
                 border-radius: 50%;
                 object-fit: fill;
             }
@@ -30,8 +38,7 @@
 
         .friend-info {
             float: right;
-            margin-left: 20px;
-            width: 100vw;
+            margin-left: 16px;
 
             @include respond(xl) {
                 width: 24vw
