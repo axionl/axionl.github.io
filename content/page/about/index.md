@@ -21,5 +21,6 @@ QQ 空間裏的簽名印證了我們那個年代，那時“網抑雲”還遠�
 </p>
 
 > 其餘資訊
-> - [Telegram 『言文』](https://t.me/loving4ever)
+> - [Telegram: 言文](https://t.me/loving4ever)
 > - [GPG: 1FDB DCE2 D26B D8F1 00EE  2E73 B1B9 AAD8 BE7E 7326](https://github.com/axionl.gpg)
+> - [余忆留声机: 一种相思，两处闲愁](https://amane-live.fars.ee/)
