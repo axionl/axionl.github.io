@@ -1,8 +1,9 @@
-{{ define "body-class" }}template-archives{{ end }}
+{{ define "body-class" }}template-friends{{ end }}
 {{ define "main" }}
 <h2 class="section-title">Friends</h2>
 <div class="friends-container">
     {{ range .Site.Params.Friends.Friend }}
+
     <a class="friends-list" href="{{ .url }}" target="_blank">
         <div class=friend-avatar>
             <img src="{{ .avatar }}" class="friend-avatar-img" alt="{{ .name }}"/>

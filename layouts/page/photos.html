@@ -1,0 +1,17 @@
+{{ define "body-class" }}template-photots{{ end }}
+{{ define "main" }}
+
+<h2 class="section-title">Photos</h2>
+
+<div class="images-container">
+    {{ $images := .Resources.ByType "image"}}
+    {{ range $image := $images }}
+        {{ with $image }}
+            {{ $image = $image.Resize "400x webp q50" }}
+            <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}">
+        {{ end }}
+    {{ end }}
+</div>
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

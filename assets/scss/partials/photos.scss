@@ -1,0 +1,12 @@
+.images-container {
+    display: flex;
+    flex-flow: column wrap;
+    height: 66vh;
+    overflow: scroll;
+
+    img {
+        margin: 8px;
+        border: 12px solid white;
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+}
