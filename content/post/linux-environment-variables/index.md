@@ -43,7 +43,7 @@ Linux 下的用户环境变量配置常显得十分琐碎，如 .xprofile、.pam
 `~/.config/fish/conf.d/env_init.fish`
 
 ```fish
-if not contains $USER $PATH
+if not contains $PATH $USER
     export (/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
 end
 ```
